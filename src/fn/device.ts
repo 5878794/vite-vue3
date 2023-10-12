@@ -1,9 +1,45 @@
 
 import { ElMessage, ElNotification, ElLoading, ElMessageBox } from 'element-plus';
+import router from '../router/index';
+import { useRoute }  from "vue-router";
+
 type types = 'success' | 'warning' | 'info' | 'error' | '';
 
 
 export default {
+  /**
+   * @description 页面跳转传参
+   * @param name:string 路由中定义的name
+   * @param param?:any 要传的参数
+   * */
+  href(name:string,param?:any){
+    return router.push({
+      name: name,
+      query: param??{}
+    })
+  },
+
+  /**
+   * @description 页面替换传参
+   * @param name:string 路由中定义的name
+   * @param param?:any 要传的参数
+   * */
+  replace(name:string,param?:any){
+    return router.replace({
+      name: name,
+      query: param??{}
+    })
+  },
+
+  /**
+   * @description 页面跳转传参的接收
+   * @return any
+   * */
+  getPageParam(){
+    const route = useRoute();
+    return route.query;
+  },
+
   /**
    * @description alert
    * @param msg:string 通知内容

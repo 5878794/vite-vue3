@@ -8,12 +8,12 @@ const routes:any = [
   },
   {
     path:'/a',
-    name:'/a',
+    name:'a',
     component:() => import('../pages/page1.vue')
   },
   {
     path:'/b',
-    name:'/b',
+    name:'b',
     component:() => import('../pages/page2.vue'),
     children:[
       {
