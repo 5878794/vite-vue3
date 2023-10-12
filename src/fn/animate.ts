@@ -217,22 +217,22 @@ const cancelFrame = (function () {
 })();
 
 
-const createSvgPath = (points: any[]) => {
-  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-  const d: any = [];
-  points.map((rs: any, i: number) => {
-    if (i == 0) {
-      d.push(`M ${rs.x} ${rs.y}`)
-    } else {
-      d.push(`L ${rs.x} ${rs.y}`)
-    }
-  })
-  d.push('Z');
-  path.setAttribute('d', d.join(' '));
-  //path.getTotalLength(); //获取path长度
-  //path.getPointAtLength(3);//获取第几个点的属性
-  return path;
-}
+// const createSvgPath = (points: any[]) => {
+//   const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+//   const d: any = [];
+//   points.map((rs: any, i: number) => {
+//     if (i == 0) {
+//       d.push(`M ${rs.x} ${rs.y}`)
+//     } else {
+//       d.push(`L ${rs.x} ${rs.y}`)
+//     }
+//   })
+//   d.push('Z');
+//   path.setAttribute('d', d.join(' '));
+//   //path.getTotalLength(); //获取path长度
+//   //path.getPointAtLength(3);//获取第几个点的属性
+//   return path;
+// }
 
 
 class Animate {

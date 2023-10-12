@@ -9,8 +9,8 @@
     "forceConsistentCasingInFileNames": true,
     "strictNullChecks": false,  /* 不允许把 null、undefined 赋值给其他类型的变量 */
     "experimentalDecorators": true,
-    "noUnusedParameters": true,  /* 检查未使用的函数参数（只提示、不报错） */
-    "noUnusedLocals": true,  /* 检查只声明、未使用的局部变量（只提示、不报错） */
+    "noUnusedParameters": false,  /* 检查未使用的函数参数（只提示、不报错） */
+    "noUnusedLocals": false,  /* 检查只声明、未使用的局部变量（只提示、不报错） */
     "noImplicitAny": false, /* 不允许隐式 Any 类型 */
     "allowJs": true,  /* 允许编译器编译 JS、JSX 文件 */
 

@@ -14,7 +14,6 @@
 
 
 import defineClassComponent from "../fn/defineClassComponent";
-import dec from '../fn/decorator';
 import elDatePicker2 from "../fn/element/elDatePicker2";
 import elDatePickerRang2 from "../fn/element/elDatePickerRang2";
 import device from '../fn/device'
@@ -61,6 +60,7 @@ class Test{
       <div id='hide' onClick={()=>this.closeFn()}>close</div>
       <elDatePicker2/>
       <elDatePickerRang2/>
+      <div class='box_hcc' style='width:100%;height:200px;'>123</div>
     </div>
   }
 }
