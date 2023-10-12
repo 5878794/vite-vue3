@@ -5,8 +5,32 @@ import { useRoute }  from "vue-router";
 
 type types = 'success' | 'warning' | 'info' | 'error' | '';
 
+const tokenKey = (window as any).SETTING.tokenKey || 'token';
 
-export default {
+const device:any =  {
+  /**
+   * @description 获取token
+   * @return string
+   * */
+  getToken(){
+    return window.localStorage.getItem(tokenKey);
+  },
+
+  /**
+   * @description 设置token
+   * @param val:string 要设置的token
+   * */
+  setToken(val:string){
+    window.localStorage.setItem(tokenKey,val);
+  },
+
+  /**
+   * @description 清空token
+   * */
+  clearToken(){
+    window.localStorage.setItem(tokenKey,'');
+  },
+
   /**
    * @description 页面跳转传参
    * @param name:string 路由中定义的name
@@ -262,3 +286,6 @@ export default {
     return fmt;
   }
 }
+
+
+export default device;
