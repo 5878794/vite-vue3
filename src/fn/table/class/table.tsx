@@ -1,10 +1,13 @@
 //@ts-nocheck
 import {defineComponent, ref, shallowRef, watch} from "vue";
-import {defineClassComponent,formatData} from "@zx-pack/zx-tool";
+import defineClassComponent from '../../defineClassComponent';
+import device from '../../device';
 import {ElTable,ElTableColumn,ElIcon} from "element-plus";
-import cssStyle from './css.module.scss';
-import {guid} from "@zx-pack/zx-tool";
+// import cssStyle from './css.module.scss';
 // import api from "../data/api";
+
+const formatData = device.formatDate;
+const guid = device.guid;
 
 class ZxtdTable{
   props:any;
@@ -30,7 +33,7 @@ class ZxtdTable{
         readonly:{type:Boolean,default:false}
       },
       components:{ElTable,ElTableColumn},
-      emits:['currentChange']
+      emits:['currentChange','change']
     }
   }
 
@@ -84,27 +87,27 @@ class ZxtdTable{
         </el-table-column>
         break;
 
-      case 'expand':
-        item = <el-table-column
-          type="expand"
-          fixed={fixed}
-          align='center'
-          header-align='center'
-          label={data.label}
-          min-width={data.width}
-          v-slots={
-            {
-            default: (scope: any) => {
-              const row = scope.$index;
-              const rs = this.tableData.value[row];
-
-              const expand = this.expandData.value[row];
-              // const newRowData = Object.assign({},rs,expand)
-              return data.slotFn(rs, expand, data.key, row);
-            }
-          }}
-        />
-        break;
+      // case 'expand':
+      //   item = <el-table-column
+      //     type="expand"
+      //     fixed={fixed}
+      //     align='center'
+      //     header-align='center'
+      //     label={data.label}
+      //     min-width={data.width}
+      //     v-slots={
+      //       {
+      //       default: (scope: any) => {
+      //         const row = scope.$index;
+      //         const rs = this.tableData.value[row];
+      //
+      //         const expand = this.expandData.value[row];
+      //         // const newRowData = Object.assign({},rs,expand)
+      //         return data.slotFn(rs, expand, data.key, row);
+      //       }
+      //     }}
+      //   />
+      //   break;
       default:
         item = <el-table-column fixed={fixed}
   show-overflow-tooltip={true}
@@ -115,6 +118,7 @@ class ZxtdTable{
       const row = scope.$index;
       const rs = this.tableData.value[row];
       const key = data.key;
+
       const expand = this.expandData.value[row];
 
       if (this.props.readonly) {
@@ -154,7 +158,8 @@ class ZxtdTable{
   }
 
   changeFn(rowIndex:number){
-
+    const data = this.getData();
+    this.opts.emit('change',data[rowIndex])
   }
 
   //默认显示转换
@@ -392,10 +397,13 @@ class ZxtdTable{
   }
 
   render(){
-    const notShowArrow = this.expandAll? cssStyle.hidden_arrow : '';
+    // const notShowArrow = this.expandAll? cssStyle.hidden_arrow : '';
     const tableHeight = this.addRowBtn && !this.props.readonly? 'calc(100% - 40px)' :'100%';
 
-    return <div class={[cssStyle.table,notShowArrow]} style='width:100%;height:100%;'>
+    return <div
+      // class={[cssStyle.table,notShowArrow]}
+      style='width:100%;height:100%;'
+    >
       <el-table
         default-expand-all={this.expandAll}
         highlight-current-row={this.highlightCurrentRow}
@@ -428,3 +436,4 @@ class ZxtdTable{
 
 
 export default ZxtdTable;
+

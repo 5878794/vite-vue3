@@ -1,5 +1,11 @@
 <template>
   <div @click="aa">11111</div>
+  <my-table
+    :data="data"
+    :readonly="false"
+    @current-change="abc"
+    @change="cccc"
+  />
 </template>
 
 
@@ -7,14 +13,31 @@
 
 import {defineComponent} from "vue";
 import device from '../fn/device';
+import myTable from '../fn/table/table1';
 
 export default defineComponent({
+  components:{myTable},
   setup(){
     const aa= () => {
       device.href('c',{id:1,a:2});
     }
 
-    return {aa}
+    const abc = (data) => {
+      console.log(data)
+    }
+
+    const cccc = (data) => {
+      console.log(data)
+    }
+
+    const data = [
+      {name:'aa',phone:'111111',aaa:''},
+      {name:'bb',phone:'222222',aaa:''}
+    ];
+
+    console.log(device.formatDate(new Date(),'yyyy-MM-dd hh:mm:ss'))
+
+    return {aa,data,abc,cccc}
   }
 })
 
