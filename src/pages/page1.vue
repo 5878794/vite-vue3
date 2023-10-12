@@ -31,8 +31,8 @@ export default defineComponent({
     }
 
     const data = [
-      {name:'aa',phone:'111111',aaa:''},
-      {name:'bb',phone:'222222',aaa:''}
+      {name:'aa',phone:'111111',aaa:'',id:1},
+      {name:'bb',phone:'222222',aaa:'',id:2}
     ];
 
     console.log(device.formatDate(new Date(),'yyyy-MM-dd hh:mm:ss'))
