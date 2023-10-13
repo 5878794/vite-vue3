@@ -14,12 +14,14 @@
 import {defineComponent} from "vue";
 import device from '../fn/device';
 import myTable from '../fn/table/table1';
+import writeExcel from '../fn/lib/excel/wrireExcel';
 
 export default defineComponent({
   components:{myTable},
   setup(){
     const aa= () => {
-      device.href('c',{id:1,a:2});
+      // device.href('c',{id:1,a:2});
+      // writeExcel();
     }
 
     const abc = (data) => {

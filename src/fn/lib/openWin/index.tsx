@@ -182,7 +182,7 @@ export default function(component:any,props:any,resolve:any,reject:any,opt:any){
     headerRender(){
       return <div class='box_hlc'>
         <div class='boxflex1'>{this.title}</div>
-        <div class='closeBtn hover_animate' onclick={()=>this.reject()}><ElIcon style='width:100%;height:100%;font-size:18px;'><Close/></ElIcon></div>
+        <div class='closeBtn hover_animate' onClick={()=>this.reject()}><ElIcon style='width:100%;height:100%;font-size:18px;'><Close/></ElIcon></div>
       </div>
     }
 
@@ -197,9 +197,9 @@ export default function(component:any,props:any,resolve:any,reject:any,opt:any){
       return <div class='box_hcc'>
         {
           this.showCancelBtn &&
-          <div class='cancelBtn hover_animate' onclick={()=>this.reject()}>{this.cancelBtnText}</div>
+          <div class='cancelBtn hover_animate' onClick={()=>this.reject()}>{this.cancelBtnText}</div>
         }
-        <div class='submitBtn hover_animate' onclick={()=>this.resolve()}>{this.submitBtnText}</div>
+        <div class='submitBtn hover_animate' onClick={()=>this.resolve()}>{this.submitBtnText}</div>
       </div>
     }
   }
