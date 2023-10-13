@@ -1,5 +1,7 @@
 import { createApp, createVNode, render,ref } from 'vue';
 import defineClassComponent from "../../defineClassComponent";
+import ElementPlus from 'element-plus';
+import ZhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import {ElDialog,ElIcon} from "element-plus";
 import css from './css.module.scss';
 import {Close} from '@element-plus/icons-vue';
@@ -39,6 +41,7 @@ class App {
     document.body.appendChild(this.dom);
 
     this.app = createApp(component, props);
+    this.app.use(ElementPlus,{locale:ZhCn});
     // this.app.provide('reject', (rs:any) => {
     //   this.reject(rs);
     //   this.close();
@@ -97,6 +100,12 @@ class WinComponent{
 
   }
 
+  resolve(){
+  }
+
+  reject(){
+  }
+
   render(){
     return <ElDialog
       style={
@@ -104,11 +113,13 @@ class WinComponent{
       }
       class={css.main}
       model-value	={this.show.value}
-      title="Warning"
+      title=""
       fullscreen={false}
+      close-on-press-escape={true}  //esc关闭
+      before-close={()=>this.reject()}
       align-center
       show-close={false}
-      close-on-click-modal={false}
+      close-on-click-modal={false} //点击遮罩层关闭
       v-slots={
         {
           header:()=>{
@@ -152,10 +163,10 @@ export default function(component:any,props:any,resolve:any,reject:any,opt:any){
       this.showCancelBtn = typeof opt.showCancelBtn == 'boolean'? opt.showCancelBtn : true;
     }
 
-    resolve(){
+    async resolve(){
       let data;
       if(this.myCom.value.getData){
-        data = this.myCom.value.getData();
+        data = await this.myCom.value.getData();
       }
 
       resolve(data);

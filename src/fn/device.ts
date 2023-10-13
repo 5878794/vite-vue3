@@ -289,8 +289,8 @@ const device:any =  {
 
   /**
    * @description 打开弹出窗口
-   * @param component:any 要展示的组件（弹窗主体）
-   * @param props:any 组件的参数，提交时会调用组件的getData方法
+   * @param component:any 要展示的组件（弹窗主体），提交时会调用组件的getData方法并需要返回Promise对象
+   * @param props:any 组件的参数
    * @param opt:any 窗口参数
    * @param opt.width:string 打开窗口的宽度，默认：50%    eg：50% | 100px
    * @param opt.height:string 打开窗口的高度 默认：80%    同上
