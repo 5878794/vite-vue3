@@ -2,10 +2,11 @@
 import { ElMessage, ElNotification, ElLoading, ElMessageBox } from 'element-plus';
 import router from '../router/index';
 import { useRoute }  from "vue-router";
+import openWinFn from './lib/openWin/index'
 
 type types = 'success' | 'warning' | 'info' | 'error' | '';
 
-const tokenKey = (window as any).SETTING.tokenKey || 'token';
+const tokenKey = 'token';
 
 const device:any =  {
   /**
@@ -284,6 +285,32 @@ const device:any =  {
     }
 
     return fmt;
+  },
+
+  /**
+   * @description 打开弹出窗口
+   * @param component:any 要展示的组件（弹窗主体）
+   * @param props:any 组件的参数，提交时会调用组件的getData方法
+   * @param opt:any 窗口参数
+   * @param opt.width:string 打开窗口的宽度，默认：50%    eg：50% | 100px
+   * @param opt.height:string 打开窗口的高度 默认：80%    同上
+   * @param opt.title:string 打开窗口的标题 默认：系统提示
+   * @param opt.submitBtnText:string  确定按钮文字 默认：确认
+   * @param opt.cancelBtnText:string 取消按钮文字 默认：取消
+   * @param opt.showCancelBtn:boolean 是否显示取消按钮 默认：true
+   * @example
+   *  const data = await device.openWin(component,{a:'1'},{
+          width:'50%',
+          height:'40%'
+        }
+   );
+   * */
+  openWin(component:any,props?:any,opt?:any){
+    props = props || {};
+    opt = opt || {};
+    return new Promise((resolve,reject)=>{
+      openWinFn(component,props,resolve,reject,opt);
+    })
   }
 }
 

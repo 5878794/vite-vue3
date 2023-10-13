@@ -14,8 +14,8 @@
 
 
 import defineClassComponent from "../fn/defineClassComponent";
-import elDatePicker2 from "../fn/element/elDatePicker2";
-import elDatePickerRang2 from "../fn/element/elDatePickerRang2";
+import elDatePicker2 from "../fn/lib/element/elDatePicker2";
+import elDatePickerRang2 from "../fn/lib/element/elDatePickerRang2";
 import device from '../fn/device'
 
 class Test{
