@@ -27,9 +27,9 @@ import writeExcel from '../fn/lib/excel/wrireExcel';
 import Menu from '../fn/menu';
 
 export default defineComponent({
-  components:{myTable,Menu},
-  setup(){
-    const aa= () => {
+  components: {myTable, Menu},
+  setup() {
+    const aa = () => {
       // device.href('c',{id:1,a:2});
       // writeExcel();
     }
@@ -57,17 +57,17 @@ export default defineComponent({
     ]
 
     const data = [
-      {name:'aa',phone:'111111',aaa:'1',id:1},
-      {name:'bb',phone:'222222',aaa:'2',id:2}
+      {name: 'aa', phone: '111111', aaa: '1', id: 1},
+      {name: 'bb', phone: '222222', aaa: '2', id: 2}
     ];
 
-    console.log(device.formatDate(new Date(),'yyyy-MM-dd hh:mm:ss'))
+    console.log(device.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'))
 
-    const menuClick =(path) =>{
+    const menuClick = (path) => {
       console.log(path)
     }
 
-    return {aa,data,abc,cccc,menuData,menuClick}
+    return {aa, data, abc, cccc, menuData, menuClick}
   }
 })
 
