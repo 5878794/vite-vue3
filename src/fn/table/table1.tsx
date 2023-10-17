@@ -6,7 +6,7 @@ class Table1 extends MyTable{
 
   constructor(props:any,opts:any) {
     super(props,opts);
-    this.highlightCurrentRow = true;
+    this.highlightCurrentRow = false;
     this.setting = this.getSetting();
     this.init();
   }
