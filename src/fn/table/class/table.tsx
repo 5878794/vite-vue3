@@ -18,6 +18,8 @@ class ZxtdTable{
   expandAll:boolean = false;  //全部展开
   stripe:boolean = true;  //显示斑马线
   highlightCurrentRow:boolean = false; //高亮选中行
+  groupLabelName:string = ''; //需要合并列的label名字
+  groupNumbers:any = [];  //列合并数据
 
   expandData:any = ref([]);
 
@@ -30,7 +32,8 @@ class ZxtdTable{
     return {
       props: {
         data: {type: Array, default: () => ([])},
-        readonly:{type:Boolean,default:false}
+        readonly:{type:Boolean,default:false},
+        groupBy:{type:String, default:''}  //需要合并的列的key （数据会sort一次）
       },
       components:{ElTable,ElTableColumn},
       emits:['currentChange','change']
@@ -268,9 +271,46 @@ class ZxtdTable{
     return newVal;
   }
 
+  //生成列的合并数据
+  createRowSpanNumber(data:any){
+    this.groupNumbers = [];
+    this.groupLabelName = '';
+    if(!this.props.groupBy){return data;}
+
+    //数据排序
+    data = data.sort((a:any,b:any)=>{
+      return a[this.props.groupBy] > b[this.props.groupBy] ? 1 : -1;
+    })
+
+    this.groupLabelName = this.setting.find((item:any)=>{
+      return item.key == this.props.groupBy;
+    })?.label;
+
+    const groupNumbers = {};
+    data.map((rs:any)=>{
+      const val = rs[this.props.groupBy];
+      if(!groupNumbers[val]){
+        groupNumbers[val] = 1;
+      }else{
+        groupNumbers[val] += 1;
+      }
+    });
+    let arr:any = [];
+    for(let [key,val] of Object.entries(groupNumbers)){
+      const arr1 = new Array(val).fill(0);
+      arr1[0] = val;
+      arr = arr.concat(arr1);
+    }
+    this.groupNumbers = arr;
+
+
+    return data;
+  }
 
   //数据处理
   handlerData(data:any){
+    data = this.createRowSpanNumber(data);
+
     const newData = JSON.parse(JSON.stringify(data));
     this.expandData.value = [];
 
@@ -389,11 +429,16 @@ class ZxtdTable{
   }
 
   spanMethod(data:any){
-    // const {row,column,rowIndex,columnIndex} = data;
-    // return {
-    //   rowspan:1,
-    //   colspan:1
-    // }
+    const {row,column,rowIndex,columnIndex} = data;
+
+    if(!this.props.groupBy || this.groupLabelName != column.label ){
+      return {rowspan:1,colspan:1};
+    }
+
+    return {
+      rowspan:this.groupNumbers[rowIndex],
+      colspan:1
+    }
   }
 
   render(){

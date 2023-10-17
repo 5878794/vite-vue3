@@ -14,6 +14,7 @@
     :readonly="false"
     @currentChange="abc"
     @change="cccc"
+    groupBy="name"
   />
 </template>
 
@@ -57,8 +58,12 @@ export default defineComponent({
     ]
 
     const data = [
-      {name: 'aa', phone: '111111', aaa: '1', id: 1},
-      {name: 'bb', phone: '222222', aaa: '2', id: 2}
+      {name: 'a2', phone: '111111', aaa: '1', id: 1},
+      {name: 'bb', phone: '333333', aaa: '2', id: 3},
+      {name: 'bb', phone: '222222', aaa: '22222', id: 2},
+      {name: 'bb', phone: '4444444', aaa: '2', id: 4},
+      {name: 'bb', phone: '555555', aaa: '2', id: 5},
+      {name: 'a2', phone: '121212', aaa: '1', id: 11},
     ];
 
     console.log(device.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'))
