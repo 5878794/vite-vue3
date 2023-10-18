@@ -61,6 +61,7 @@ class inputBase{
   static setComponent(){
     return {
       props:{
+        type:{type:String,default:''},
         name:{type:String,default:''},
         disabled:{type:Boolean,default:false},
         placeholder:{type:String,default:''},
@@ -168,12 +169,20 @@ class inputBase{
   render(){
     const isFocus = (this.isFocus.value)? cssStyle.isFocus :'';
     const isError = (this.errMsg.value)? cssStyle.isError :'';
+    const typeClass = cssStyle['input_'+this.props.type];
     return <el-form-item
       error={this.errMsg.value}
       label-width={this.labelWidth.value}
       label={this.props.label}
       // prop={this.props.name}
-      class={[boxStyle.box_hlc,cssStyle.form_item,'_form_item_',isFocus,isError]}
+      class={[
+        boxStyle.box_hlc,
+        cssStyle.form_item,
+        '_form_item_',
+        typeClass,
+        isFocus,
+        isError
+      ]}
       style='padding:1px;'
     >
       {this.renderInput()}

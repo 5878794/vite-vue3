@@ -94,3 +94,13 @@
   }
 }
 
+.input_radio{
+  :global{
+    .el-form-item__content{
+      outline:none; padding-left:20px !important;
+      &:hover{
+        outline:none;
+      }
+    }
+  }
+}

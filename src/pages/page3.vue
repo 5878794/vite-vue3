@@ -85,6 +85,14 @@ export default defineComponent({
              rules="require"
              label="color"
           ></Property>
+          <Property
+             name="value10"
+             type="radio"
+             option="01-单阵,02-多阵,03-单阵,04-多阵,05-单阵,06-多阵,07-单阵,08-多阵"
+             rules="require"
+             label="radio"
+             value="01"
+          ></Property>
       </PropertyGroup>
     `;
 
