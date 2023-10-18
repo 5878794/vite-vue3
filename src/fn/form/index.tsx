@@ -24,6 +24,7 @@ const inputComponent:any = {
   number:inputNumber,
   select:inputSelect,
   radio:'',
+  checkbox:'',
   file:'',
   img:'',
   img3D:'',
