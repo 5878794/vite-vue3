@@ -1,7 +1,7 @@
 import {
   ElInput,ElSelect,ElOption,ElUpload, ElButton,ElColorPicker,
   ElDatePicker,ElInputNumber,ElRadio, ElRadioGroup,ElTimePicker,
-  ElFormItem,ElCheckbox,ElCheckboxGroup
+  ElFormItem,ElCheckbox,ElCheckboxGroup,ElSwitch
 } from "element-plus";
 import {ref, watch, inject, getCurrentInstance} from 'vue';
 import ruleCheck from "../fn/ruleCheck";
@@ -76,7 +76,7 @@ class inputBase{
       components:{
         ElInput,ElSelect,ElOption,ElUpload, ElButton,ElColorPicker,
         ElDatePicker,ElInputNumber,ElRadio, ElRadioGroup,ElTimePicker,
-        ElFormItem,ElCheckbox,ElCheckboxGroup
+        ElFormItem,ElCheckbox,ElCheckboxGroup,ElSwitch
       },
       emits:['update:value']
     }

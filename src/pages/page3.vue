@@ -101,13 +101,21 @@ export default defineComponent({
              label="checkbox"
              value="01,02"
           ></Property>
+          <Property
+             name="value12"
+             type="switch"
+             label="switch"
+<!--             0:false, 1:true-->
+             value="0"
+          ></Property>
       </PropertyGroup>
     `;
 
     const ddd = ref({});
     setTimeout(()=>{
       ddd.value = {
-        value11:'03,05'
+        value11:'03,05',
+        value12:1
       }
     },2000)
 

@@ -20,6 +20,7 @@ import inputTextarea from './input/textarea.tsx';
 import inputColor from './input/color.tsx';
 import inputRadio from './input/radio.tsx';
 import inputCheckbox from './input/checkbox.tsx';
+import inputSwitch from './input/switch.tsx';
 
 
 const inputComponent:any = {
@@ -28,9 +29,9 @@ const inputComponent:any = {
   select:inputSelect,
   radio:inputRadio,
   checkbox:inputCheckbox,
+  switch:inputSwitch,
   file:'',
   img:'',
-  img3D:'',
   button:'',
   date:inputDate,
   time:inputTime,
