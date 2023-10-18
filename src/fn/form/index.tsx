@@ -16,6 +16,7 @@ import inputTime from './input/time';
 import inputDateTime from './input/dateTime';
 import inputRange from './input/range.tsx';
 import inputPassword from './input/password.tsx';
+import inputTextarea from './input/textarea.tsx';
 
 
 const inputComponent:any = {
@@ -31,7 +32,7 @@ const inputComponent:any = {
   time:inputTime,
   dateTime:inputDateTime,
   password:inputPassword,
-  textArea:'',
+  textArea:inputTextarea,
   range:inputRange,
   color:''
 }

@@ -71,6 +71,13 @@ export default defineComponent({
              rules="require;length:6,10"
              label="password"
           ></Property>
+          <Property
+             name="value8"
+             type="textArea"
+             rows="3"
+             rules="require;length:6,10"
+             label="textArea"
+          ></Property>
       </PropertyGroup>
     `;
 
