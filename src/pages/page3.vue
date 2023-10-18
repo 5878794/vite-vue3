@@ -65,6 +65,12 @@ export default defineComponent({
              rules="require;range:10,100"
              label="range"
           ></Property>
+          <Property
+             name="value7"
+             type="password"
+             rules="require;length:6,10"
+             label="password"
+          ></Property>
       </PropertyGroup>
     `;
 

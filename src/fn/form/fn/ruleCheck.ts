@@ -22,7 +22,14 @@ const inputRule:any = {
       msg:`数字必须在${min}-${max}之间！`
     }
   },
-  number:''
+  length:(val:any,rule:any)=>{
+    const [min,max] = rule ? rule.split(',') : [];
+
+    return {
+      pass:!!(val.toString().length >= parseFloat(min) && val.toString().length <= parseFloat(max)),
+      msg:`输入字符长度必须在${min}-${max}之间！`
+    }
+  }
 }
 
 export default function (ruleString:string,val:any){
