@@ -79,6 +79,12 @@ export default defineComponent({
              rules="require;length:6,10"
              label="textArea"
           ></Property>
+          <Property
+             name="value9"
+             type="color"
+             rules="require"
+             label="color"
+          ></Property>
       </PropertyGroup>
     `;
 
