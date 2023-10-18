@@ -7,22 +7,37 @@ import {ref,watch} from 'vue';
 class inputDate extends inputBase{
   maxVal:any = ref(32503680000000);
   minVal:any = ref(23558400000);
-  maxDayVal:any = ref('');
-  minDayVal:any = ref('');
-  minHours:any = ref('');
-  maxHours:any = ref('');
-  minMinutes:any = ref('');
-  maxMinutes:any = ref('');
-  minSecond:any = ref('');
-  maxSecond:any = ref('');
+  maxDayVal:any = ref(32503680000000);
+  minDayVal:any = ref(23558400000);
+  minHours:any = ref(0);
+  maxHours:any = ref(24);
+  minMinutes:any = ref(0);
+  maxMinutes:any = ref(60);
+  minSecond:any = ref(0);
+  maxSecond:any = ref(60);
 
   constructor(props:any,opts:any) {
     super(props,opts);
 
     this.setMaxMinVal();
+    this.handlerRule();
     watch(()=>this.props.rules,()=>{
+      this.handlerRule();
       this.setMaxMinVal();
     })
+  }
+
+  //去除rule中的range
+  handlerRule(){
+    const rule = this.props.rules? this.props.rules.split(';') : [];
+    const newRule:any = [];
+    rule.map((item:any)=>{
+      if(item.indexOf('range:') != 0){
+        newRule.push(item);
+      }
+    })
+
+    this.inputRule.value = newRule.join(';');
   }
 
   inputVal2ShowValAndSet(val:any,notUpdate?:boolean){

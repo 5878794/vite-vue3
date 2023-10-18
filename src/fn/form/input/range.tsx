@@ -31,7 +31,7 @@ class inputRange extends inputBase{
     const min = this.showVal.value;
     const max = this.showVal1.value;
 
-    if(!this.checkRule(min,max)){
+    if(!this.checkRule1(min,max)){
       return false;
     }
 
@@ -44,8 +44,8 @@ class inputRange extends inputBase{
     return true;
   }
 
-  checkRule(min:any,max:any){
-    const rule = this.props.rules;
+  checkRule1(min:any,max:any){
+    const rule = this.inputRule.value;
     const rs = ruleCheck(rule,min);
     const rs1 = ruleCheck(rule,max);
 

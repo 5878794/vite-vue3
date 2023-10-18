@@ -20,7 +20,7 @@ class inputTextarea extends inputBase{
   }
 
   getMaxLength(){
-    const rule = this.props.rules? this.props.rules.split(';') : [];
+    const rule = this.inputRule.value? this.inputRule.value.split(';') : [];
     let length = '';
     rule.map((item:string)=>{
       if(item.indexOf('length:') == 0){

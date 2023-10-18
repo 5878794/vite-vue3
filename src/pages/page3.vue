@@ -38,13 +38,14 @@ export default defineComponent({
           <Property
              name="value2"
              type="date"
-             rules="require"
+             rules="require;range:now,1698278400000"
              label="date"
+             unit="日"
           ></Property>
           <Property
              name="value3"
              type="dateTime"
-             rules="require"
+             rules="require;range:now,1698278400000"
              label="datetime"
           ></Property>
           <Property

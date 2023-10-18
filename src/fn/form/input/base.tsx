@@ -24,6 +24,7 @@ class inputBase{
   unitDefaultValue:any = ref(''); //最终输出单位值
   unitText:any = ref(''); //单位文本
   unitOption:any = ref([]); //单位选择下拉
+  inputRule:any = ref('');
 
   selectOption:any = ref([]); //select的option
 
@@ -51,6 +52,7 @@ class inputBase{
     this.handlerUnit();
     this.handlerSelectOption(this.props.option);
     this.inputVal2ShowValAndSet(this.props.value,true);
+    this.inputRule.value = this.props.rules;
   }
 
 
@@ -114,7 +116,7 @@ class inputBase{
 
   //验证函数
   checkRule(val:any){
-    const rule = this.props.rules;
+    const rule = this.inputRule.value;
     const rs = ruleCheck(rule,val);
 
     if(rs.pass){
