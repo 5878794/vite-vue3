@@ -2,13 +2,20 @@ import defineClassComponent from "../fn/defineClassComponent";
 import inputBase from './base';
 import cssStyle from './css.module.scss';
 import boxStyle from "../../../style/box.module.scss";
-import {ref} from 'vue';
+import {ref,watch} from 'vue';
 
 class inputNumber extends inputBase{
   elRef:any = ref(null);
   constructor(props:any,opts:any) {
     super(props,opts);
 
+    this.handlerInputVal();
+    watch(()=>this.props.value,()=>{
+      this.handlerInputVal();
+    })
+  }
+
+  handlerInputVal(){
     this.inputVal.value = this.props.value;
     this.showVal.value = parseFloat(this.props.value);
   }

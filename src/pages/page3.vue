@@ -93,12 +93,24 @@ export default defineComponent({
              label="radio"
              value="01"
           ></Property>
+          <Property
+             name="value11"
+             type="checkbox"
+             option="01-单阵,02-多阵,03-单阵,04-多阵,05-单阵,06-多阵,07-单阵,08-多阵"
+             rules="require"
+             label="checkbox"
+             value="01,02"
+          ></Property>
       </PropertyGroup>
     `;
 
-    const ddd = {
-      value:'02',
-    }
+    const ddd = ref({});
+    setTimeout(()=>{
+      ddd.value = {
+        value11:'03,05'
+      }
+    },2000)
+
 
     const form1 = ref(null);
 

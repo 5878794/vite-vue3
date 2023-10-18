@@ -2,7 +2,7 @@ import defineClassComponent from "../fn/defineClassComponent";
 import inputBase from './base';
 import cssStyle from './css.module.scss';
 import boxStyle from "../../../style/box.module.scss";
-import {ref} from 'vue';
+import {ref,watch} from 'vue';
 import ruleCheck from "../fn/ruleCheck.ts";
 
 class inputRange extends inputBase{
@@ -15,11 +15,19 @@ class inputRange extends inputBase{
   constructor(props:any,opts:any) {
     super(props,opts);
 
+    this.handlerInputVal();
+    watch(()=>this.props.value,()=>{
+      this.handlerInputVal();
+    })
+  }
+
+  handlerInputVal(){
     this.inputVal.value = this.props.value;
     const temp = this.props.value ? this.props.value.split(',') : [];
     this.showVal.value = parseFloat(temp[0]);
-    this.showVal1.value = parseFloat(temp[1])
+    this.showVal1.value = parseFloat(temp[1]);
   }
+
 
   static setComponent(){
     const obj = super.setComponent();

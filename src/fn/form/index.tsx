@@ -18,7 +18,8 @@ import inputRange from './input/range.tsx';
 import inputPassword from './input/password.tsx';
 import inputTextarea from './input/textarea.tsx';
 import inputColor from './input/color.tsx';
-import inputRadio from './input/radio.tsx'
+import inputRadio from './input/radio.tsx';
+import inputCheckbox from './input/checkbox.tsx';
 
 
 const inputComponent:any = {
@@ -26,7 +27,7 @@ const inputComponent:any = {
   number:inputNumber,
   select:inputSelect,
   radio:inputRadio,
-  checkbox:'',
+  checkbox:inputCheckbox,
   file:'',
   img:'',
   img3D:'',
