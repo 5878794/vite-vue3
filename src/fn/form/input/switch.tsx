@@ -20,6 +20,10 @@ class inputSwitch extends inputBase{
     this.showVal.value = (this.props.value == 1);
   }
 
+  showVal2InputVal(val:any){
+    return val? '1' : '0';
+  }
+
 
   static setComponent(){
     const obj = super.setComponent();
@@ -33,6 +37,7 @@ class inputSwitch extends inputBase{
       v-model={this.showVal.value}
       class={[cssStyle.item, boxStyle.boxflex1, 'item']}
       disabled={this.props.disabled}
+      onChange={()=>this.checkFiled()}
       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     />
   }
