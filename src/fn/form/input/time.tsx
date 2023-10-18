@@ -6,6 +6,7 @@ import boxStyle from "../../../style/box.module.scss";
 class inputTime extends inputDate{
   constructor(props:any,opts:any) {
     super(props,opts);
+
   }
 
   renderInput(){

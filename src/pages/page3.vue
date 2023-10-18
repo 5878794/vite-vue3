@@ -35,6 +35,36 @@ export default defineComponent({
              value="1"
              unit="MHz,1-Hz|1000-KHz|1000000-MHz"
           ></Property>
+          <Property
+             name="value2"
+             type="date"
+             rules="require"
+             label="date"
+          ></Property>
+          <Property
+             name="value3"
+             type="dateTime"
+             rules="require"
+             label="datetime"
+          ></Property>
+          <Property
+             name="value4"
+             type="time"
+             rules="require"
+             label="time"
+          ></Property>
+          <Property
+             name="value5"
+             type="text"
+             rules="require"
+             label="text"
+          ></Property>
+          <Property
+             name="value6"
+             type="range"
+             rules="require;range:10,100"
+             label="range"
+          ></Property>
       </PropertyGroup>
     `;
 

@@ -1,7 +1,7 @@
 <template>
   <div>222222</div>
   <Pagination :total="1000" :pageSize="100" :currentPage="4" @current-change="fn1" @size-change="fn2"/>
-  <RichEdit style="width:1000px;height:500px;" :html="html"/>
+<!--  <RichEdit style="width:1000px;height:500px;" :html="html"/>-->
   <router-view/>
 </template>
 
