@@ -22,6 +22,7 @@ import inputRadio from './input/radio.tsx';
 import inputCheckbox from './input/checkbox.tsx';
 import inputSwitch from './input/switch.tsx';
 import inputFile from './input/file.tsx';
+import inputImg from './input/img.tsx';
 
 const inputComponent:any = {
   text:inputText,
@@ -31,7 +32,7 @@ const inputComponent:any = {
   checkbox:inputCheckbox,
   switch:inputSwitch,
   file:inputFile,
-  img:'',
+  img:inputImg,
   button:'',
   date:inputDate,
   time:inputTime,

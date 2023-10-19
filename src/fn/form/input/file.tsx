@@ -114,5 +114,5 @@ class inputFile extends inputBase{
   }
 }
 
-
+export {inputFile};
 export default defineClassComponent(inputFile);

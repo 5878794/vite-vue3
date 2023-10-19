@@ -114,6 +114,14 @@ export default defineComponent({
              type="file"
              rules="require;accept:json,png;maxSize:2"
              label="file"
+             value="asdfasdfasf.png"
+          ></Property>
+          <Property
+             name="value14"
+             type="img"
+             rules="require;accept:png;maxSize:2"
+             label="img"
+             value="http://www.06ps.com/d/file/2017/0522/1495420575299.jpg,asdfasdf.com,asdfsadf.b"
           ></Property>
       </PropertyGroup>
     `;
@@ -132,7 +140,7 @@ export default defineComponent({
     const uploadFn = function(){
       return new Promise((resolve)=>{
         setTimeout(()=>{
-          resolve('www.a.com/'+new Date().getTime()+'.png')
+          resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
         },2000)
       })
     }
