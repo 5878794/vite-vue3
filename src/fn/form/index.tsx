@@ -21,7 +21,7 @@ import inputColor from './input/color.tsx';
 import inputRadio from './input/radio.tsx';
 import inputCheckbox from './input/checkbox.tsx';
 import inputSwitch from './input/switch.tsx';
-
+import inputFile from './input/file.tsx';
 
 const inputComponent:any = {
   text:inputText,
@@ -30,7 +30,7 @@ const inputComponent:any = {
   radio:inputRadio,
   checkbox:inputCheckbox,
   switch:inputSwitch,
-  file:'',
+  file:inputFile,
   img:'',
   button:'',
   date:inputDate,
@@ -61,6 +61,7 @@ class Xml{
     provide('inputComponent',inputComponent);
     provide('customComponent', this.props.customComponent);
     provide('change', (data:any)=>{this.changeFn(data)});
+    provide('uploadFn',this.props.uploadFn);
 
     this.vueObj = getCurrentInstance();
 
@@ -84,6 +85,10 @@ class Xml{
         serverData:{type:Object,default:()=>({})}, //初始值
         customComponent:{type:Object,default:()=>({})}, //自定义组件传入
         backDefaultValue:{type:Boolean,default:false},  //是否返回数据的时候返回默认值（及未显示的控件的值）
+        uploadFn:{type:Function,default: async (file:any)=>{
+          console.warn('未配置上传函数！');
+          // return '文件路径'  promise返回
+          }}
       },
       components:{PropertyGroup},
       emits:['change']

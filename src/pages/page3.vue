@@ -4,6 +4,7 @@
     ref="form1"
     :xml="xml"
     :serverData="ddd"
+    :uploadFn="uploadFn"
   />
   <div @click="submit">submit</div>
 </template>
@@ -108,6 +109,12 @@ export default defineComponent({
 <!--             0:false, 1:true-->
              value="0"
           ></Property>
+          <Property
+             name="value13"
+             type="file"
+             rules="require;accept:json,png;maxSize:2"
+             label="file"
+          ></Property>
       </PropertyGroup>
     `;
 
@@ -122,13 +129,20 @@ export default defineComponent({
 
     const form1 = ref(null);
 
+    const uploadFn = function(){
+      return new Promise((resolve)=>{
+        setTimeout(()=>{
+          resolve('www.a.com/'+new Date().getTime()+'.png')
+        },2000)
+      })
+    }
 
     const submit = async () => {
       const data = form1.value.checkAndGetData();
       console.log(data)
     }
 
-    return {xml,ddd,submit,form1}
+    return {xml,ddd,submit,form1,uploadFn}
   }
 })
 </script>

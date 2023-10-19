@@ -106,3 +106,23 @@
     }
   }
 }
+
+.input_file{
+  :global{
+    .el-input.is-disabled .el-input__wrapper{
+      box-shadow: none;
+    }
+    .el-button{
+      border-radius: 0; height:30px;
+    }
+    .el-button.is-loading{
+       height: 30px;
+      position: relative; top:1px;
+      &:before{
+        display: none;
+      }
+      i{
+        display:block;      }
+    }
+  }
+}

@@ -29,6 +29,7 @@ class inputBase{
   selectOption:any = ref([]); //select的option
 
   changeFn:any = null; //传入的变换监听函数
+  uploadFn:any = null;
 
   constructor(props:any,opts:any) {
     this.props = props;
@@ -36,6 +37,10 @@ class inputBase{
 
     if((getCurrentInstance() as any).provides.change){
       this.changeFn = inject('change')
+    }
+
+    if((getCurrentInstance() as any).provides.uploadFn){
+      this.uploadFn = inject('uploadFn')
     }
 
     watch(()=>this.props.unit,()=>{
