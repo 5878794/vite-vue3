@@ -3,6 +3,7 @@ import inputBase from './base';
 import cssStyle from './css.module.scss';
 import boxStyle from "../../../style/box.module.scss";
 import {watch,ref} from 'vue';
+import device from '../../device.ts'
 
 class inputFile extends inputBase{
   accept:any = [];
@@ -72,7 +73,8 @@ class inputFile extends inputBase{
     this.loading.value = true;
     const src =await this.uploadFn(file).catch((e:any)=>{
       this.loading.value = false;
-      this.errMsg.value = '上传失败！';
+      // this.errMsg.value = '上传失败！';
+      device.info('上传失败！','error');
     });
     this.loading.value = false;
 

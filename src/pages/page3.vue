@@ -138,9 +138,10 @@ export default defineComponent({
     const form1 = ref(null);
 
     const uploadFn = function(){
-      return new Promise((resolve)=>{
+      return new Promise((resolve,reject)=>{
         setTimeout(()=>{
-          resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
+          reject();
+          // resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
         },2000)
       })
     }

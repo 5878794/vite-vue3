@@ -124,7 +124,7 @@ const device:any =  {
   info(msg:string,type?:types){
     type = type || 'info'
     ElMessage({
-      message: 'Congrats, this is a success message.',
+      message: msg,
       type: type,
     })
   },
