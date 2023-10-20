@@ -1,6 +1,7 @@
 import defineClassComponent from "@/com/defineClassComponent.ts";
 import {ref} from 'vue';
 import MyForm from '@/com/form'
+import device from "@/com/device.ts";
 
 const xml = `
       <PropertyGroup class="box_hlt box_lines">

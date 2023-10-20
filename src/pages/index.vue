@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import Menu from '@/com/menu.tsx';
+import device from '@/com/device.ts';
 import {defineComponent} from "vue";
 
 //生菜menu的数据
