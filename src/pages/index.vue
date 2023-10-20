@@ -8,7 +8,7 @@
       type="vertical"
       :router="true"
     />
-    <router-view class="boxflex1" style="overflow: auto;" />
+    <router-view class="boxflex1" style="overflow: auto;padding:20px 0;box-sizing:border-box;height:100vh;" />
   </div>
 </template>
 

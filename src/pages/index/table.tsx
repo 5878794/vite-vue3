@@ -56,6 +56,7 @@ class Page{
   }
 
   render(){
+    //table的高度自适应外部容器
     return <Table
       setting={setting}     //table的配置
       data={data}           //table的数据

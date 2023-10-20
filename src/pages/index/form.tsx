@@ -107,7 +107,7 @@ const xml = `
              label="img"
              value="http://www.06ps.com/d/file/2017/0522/1495420575299.jpg,asdfasdf.com,asdfsadf.b"
           ></Property>
-          <PropertyGroup class="box_hcc" style="color:#1aaeaa;">
+          <PropertyGroup class="box_hcc" style="color:#1aaeaa;width:100%;">
             <Property
                type="button"
                label="button"
