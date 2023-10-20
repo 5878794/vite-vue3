@@ -4,7 +4,8 @@
     ref="form1"
     :xml="xml"
     :serverData="ddd"
-    :uploadFn="uploadFn"
+    :fns="fns"
+    :api="api"
   />
   <div @click="submit">submit</div>
 </template>
@@ -123,6 +124,20 @@ export default defineComponent({
              label="img"
              value="http://www.06ps.com/d/file/2017/0522/1495420575299.jpg,asdfasdf.com,asdfsadf.b"
           ></Property>
+          <PropertyGroup class="box_hcc" style="color:#1aaeaa;">
+            <Property
+               type="button"
+               label="button"
+               theme="primary"
+               click="formSubmit:api.test1,url:d"
+            ></Property>
+            <Property
+               type="button"
+               label="button1"
+               theme="danger"
+               click="fn:fn1,fn:fn2,url:d"
+            ></Property>
+          </PropertyGroup>
       </PropertyGroup>
     `;
 
@@ -134,24 +149,48 @@ export default defineComponent({
       }
     },2000)
 
+    const fns = {
+      fn1:(form)=>{
+        // return new Promise((resolve,reject)=>{
+        //   resolve('')
+        // })
+        console.log(form.checkAndGetData())
+      },
+      fn2:()=>{
+        console.log(222)
+        return new Promise((resolve,reject)=>{
+          resolve('222')
+        })
+      }
+    }
+
+    const api = {
+      uploadFile:()=>{
+        return new Promise((resolve,reject)=>{
+          setTimeout(()=>{
+            // reject(123);
+            resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
+          },2000)
+        })
+      },
+      test1:(data)=>{
+        return new Promise((resolve,reject)=>{
+          setTimeout(()=>{
+            reject({a:1,b:2})
+          },2000)
+        })
+      }
+    };
 
     const form1 = ref(null);
 
-    const uploadFn = function(){
-      return new Promise((resolve,reject)=>{
-        setTimeout(()=>{
-          reject();
-          // resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
-        },2000)
-      })
-    }
 
     const submit = async () => {
       const data = form1.value.checkAndGetData();
       console.log(data)
     }
 
-    return {xml,ddd,submit,form1,uploadFn}
+    return {xml,ddd,submit,form1,fns,api}
   }
 })
 </script>

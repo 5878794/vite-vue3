@@ -31,8 +31,8 @@ class Base{
   renderPropertyGroup(Tag:any,attr:any,xml:any){
     return <>
       {attr.name && <div>{attr.name}</div>}
-      {attr.name && <Tag ref={attr.key} xmlDocument={xml} v-model:serverData={this.props.serverData[attr.name]}/>}
-      {!attr.name && <Tag ref={attr.key} xmlDocument={xml} v-model:serverData={this.props.serverData}/>}
+      {attr.name && <Tag ref={attr.key} style={attr.style} class={attr.class} xmlDocument={xml} v-model:serverData={this.props.serverData[attr.name]}/>}
+      {!attr.name && <Tag ref={attr.key} style={attr.style} class={attr.class} xmlDocument={xml} v-model:serverData={this.props.serverData}/>}
     </>
   }
 
@@ -48,7 +48,12 @@ class Base{
   //渲染普通元素
   renderProperty(Tag:any,attr:any){
     const ref = attr.keyPath;
-    return <Tag ref={ref} {...attr} v-model:value={this.props.serverData[attr.name]}/>;
+    return <Tag ref={ref} style={attr.style} class={attr.class} {...attr} v-model:value={this.props.serverData[attr.name]}/>;
+  }
+
+  //渲染按钮
+  renderPropertyButton(Tag:any,attr:any){
+    return <Tag {...attr} />;
   }
 
   //渲染自定义元素 TODO

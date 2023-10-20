@@ -39,8 +39,15 @@ class inputBase{
       this.changeFn = inject('change')
     }
 
-    if((getCurrentInstance() as any).provides.uploadFn){
-      this.uploadFn = inject('uploadFn')
+    if((getCurrentInstance() as any).provides.api){
+      const api:any = inject('api');
+      if(api.uploadFile){
+        this.uploadFn = api.uploadFile;
+      }else{
+        this.uploadFn = () => {
+          console.warn('api中未配置 uploadFile 函数！');
+        }
+      }
     }
 
     watch(()=>this.props.unit,()=>{

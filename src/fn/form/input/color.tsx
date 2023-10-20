@@ -28,6 +28,7 @@ class inputColor extends inputBase{
       v-model={this.showVal.value}
       class={[cssStyle.item, boxStyle.boxflex1, 'item']}
       disabled={this.props.disabled}
+      onChange={()=>this.checkFiled()}
       // placeholder={this.props.placeholder}
     />
   }

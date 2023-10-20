@@ -61,7 +61,11 @@ class PropertyGroup extends Base{
           let tagJsx;
           if(tag){
             //普通元素
-            tagJsx = this.renderProperty(tag,attr);
+            if(attr.type == 'button'){
+              tagJsx = this.renderPropertyButton(tag,attr);
+            }else{
+              tagJsx = this.renderProperty(tag,attr);
+            }
           }else{
             //自定义元素
             tagJsx = this.renderCustomProperty(attr.type,attr);
