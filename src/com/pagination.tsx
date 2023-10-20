@@ -50,7 +50,7 @@ class Pagination{
       v-model:page-size={this.pageSize.value}
       v-model:current-page={this.currentPage.value}
       hide-on-single-page={true}
-      onSizeChange={(val:number)=>this.handleSizeChange(val)}
+      // onSizeChange={(val:number)=>this.handleSizeChange(val)}
       onCurrentChange={(val:number)=>this.handleCurrentChange(val)}
     />
   }
