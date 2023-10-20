@@ -66,6 +66,5 @@ export default function(path:string){
   }
   fn(back,route,true);
 
-  console.log(route)
   return route;
 }

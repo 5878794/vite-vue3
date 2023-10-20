@@ -1,7 +1,7 @@
 //@ts-nocheck
-import {defineComponent, ref, shallowRef, watch} from "vue";
-import defineClassComponent from '../../defineClassComponent';
-import device from '../../device';
+import {ref, watch} from "vue";
+import defineClassComponent from './defineClassComponent';
+import device from './device';
 import {ElTable,ElTableColumn,ElIcon} from "element-plus";
 // import cssStyle from './css.module.scss';
 // import api from "../data/api";
@@ -26,12 +26,17 @@ class ZxtdTable{
   constructor(props:any,opts:any) {
     this.props = props;
     this.opts = opts;
+    this.setting = props.setting;
+    this.highlightCurrentRow = props.highlightCurrentRow;
+    this.init();
   }
 
   static setComponent(){
     return {
       props: {
+        setting:{type:Array,default:()=>([])},
         data: {type: Array, default: () => ([])},
+        highlightCurrentRow:{type:Boolean,default:false},
         readonly:{type:Boolean,default:false},
         groupBy:{type:String, default:''}  //需要合并的列的key （数据会sort一次）
       },
@@ -480,5 +485,5 @@ class ZxtdTable{
 }
 
 
-export default ZxtdTable;
+export default defineClassComponent(ZxtdTable);
 
