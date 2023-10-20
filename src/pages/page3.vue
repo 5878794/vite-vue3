@@ -164,23 +164,40 @@ export default defineComponent({
       }
     }
 
-    const api = {
-      uploadFile:()=>{
-        return new Promise((resolve,reject)=>{
-          setTimeout(()=>{
-            // reject(123);
-            resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
-          },2000)
-        })
-      },
-      test1:(data)=>{
-        return new Promise((resolve,reject)=>{
-          setTimeout(()=>{
-            reject({a:1,b:2})
-          },2000)
-        })
+    const dfdf = {
+      uploadFile:{},
+      test1:{}
+    }
+    const api = new Proxy(dfdf,{
+      get(){
+        return ()=>{
+          return new Promise(resolve => {
+            setTimeout(()=>{
+              resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg');
+            },2000)
+          })
+        }
       }
-    };
+    })
+
+
+    // const api = {
+    //   uploadFile:()=>{
+    //     return new Promise((resolve,reject)=>{
+    //       setTimeout(()=>{
+    //         // reject(123);
+    //         resolve('http://www.06ps.com/d/file/2017/0522/1495420575299.jpg')
+    //       },2000)
+    //     })
+    //   },
+    //   test1:(data)=>{
+    //     return new Promise((resolve,reject)=>{
+    //       setTimeout(()=>{
+    //         reject({a:1,b:2})
+    //       },2000)
+    //     })
+    //   }
+    // };
 
     const form1 = ref(null);
 
