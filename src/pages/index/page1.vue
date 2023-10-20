@@ -22,10 +22,10 @@
 <script>
 
 import {defineComponent} from "vue";
-import device from '../fn/device';
-import myTable from '../fn/table/table1';
-import writeExcel from '../fn/lib/excel/wrireExcel';
-import Menu from '../fn/menu';
+import device from '../../com/device';
+import myTable from '../../com/table/table1';
+// import writeExcel from '../../fn/lib/excel/wrireExcel';
+import Menu from '../../com/menu';
 
 export default defineComponent({
   components: {myTable, Menu},

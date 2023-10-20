@@ -13,5 +13,10 @@ export default defineConfig({
           { legacy: true },
         ]]}
     )
-  ]
+  ],
+  resolve:{
+    alias:{
+      '@':"/src"
+    }
+  }
 })

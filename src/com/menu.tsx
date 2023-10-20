@@ -29,6 +29,7 @@ import defineClassComponent from "./defineClassComponent.ts";
 import {ElIcon} from "element-plus";
 import * as Icons from '@element-plus/icons-vue';
 import {ref} from 'vue';
+import device from './device.ts';
 
 
 
@@ -59,7 +60,7 @@ class Menu{
         //默认打开菜单的层级  //数组中为url
         openeds:{type:Array,default:[]},
         //链接模式
-        //true时，点击直接跳转url地址
+        //true时，点击直接跳转url地址 (route中的name)
         //false时，监听onChange事件，返回url
         router:{type:Boolean,default:true},
         //菜单背景
@@ -79,7 +80,11 @@ class Menu{
   }
 
   handleSelect(key: string, keyPath: string[]){
-    this.opts.emit('click',key);
+    if(this.props.router){
+      device.href(key)
+    }else{
+      this.opts.emit('click',key);
+    }
   }
 
   renderItem(data:any){
@@ -134,7 +139,7 @@ class Menu{
       default-openeds={this.props.openeds}
       // unique-opened={true} //只打开一个子菜单 bug 只能有1层子菜单才行
       mode={this.props.type}
-      router={this.props.router}
+      router={false}
       background-color={this.props.bg}
       collapse={this.props.isCollapse}
       text-color={this.props.color}

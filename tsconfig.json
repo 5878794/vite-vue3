@@ -25,6 +25,10 @@
     "noEmit": true,
     "jsx": "preserve",
 
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     /* Linting */
     "noFallthroughCasesInSwitch": true
   },
