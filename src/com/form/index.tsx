@@ -24,6 +24,7 @@ import inputSwitch from './input/switch.tsx';
 import inputFile from './input/file.tsx';
 import inputImg from './input/img.tsx';
 import inputButton from './input/button.tsx';
+import inputHotKey from './input/hotKey.tsx';
 
 const inputComponent:any = {
   text:inputText,
@@ -41,7 +42,8 @@ const inputComponent:any = {
   password:inputPassword,
   textArea:inputTextarea,
   range:inputRange,
-  color:inputColor
+  color:inputColor,
+  hotKey:inputHotKey
 }
 
 

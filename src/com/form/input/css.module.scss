@@ -109,7 +109,7 @@
   }
 }
 
-.input_file{
+.input_file,.input_hotKey{
   :global{
     .el-input.is-disabled .el-input__wrapper{
       box-shadow: none;

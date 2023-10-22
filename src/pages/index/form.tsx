@@ -6,6 +6,13 @@ import device from "@/com/device.ts";
 const xml = `
       <PropertyGroup class="box_hlt box_lines">
           <Property
+             name="value0"
+             type="hotKey"
+             rules="require"
+             label="设置快捷键"
+             value=""
+          ></Property>
+          <Property
              name="value"
              type="select"
              option="01-单阵,02-多阵"
