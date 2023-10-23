@@ -170,6 +170,7 @@ class inputText extends inputBase{
   }
 
   addEventListener(){
+    if(this.setting.value){return}
     (window as any).hotKeySet = true;
     this.showVal.value = '';
     this.showKeys.value = [];
