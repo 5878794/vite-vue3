@@ -6,6 +6,13 @@ import device from "@/com/device.ts";
 const xml = `
       <PropertyGroup class="box_hlt box_lines">
           <Property
+             name="value20"
+             type="dateRange"
+             rules="require;range:now,9999999999999"
+             label="dateRange"
+             value="1696982400000,1698278400000"
+          ></Property>
+          <Property
              name="value0"
              type="hotKey"
              rules="require"
