@@ -170,6 +170,7 @@ class inputText extends inputBase{
   }
 
   addEventListener(){
+    (window as any).hotKeySet = true;
     this.showVal.value = [];
     this.showKeys.value = [];
     this.setting.value = true;
@@ -226,6 +227,7 @@ class inputText extends inputBase{
   }
 
   removeEventListener(){
+    (window as any).hotKeySet = false;
     window.removeEventListener('keydown',this.keyDownFn,false);
     window.removeEventListener('keyup',this.keyUpFn,false);
     this.keyDownFn = null;
