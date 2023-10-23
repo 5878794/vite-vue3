@@ -82,6 +82,10 @@ api = {
                     file
                     img
                     button
+                    hotKey
+                    dateRange
+                    dateTimeRange
+                    timeRange
                     
     
     option：列表数据  格式：01-单阵,02-多阵  （select、radio、checkbox 特有）
@@ -118,6 +122,41 @@ api = {
  完整eg：
  
  <PropertyGroup>
+      <!-- timeRange 时间范围选择 -->
+      <Property
+         name="value22"
+         type="timeRange"
+         rules="require;range:now,9999999999999"
+         label="timeRange"
+      ></Property>
+      
+      <!-- dateTimeRange 日期时间范围选择 -->
+      <Property
+         name="value21"
+         type="dateTimeRange"
+         rules="require;range:now,9999999999999"
+         label="dateTimeRange"
+         value="1696982400000,1698278400000"
+      ></Property>
+      
+      <!-- dateRange 日期范围选择 -->
+      <Property
+         name="value20"
+         type="dateRange"
+         rules="require;range:now,9999999999999"
+         label="dateRange"
+         value="1696982400000,1698278400000"
+      ></Property>
+      
+      <!-- hotKey 快捷键设置 -->
+      <Property
+         name="value0"
+         type="hotKey"
+         rules="require"
+         label="设置快捷键"
+         value="91,90"                  //快捷键keyCode，需要ctrl、alt、win + 至少一个键
+      ></Property>  
+      
       <!-- select 下拉单选 -->
       <Property
          name="value"                   //提交的key

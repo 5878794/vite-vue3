@@ -15,7 +15,6 @@ class inputTime extends inputDate{
     placeholder={this.props.placeholder}
     class={[cssStyle.item, boxStyle.boxflex1, 'item']}
     disabled={this.props.disabled}
-    format={'HH:mm:ss'}
     onChange={ () => {
       this.checkFiled();
     }}
@@ -26,15 +25,15 @@ class inputTime extends inputDate{
       this.isFocus.value = false;
       this.checkFiled();
     }}
-    disabledHours={()=>{
-      return this.getDatePickHover(this.showVal.value,true);
-    }}
-    disabledMinutes={()=>{
-      return this.getDatePickMinutes(this.showVal.value,true);
-    }}
-    disabledSeconds={()=>{
-      return this.getDatePickSecond(this.showVal.value,true);
-    }}
+    // disabledHours={()=>{
+    //   return this.getDatePickHover(this.showVal.value,true);
+    // }}
+    // disabledMinutes={()=>{
+    //   return this.getDatePickMinutes(this.showVal.value,true);
+    // }}
+    // disabledSeconds={()=>{
+    //   return this.getDatePickSecond(this.showVal.value,true);
+    // }}
   >
     </el-time-picker>
   }

@@ -5,6 +5,12 @@ import device from "@/com/device.ts";
 
 const xml = `
       <PropertyGroup class="box_hlt box_lines">
+         <Property
+             name="value22"
+             type="timeRange"
+             rules="require;range:now,9999999999999"
+             label="timeRange"
+          ></Property>
           <Property
              name="value21"
              type="dateTimeRange"
@@ -24,7 +30,7 @@ const xml = `
              type="hotKey"
              rules="require"
              label="设置快捷键"
-             value=""
+             value="91,90"
           ></Property>
           <Property
              name="value"
