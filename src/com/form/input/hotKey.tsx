@@ -171,16 +171,20 @@ class inputText extends inputBase{
 
   addEventListener(){
     (window as any).hotKeySet = true;
-    this.showVal.value = [];
+    this.showVal.value = '';
     this.showKeys.value = [];
+    this.downKeys.value = [];
     this.setting.value = true;
     if(!this.keyDownFn){
       window.addEventListener('keydown',this.keyDownFn = (e:any)=>{
         e.preventDefault();
         if(e.repeat){return;}
         const key = e.keyCode;
+
         this.downKeys.value.push(key);
-        this.showKeys.value.push(key);
+        if(this.showKeys.value.indexOf(key) == -1){
+          this.showKeys.value.push(key);
+        }
         this.setShowVal();
       },false)
     }
@@ -189,7 +193,7 @@ class inputText extends inputBase{
       window.addEventListener('keyup',this.keyUpFn = (e:any)=>{
         e.preventDefault();
         const key = e.keyCode;
-        if(key == 91 || key == 93 || key == 92){
+        if(key == 91 || key == 93 || key == 92 ){
           this.downKeys.value = [];
         }else{
           const n = this.downKeys.value.indexOf(key);
