@@ -26,6 +26,7 @@ import inputImg from './input/img.tsx';
 import inputButton from './input/button.tsx';
 import inputHotKey from './input/hotKey.tsx';
 import inputDateRange from './input/dateRange.tsx';
+import inputDateTimeRange from './input/dateTimeRange.tsx';
 
 const inputComponent:any = {
   text:inputText,
@@ -45,7 +46,8 @@ const inputComponent:any = {
   range:inputRange,
   color:inputColor,
   hotKey:inputHotKey,
-  dateRange:inputDateRange
+  dateRange:inputDateRange,
+  dateTimeRange:inputDateTimeRange
 }
 
 

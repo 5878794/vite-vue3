@@ -6,6 +6,13 @@ import device from "@/com/device.ts";
 const xml = `
       <PropertyGroup class="box_hlt box_lines">
           <Property
+             name="value21"
+             type="dateTimeRange"
+             rules="require;range:now,9999999999999"
+             label="dateTimeRange"
+             value="1696982400000,1698278400000"
+          ></Property>
+          <Property
              name="value20"
              type="dateRange"
              rules="require;range:now,9999999999999"
@@ -45,7 +52,7 @@ const xml = `
           <Property
              name="value3"
              type="dateTime"
-             rules="require;range:now,1698278400000"
+             rules="require;range:1698034582386,1698332400000"
              label="datetime"
           ></Property>
           <Property

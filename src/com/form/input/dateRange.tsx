@@ -21,6 +21,7 @@ class inputDateRange extends inputDate{
       return this.dateStringToDate(item);
     })
     this.showVal.value = temp;
+    console.log(this.showVal.value[0],this.showVal.value[1])
   }
 
   showVal2InputVal(val:any){
@@ -37,6 +38,15 @@ class inputDateRange extends inputDate{
     return obj;
   }
 
+  // autoReviseValue(){
+  //   let val = this.showVal.value;
+  //   val = val.getTime();
+  //
+  //   val = val > this.maxVal.value ? this.maxVal.value : val;
+  //   val = val < this.minVal.value ? this.minVal.value : val;
+  //   this.showVal.value = new Date(val);
+  // }
+
   renderInput(){
     return <el-date-picker
       v-model={this.showVal.value}
@@ -46,7 +56,6 @@ class inputDateRange extends inputDate{
       type='daterange'
       format="YYYY-MM-DD"
       onChange={ () => {
-        this.autoReviseValue();
         this.checkFiled();
       }}
       onFocus={() => {
@@ -54,7 +63,6 @@ class inputDateRange extends inputDate{
       }}
       onBlur={() => {
         this.isFocus.value = false;
-        this.autoReviseValue();
         this.checkFiled();
       }}
       disabledDate={(e:any)=>{
@@ -69,11 +77,11 @@ class inputDateRange extends inputDate{
       // disabledSeconds={()=>{
       //   return this.getDatePickSecond(this.showVal.value,false);
       // }}
-      default-value={[new Date(),new Date()]}
+      // default-value={[new Date(),new Date()]}
     >
     </el-date-picker>
   }
 }
 
-
+export {inputDateRange}
 export default defineClassComponent(inputDateRange);

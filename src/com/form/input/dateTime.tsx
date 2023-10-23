@@ -2,6 +2,7 @@ import defineClassComponent from "../fn/defineClassComponent";
 import {inputDate} from './date';
 import cssStyle from './css.module.scss';
 import boxStyle from "../../../style/box.module.scss";
+import {ref} from 'vue';
 
 class inputDateTime extends inputDate{
   constructor(props:any,opts:any) {
@@ -15,7 +16,6 @@ class inputDateTime extends inputDate{
     class={[cssStyle.item, boxStyle.boxflex1, 'item']}
     disabled={this.props.disabled}
     type='datetime'
-    format="YYYY-MM-DD HH:mm:ss"
     onChange={ () => {
       this.autoReviseValue();
       this.checkFiled();
@@ -40,8 +40,10 @@ class inputDateTime extends inputDate{
     disabledSeconds={()=>{
       return this.getDatePickSecond(this.showVal.value,false);
     }}
-    default-value={new Date()}
-  >
+    onVisibleChange	= {(state:boolean)=>{
+      this.onVisibleChange(state);
+    }}
+    >
     </el-date-picker>
   }
 }

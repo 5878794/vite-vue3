@@ -14,6 +14,10 @@
     .el-select .el-input__wrapper.is-focus{
       box-shadow: none !important;
     }
+    .el-date-editor{
+      box-shadow:none !important;
+      background: none !important;
+    }
     .el-select:hover:not(.el-select--disabled) .el-input__wrapper{
       box-shadow: none !important;
       border:none !important;

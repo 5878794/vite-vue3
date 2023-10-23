@@ -16,6 +16,8 @@ class inputDate extends inputBase{
   minSecond:any = ref(0);
   maxSecond:any = ref(60);
 
+  observer:any = null;
+
   constructor(props:any,opts:any) {
     super(props,opts);
 
@@ -229,12 +231,54 @@ class inputDate extends inputBase{
     return new Date(val).getTime();
   }
 
+  //修复datatime选择时间后无法点击确定按钮的bug
+  onVisibleChange(state:boolean){
+    //按钮有bug，监听弹窗的确定按钮，被添加disable的时候，自动取消掉
+    if(!state){
+      if(this.observer){
+        this.observer.disconnect();
+        this.observer = null;
+      }
+      return
+    }
+    setTimeout(()=>{
+      const doms = document.body.getElementsByClassName('el-picker__popper');
+      let dom = null;
+      for(let i =0,l=doms.length;i<l;i++){
+        if(!doms[i].style.display){
+          dom = doms[i];
+        }
+      }
+      if(dom){
+        const btn = dom.getElementsByClassName('el-picker-panel__footer')[0]?.getElementsByTagName('button')[1];
+        this.observer = new MutationObserver((mutations)=>{
+          mutations.forEach((mutation)=>{
+            if(mutation.attributeName == 'disabled'){
+              btn.disabled = false;
+              btn.classList.remove('is-disabled');
+            }
+          })
+        })
+        const config = {
+          attributes: true,      // 监听目标节点的属性变化
+          childList: false,       // 监听目标节点的子节点增加或删除变化
+          characterData: false,   // 监听目标节点的文本内容或字符数据变化
+          subtree: false          // 监听目标节点以及所有后代的变化
+        }
+        this.observer.observe(btn, config);
+      }
+    },10)
+  }
+
   //自动修正 日历控件无法完美控制时间的限制(日期变更后无法检查时间)
   autoReviseValue(){
     let val = this.showVal.value;
+    if(!val){return;}
+    val = val.getTime();
+
     val = val > this.maxVal.value ? this.maxVal.value : val;
     val = val < this.minVal.value ? this.minVal.value : val;
-    this.showVal.value = val;
+    this.showVal.value = new Date(val);
   }
 
   renderInput(){
