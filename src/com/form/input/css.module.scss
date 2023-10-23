@@ -6,8 +6,23 @@
 
 
 .form_item{
+  --el-font-size-base:14px;
+
+
   width: 100%; nargin-right:1px;
   :global{
+    .el-form-item__label{
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      overflow:hidden;
+      word-wrap:break-word;
+      word-break:break-all;
+      display: block;
+      text-align: right;
+    }
+    .el-input__icon{
+      font-size:14px;
+    }
     .el-range-separator{
       color:rgb(204, 204, 204);
     }
@@ -27,7 +42,7 @@
       outline: none !important;
     }
     .el-form-item__content{
-      flex: 1 1 0 !important;
+      flex: 1 0 0 !important;
       margin-right: 4px;
       border-radius: 3px;
       outline:1px solid var(--el-input-border-color,var(--el-border-color));

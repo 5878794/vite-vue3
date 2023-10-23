@@ -14,7 +14,7 @@ div, p, span, a, ul, li,img{
     -ms-user-select:none;
     -moz-user-select:none;
     -webkit-text-size-adjust: none;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 div, p, span, a, ul, li, input, textarea{

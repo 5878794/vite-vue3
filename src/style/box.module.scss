@@ -1,66 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
 
-*{
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    -webkit-touch-callout: none;
-
-}
-
-div, p, span, a, ul, li,img{
-    -webkit-user-select:none;
-    -ms-user-select:none;
-    -moz-user-select:none;
-    -webkit-text-size-adjust: none;
-    font-size: 12px;
-}
-
-div, p, span, a, ul, li, input, textarea{
-    box-sizing: border-box;
-}
-
-
-img{
-    border:none;
-}
-
-
-input,button,select,textarea{
-    outline:none; border: none;
-}
-
-
-/*placeholder颜色设置*/
-input::-webkit-input-placeholder {
-    color:    #ccc;
-}
-input:-moz-placeholder {
-    color:    #ccc;
-}
-
-
-body{
-    font-family: Helvetica,"微软雅黑",  "宋体";
-    /*font-family: 'Open Sans', sans-serif ;*/
-    /*color:#fff;*/
-    min-width: 600px;
-    /*background: #000;*/
-}
-
-
-a:link,a:visited{
-    text-decoration: none;
-}
-a:hover{
-    text-decoration: none;
-}
-a:active{
-    /*opacity:0.5;*/
-}
-
-
 .backhidden{
     transform-style: preserve-3d;
     backface-visibility: hidden;
