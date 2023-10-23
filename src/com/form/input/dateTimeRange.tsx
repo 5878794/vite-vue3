@@ -16,6 +16,7 @@ class inputDateTimeRange extends inputDateRange{
       class={[cssStyle.item, boxStyle.boxflex1, 'item']}
       disabled={this.props.disabled}
       type='datetimerange'
+      range-separator='—'
       onChange={ () => {
         this.autoReviseValue();
         this.checkFiled();
@@ -31,28 +32,30 @@ class inputDateTimeRange extends inputDateRange{
       disabledDate={(e:any)=>{
         return e.getTime() >= this.maxDayVal.value || e.getTime() <= this.minDayVal.value;
       }}
-      // disabledHours={(e:any)=>{
-      //   if(e=='start'){
-      //     return this.getDatePickHover(this.showVal.value[0],false);
-      //   }else{
-      //     return this.getDatePickHover(this.showVal.value[1],false);
-      //   }
-      // }}
-      // disabledMinutes={(e:any)=>{
-      //   if(e=='start'){
-      //     return this.getDatePickMinutes(this.showVal.value[0],false);
-      //   }else{
-      //     return this.getDatePickMinutes(this.showVal.value[1],false);
-      //   }
-      // }}
-      // disabledSeconds={(e:any)=>{
-      //   if(e=='start'){
-      //     return this.getDatePickSecond(this.showVal.value[0],false);
-      //   }else{
-      //     return this.getDatePickSecond(this.showVal.value[1],false);
-      //   }
-      // }}
-      default-value={[new Date(),new Date()]}
+      disabledHours={(e:any)=>{
+        if(e=='start'){
+          return this.getDatePickHover(this.showVal.value[0],false);
+        }else{
+          return this.getDatePickHover(this.showVal.value[1],false);
+        }
+      }}
+      disabledMinutes={(e:any)=>{
+        if(e=='start'){
+          return this.getDatePickMinutes(this.showVal.value[0],false);
+        }else{
+          return this.getDatePickMinutes(this.showVal.value[1],false);
+        }
+      }}
+      disabledSeconds={(e:any)=>{
+        if(e=='start'){
+          return this.getDatePickSecond(this.showVal.value[0],false);
+        }else{
+          return this.getDatePickSecond(this.showVal.value[1],false);
+        }
+      }}
+      onVisibleChange	= {(state:boolean)=>{
+        this.onVisibleChange(state);
+      }}
     >
     </el-date-picker>
   }

@@ -8,6 +8,9 @@
 .form_item{
   width: 100%; nargin-right:1px;
   :global{
+    .el-range-separator{
+      color:rgb(204, 204, 204);
+    }
     .el-select .el-input.is-focus .el-input__wrapper{
       box-shadow: none !important;
     }

@@ -21,7 +21,6 @@ class inputDateRange extends inputDate{
       return this.dateStringToDate(item);
     })
     this.showVal.value = temp;
-    console.log(this.showVal.value[0],this.showVal.value[1])
   }
 
   showVal2InputVal(val:any){
@@ -38,14 +37,17 @@ class inputDateRange extends inputDate{
     return obj;
   }
 
-  // autoReviseValue(){
-  //   let val = this.showVal.value;
-  //   val = val.getTime();
-  //
-  //   val = val > this.maxVal.value ? this.maxVal.value : val;
-  //   val = val < this.minVal.value ? this.minVal.value : val;
-  //   this.showVal.value = new Date(val);
-  // }
+  autoReviseValue(){
+    let val = this.showVal.value;
+    if(!val){return}
+
+    let min = val[0].getTime();
+    let max = val[1].getTime();
+
+    max = max > this.maxVal.value ? this.maxVal.value : max;
+    min = min < this.minVal.value ? this.minVal.value : min;
+    this.showVal.value = [new Date(min),new Date(max)];
+  }
 
   renderInput(){
     return <el-date-picker
@@ -53,6 +55,7 @@ class inputDateRange extends inputDate{
       placeholder={this.props.placeholder}
       class={[cssStyle.item, boxStyle.boxflex1, 'item']}
       disabled={this.props.disabled}
+      range-separator='—'
       type='daterange'
       format="YYYY-MM-DD"
       onChange={ () => {

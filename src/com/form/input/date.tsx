@@ -265,7 +265,10 @@ class inputDate extends inputBase{
           characterData: false,   // 监听目标节点的文本内容或字符数据变化
           subtree: false          // 监听目标节点以及所有后代的变化
         }
-        this.observer.observe(btn, config);
+
+        if(btn){
+          this.observer.observe(btn, config);
+        }
       }
     },10)
   }
