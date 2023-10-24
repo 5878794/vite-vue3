@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "@wangeditor/editor": "^5.1.23",
     "axios": "^1.5.1",
+    "echarts": "^5.4.3",
     "element-plus": "^2.3.14",
     "lodash": "^4.17.21",
     "vue": "^3.3.4",
