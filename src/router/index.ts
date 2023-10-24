@@ -5,7 +5,7 @@ import autoCreateRoute from './autoCreateRoute.ts';
 const routes:any = [
   {
     path:'/',
-    redirect: 'index'
+    redirect: 'index/form'
   },
   ...autoCreateRoute('../pages/'),
   {
