@@ -261,6 +261,18 @@ const device:any =  {
    * @return string
    * */
   formatDate(date:Date,fmt:string){
+    if(!date){return ''}
+    if( typeof date == 'number' ){
+      date = new Date(date);
+    }
+    if( typeof date == 'string'){
+      if(date.indexOf('-')>-1 || date.indexOf('\/')>-1){
+        date = new Date(date)
+      }else{
+        date = new Date(parseInt(date))
+      }
+    }
+
     //y 年份
     const o = {
       "M+" : date.getMonth()+1,                 //月份
