@@ -35,9 +35,11 @@ const Decorator = {
             result = rs;
           })
           .catch((e: any) => {
-            err = e;
+            err = true;
             //TODO 换成错误提示函数
-            console.log(e)
+            if(e){
+              console.log(e)
+            }
           })
         if (!err) {
           return result;
