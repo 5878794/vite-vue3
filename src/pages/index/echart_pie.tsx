@@ -1,5 +1,5 @@
 import defineClassComponent from "@/com/defineClassComponent.ts";
-import EChartPie from "@/com/echart_pie.tsx";
+import EChartPie from "@/com/echart/pie.tsx";
 
 class Page{
   data:any = [];

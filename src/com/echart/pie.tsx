@@ -1,7 +1,7 @@
-import defineClassComponent from "./defineClassComponent.ts";
+import defineClassComponent from "../defineClassComponent.ts";
 import {watch,onMounted,ref} from 'vue';
 import * as echarts from 'echarts';
-
+//饼图
 
 class EChartPie{
   props:any;
