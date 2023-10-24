@@ -66,9 +66,6 @@ const createExcel = function (data:any){
 
 
 export default function(data:any){
-  // const setting = [
-  //
-  // ]
   // const data = [
   //   { Name: "Bill Clinton", Index: 42 },
   //   { Name: "GeorgeW Bush", Index: 43 },
