@@ -39,7 +39,7 @@ const device:any =  {
    * */
   href(name:string,param?:any){
     return router.push({
-      name: name,
+      path: name,
       query: param??{}
     })
   },
@@ -51,7 +51,7 @@ const device:any =  {
    * */
   replace(name:string,param?:any){
     return router.replace({
-      name: name,
+      path: name,
       query: param??{}
     })
   },

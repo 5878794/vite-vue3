@@ -52,7 +52,7 @@ export default function(path:string){
       const item = (val as any).item;
       if(item.name){
         const thisRoute = {
-          name:item.name,
+          // name:item.name,
           path:root? '/'+item.name : item.name,
           component:item.component,
           children:[]
@@ -66,5 +66,6 @@ export default function(path:string){
   }
   fn(back,route,true);
 
+  console.log(route)
   return route;
 }
