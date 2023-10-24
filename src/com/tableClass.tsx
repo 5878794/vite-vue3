@@ -28,15 +28,15 @@ class ZxtdTable{
     this.props = props;
     this.opts = opts;
 
-    this.setting = props.setting;
-    this.highlightCurrentRow = props.highlightCurrentRow;
-    this.init();
+    // this.setting = props.setting;
+    // this.highlightCurrentRow = props.highlightCurrentRow;
+    // this.init();
   }
 
   static setComponent(){
     return {
       props: {
-        setting:{type:Array,default:()=>([])},
+        // setting:{type:Array,default:()=>([])},
         data: {type: Array, default: () => ([])},
         highlightCurrentRow:{type:Boolean,default:false},
         readonly:{type:Boolean,default:false},
@@ -91,15 +91,15 @@ class ZxtdTable{
         break;
       case 'custom':
         item = <el-table-column
-            fixed={fixed}
-            show-overflow-tooltip={false}
-            align='center'
-            sortable={sortable}
-            header-align='center'
-            label={data.label}
-            min-width={data.width}
-            v-slots={
-              {
+          fixed={fixed}
+          show-overflow-tooltip={false}
+          align='center'
+          sortable={sortable}
+          header-align='center'
+          label={data.label}
+          min-width={data.width}
+          v-slots={
+            {
               default:(scope:any)=>{
                 const row = scope.$index;
                 const rs = this.tableData.value[row];
@@ -135,49 +135,49 @@ class ZxtdTable{
       //   break;
       default:
         item = <el-table-column fixed={fixed}
-  show-overflow-tooltip={true}
-  sortable={sortable}
-  align='center' header-align='center' prop={data.key} label={data.label} min-width={data.width}
-  v-slots={
-    {
-    default: (scope: any) => {
-      const row = scope.$index;
-      const rs = this.tableData.value[row];
-      const key = data.key;
+                                show-overflow-tooltip={true}
+                                sortable={sortable}
+                                align='center' header-align='center' prop={data.key} label={data.label} min-width={data.width}
+                                v-slots={
+                                  {
+                                    default: (scope: any) => {
+                                      const row = scope.$index;
+                                      const rs = this.tableData.value[row];
+                                      const key = data.key;
 
-      const expand = this.expandData.value[row];
+                                      const expand = this.expandData.value[row];
 
-      if (this.props.readonly) {
-        return this.getShowData(rs[key], data);
-      }
+                                      if (this.props.readonly) {
+                                        return this.getShowData(rs[key], data);
+                                      }
 
-      if (data.edit != undefined && !data.edit) {
-        return this.getShowData(rs[key], data);
-      }
+                                      if (data.edit != undefined && !data.edit) {
+                                        return this.getShowData(rs[key], data);
+                                      }
 
-      if (data.edit != undefined && data.edit) {
-        //判断edit是否是函数
-        let state = true;
-        if (typeof data.edit === 'function') {
-          state = data.edit(rs, row, expand);
-        }
+                                      if (data.edit != undefined && data.edit) {
+                                        //判断edit是否是函数
+                                        let state = true;
+                                        if (typeof data.edit === 'function') {
+                                          state = data.edit(rs, row, expand);
+                                        }
 
-        if (state) {
-          return this.getEditShowDom(rs, data, expand, row)
-        } else {
-          return this.getShowData(rs[key], data);
-        }
-      }
+                                        if (state) {
+                                          return this.getEditShowDom(rs, data, expand, row)
+                                        } else {
+                                          return this.getShowData(rs[key], data);
+                                        }
+                                      }
 
-      if (!rs.__in__) {
-        return this.getEditShowDom(rs, data, expand, row)
-      }
+                                      if (!rs.__in__) {
+                                        return this.getEditShowDom(rs, data, expand, row)
+                                      }
 
-      return this.getShowData(rs[key], data);
+                                      return this.getShowData(rs[key], data);
 
-    }
-  }}
-  />
+                                    }
+                                  }}
+        />
     }
 
     return item;
@@ -250,7 +250,7 @@ class ZxtdTable{
               return <el-option key={rs.value} label={rs.label} value={rs.value}/>
             })
           }
-      </el-select>
+        </el-select>
         break;
       case 'radio':
         const option1 = setting.option || [];
@@ -568,5 +568,5 @@ class ZxtdTable{
 }
 
 
-export default defineClassComponent(ZxtdTable);
+export default ZxtdTable;
 
