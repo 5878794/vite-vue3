@@ -1,11 +1,13 @@
 import defineClassComponent from "@/com/defineClassComponent.ts";
 import Table from '@/com/table.tsx';
+import {ref} from 'vue';
 
 
 const setting = [
-  {label:'序号',width:50,type:'index',fixed:'left'},
+  {label:'序号',width:60,type:'index',fixed:'left'},
   {label:'名字',width:100,type:'text',key:'name'},
   {label:'电话',width:300,
+    key:'phone,aaa',
     type:'custom',    //自定义类型，配合slotFn使用
     slotFn(rs:any,expand:any,key:string,row:number){
       return <div>{rs.phone}</div>
@@ -38,6 +40,7 @@ const data= [
 
 
 class Page{
+  tableRef:any = ref(null);
   constructor() {
   }
 
@@ -55,17 +58,27 @@ class Page{
     console.log(data)
   }
 
+  download(){
+    this.tableRef.value.createExcel();
+  }
+
   render(){
     //table的高度自适应外部容器
-    return <Table
-      setting={setting}     //table的配置
-      data={data}           //table的数据
-      highlightCurrentRow={false} //是否触发选中行
-      readonly={false}    //是否只读模式
-      onCurrentChange={(data:any)=>this.currentChange(data)}  //highlightCurrentRow=true 触发选中行事件
-      onChange={(data:any)=>this.change(data)} //数据编辑后触发
-      groupBy="name" //要合并的列的key，相同的会放在一起，表格的数据顺序会打乱
-    />
+    return <div>
+      <div onClick={()=>this.download()}>download</div>
+      <br/>
+      <br/>
+      <Table
+        ref='tableRef'
+        setting={setting}     //table的配置
+        data={data}           //table的数据
+        highlightCurrentRow={false} //是否触发选中行
+        readonly={false}    //是否只读模式
+        onCurrentChange={(data:any)=>this.currentChange(data)}  //highlightCurrentRow=true 触发选中行事件
+        onChange={(data:any)=>this.change(data)} //数据编辑后触发
+        groupBy="name" //要合并的列的key，相同的会放在一起，表格的数据顺序会打乱
+      />
+    </div>
   }
 }
 

@@ -3,6 +3,7 @@ import {ref, watch} from "vue";
 import defineClassComponent from './defineClassComponent';
 import device from './device';
 import {ElTable,ElTableColumn,ElIcon} from "element-plus";
+import createExcel from '@/com/lib/excel/wrireExcel.ts';
 // import cssStyle from './css.module.scss';
 // import api from "../data/api";
 
@@ -392,8 +393,6 @@ class ZxtdTable{
     return backData;
   }
 
-
-
   uploadFile(e:any,meetId:string){
     return new Promise(async (resolve,reject)=>{
       const files = e.target.files;
@@ -444,6 +443,73 @@ class ZxtdTable{
       rowspan:this.groupNumbers[rowIndex],
       colspan:1
     }
+  }
+
+  //生成excel
+  createExcel(){
+    const setting = this.props.setting;
+    const data = this.getData();
+    const newData = this.createExcelData(setting,data);
+    createExcel(newData);
+  }
+
+  //生成excel的数据， 未处理自定义的列
+  createExcelData(setting:any,data:any){
+    const back = [];
+    let indexKey = '';
+    let dist = {};
+    let opt = {};
+
+    const createHeader = (setting:any) => {
+      setting.map((item:any)=>{
+        if(item.type == 'index'){
+          indexKey = device.guid();
+          dist[indexKey] = item.label;
+        }else{
+          if(item.key){
+            dist[item.key] = item.label;
+          }
+        }
+
+        if(item.option){
+          const obj = {};
+          item.option.map((rs:any)=>{
+            obj[rs.value] = rs.label;
+          })
+          opt[item.key] = obj;
+        }
+      })
+    }
+
+    const createBody = (rs:any,n:number) => {
+      const obj = {};
+      for(let [key,val] of Object.entries(dist)){
+        if(indexKey && key == indexKey){
+          obj[dist[key]] = n;
+        }else{
+          key = key.indexOf(',')>-1? key.split(',') : [key];
+          const str = [];
+          key.map((thisKey:any)=>{
+            if(opt[thisKey]){
+              str.push(opt[thisKey][rs[thisKey]])
+            }else{
+              str.push(rs[thisKey] || '')
+            }
+          })
+          obj[dist[key]] = str.join('');
+        }
+      }
+      back.push(obj);
+    }
+
+    data.map((rs:any,i:number)=>{
+      if(i==0){
+        createHeader(setting);
+      }
+      createBody(rs,i+1);
+    })
+
+    return back;
   }
 
   render(){

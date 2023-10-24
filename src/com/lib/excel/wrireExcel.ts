@@ -1,11 +1,12 @@
-import * as XLSX from 'xlsx-js-style';
+// import * as XLSX from 'xlsx-js-style';
 //文档
 // https://www.npmjs.com/package/xlsx-js-style
 
-// import * as XLSX from 'xlsx';  //不支持设置样式 需要商业版
+import * as XLSX from 'xlsx';  //不支持设置样式 需要商业版
 //文档
 //https://docs.sheetjs.com/docs/api/utilities/array#array-of-objects-input
 
+import device from "../..//device.ts";
 
 //通过行列获取excel中的序号，用于设置样式  ws[getRef(0,0)].s = {};
 //行列从0开始
@@ -64,7 +65,10 @@ const createExcel = function (data:any){
 
 
 
-export default function(data){
+export default function(data:any){
+  // const setting = [
+  //
+  // ]
   // const data = [
   //   { Name: "Bill Clinton", Index: 42 },
   //   { Name: "GeorgeW Bush", Index: 43 },
