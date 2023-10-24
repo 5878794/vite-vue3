@@ -107,41 +107,56 @@ let ajax = {
 
 let api = {
   //获取默认数据
-  getDefaultDate:{url:'/builtInModel/getBuiltInModelData?id={id}',type:'post'},
+  getDefaultDate:{url:'builtInModel/getBuiltInModelData?id={id}',type:'post'},
+  user:{
+    login:{url:'loging123',type:'post'}
+  }
 };
 
 
 
+const fn = (data?:any,url:string,type:string) => {
+  return new Promise((success, error) => {
+    //判断是否含有一堆大括号,大括号内为参数
+    let delArray = [];
+    url = url.replace(/{(.+?)}/g,function(key){
+      key = key.substr(1,key.length-2);
+      delArray.push(key);
+      return data[key];
+    });
 
+    //删除data中的对象
+    delArray.map(rs=>{
+      delete data[rs];
+    });
 
+    ajax.run(url, data, type, success, error);
+  })
+};
+const proxyFn = (proxyObj:any) => {
+  return new Proxy(proxyObj,{
+    get(target,key,receiver){
+      const obj = target[key];
+      const url = obj.url;
+      const type = obj.type;
 
-api = new Proxy(api, {
-  get(target, key, receiver) {
-    return function (data) {
-      data = data || {};
-      return new Promise((success, error) => {
-        let url = target[key].url,
-          type = target[key].type || 'post';
-
-        //判断是否含有一堆大括号,大括号内为参数
-        let delArray = [];
-        url = url.replace(/{(.+?)}/g,function(key){
-          key = key.substr(1,key.length-2);
-          delArray.push(key);
-          return data[key];
-        });
-
-        //删除data中的对象
-        delArray.map(rs=>{
-          delete data[rs];
-        });
-
-        ajax.run(url, data, type, success, error);
-      })
+      if(obj.url && obj.type){
+        return function(data:any){
+          data = data || {};
+          return fn(data,url,type);
+        }
+      }else{
+        return proxyFn(obj);
+      }
     }
-  }
-});
+  })
+}
+
+api = proxyFn(api);
 
 
 
-export default {ajax,api}
+
+
+
+export {ajax,api}
