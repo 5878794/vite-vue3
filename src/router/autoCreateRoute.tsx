@@ -14,6 +14,14 @@ const allPage = import.meta.glob(
   // {eager:true}
 );
 
+import defineClassComponent from "@/com/defineClassComponent.ts";
+class tempCom {
+  render(){
+    return <router-view/>
+  }
+}
+const EmptyComponent = defineClassComponent(tempCom);
+
 export default function(path:string){
   const back = {};
 
@@ -50,22 +58,33 @@ export default function(path:string){
   const fn = (obj:any,route:any,root?:boolean) => {
     for(let [key,val] of Object.entries(obj)){
       const item = (val as any).item;
-      if(item.name){
-        const thisRoute = {
+      let thisRoute:any;
+      if(item.name) {
+        thisRoute = {
           // name:item.name,
-          path:root? '/'+item.name : item.name,
-          component:item.component,
-          children:[]
+          path: root ? '/' + item.name : item.name,
+          component: item.component,
+          children: []
         }
-        route.push(thisRoute);
-
-        const children = (val as any).children;
-        fn(children,thisRoute.children,false)
+      }else{
+        //使用空页面
+        thisRoute = {
+          // name:item.name,
+          path: root ? '/' + key : key,
+          component: EmptyComponent,
+          children: []
+        }
       }
+
+
+      route.push(thisRoute);
+
+      const children = (val as any).children;
+      fn(children,thisRoute.children,false)
+
     }
   }
   fn(back,route,true);
 
-  console.log(route)
   return route;
 }

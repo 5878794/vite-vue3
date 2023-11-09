@@ -1,5 +1,5 @@
 import {createRouter,createWebHistory,createWebHashHistory} from "vue-router";
-import autoCreateRoute from './autoCreateRoute.ts';
+import autoCreateRoute from './autoCreateRoute.tsx';
 
 
 const routes:any = [
