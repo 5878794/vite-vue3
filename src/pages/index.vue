@@ -28,7 +28,7 @@ for(let [key,val] of Object.entries(allPage)){
   key = key.substring(key.lastIndexOf('\/')+1);
   key = key.split('.')[0];
   menuData.push({
-    url:key,label:key
+    url:'/index/'+key,label:key
   })
 }
 
