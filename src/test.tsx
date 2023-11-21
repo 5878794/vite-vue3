@@ -32,7 +32,7 @@ class Test extends ReactComponent{
   watchState(): {} {
     return {
       f:()=>{
-        console.log(this.state.f)
+        this.setState({a:'adfasdf'})
       }
     }
   }
