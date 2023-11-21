@@ -65,10 +65,6 @@ class ReactComponent{
     }
   }
 
-  domRef(e:any,key:string){
-    (this as any)[key] = e;
-  }
-
   setState(obj:any){
     for(let [key,val] of Object.entries(obj)){
       this.state[key] = val;

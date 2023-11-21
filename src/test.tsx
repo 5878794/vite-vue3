@@ -59,12 +59,12 @@ class Test extends ReactComponent{
     console.log('r')
     return <div>
       <div
-        ref={(e)=>this.domRef(e,'elementRef')}
+        ref={e=>this.elementRef = e}
         onClick={()=>this.clickFn()}
       >
         {this.state.a}={this.state.b.a}
       </div>
-      <div ref={(e)=>this.domRef(e,'temp1Ref')}>222</div>
+      <div ref={e=>this.temp1Ref = e}>222</div>
       {this.state.f.map((rs:any)=>{
         return <div>{rs.name}</div>
       })}
