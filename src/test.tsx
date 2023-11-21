@@ -27,17 +27,17 @@ class Test extends BaseComponent{
 
   constructor(props:any) {
     super(props);
-    // this.state = {
-    //   a:'123123',
-    //   b:{a:1},
-    //   f:[
-    //     { value: 1048, name: '样本1' },
-    //     { value: 735, name: '样本2' },
-    //     { value: 580, name: '样本3' },
-    //     { value: 484, name: '样本4' },
-    //     { value: 300, name: '样本5' }
-    //   ]
-    // }
+    this.state = {
+      a:'123123',
+      b:{a:1},
+      f:[
+        { value: 1048, name: '样本1' },
+        { value: 735, name: '样本2' },
+        { value: 580, name: '样本3' },
+        { value: 484, name: '样本4' },
+        { value: 300, name: '样本5' }
+      ]
+    }
   }
 
   // watchProp(){
@@ -85,14 +85,14 @@ class Test extends BaseComponent{
         ref={e=>this.elementRef = e}
         // onClick={()=>this.clickFn()}
       >
-        {/*{this.state.a}={this.state.b.a}*/}
+        {this.state.a}={this.state.b.a}
       </div>
       <div
           ref={e=>this.temp1Ref = e}
       >222</div>
-      {/*{this.state.f.map((rs:any)=>{*/}
-      {/*  return <div>{rs.name}</div>*/}
-      {/*})}*/}
+      {this.state.f.map((rs:any)=>{
+        return <div>{rs.name}</div>
+      })}
       <Aa onClick={(val:any)=>this.clickFn(val)}/>
     </>
   }
