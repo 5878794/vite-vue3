@@ -120,11 +120,25 @@ const isShow = (dom: HTMLElement) => {
   }
 }
 
-
-export default function (obj: any) {
+const getProps = (obj:any) => {
   let props = obj.setComponent ? obj.setComponent() : {};
   props = props || {};
   props.name = obj.name;
+
+  const defaultProp:any = {};
+  if(obj.defaultProps){
+    for(let [key,val] of Object.entries(obj.defaultProps)){
+      defaultProp[key]={default:val};
+    }
+    props.props = Object.assign(props.props || {},defaultProp);
+  }
+
+  return props;
+}
+
+
+export default function (obj: any) {
+  let props:any = getProps(obj);
   let a: any = {};
   return defineComponent({
     ...props,
