@@ -1,4 +1,4 @@
-import {inject} from "vue";
+import {inject,onMounted} from "vue";
 
 class Base{
   props:any;
@@ -6,6 +6,7 @@ class Base{
 
   inputComponent:any;
   customComponent:any;
+  vueObj:any;
 
 
   constructor(props:any,opts:any) {
@@ -13,6 +14,11 @@ class Base{
     this.opts = opts;
     this.inputComponent = inject('inputComponent');
     this.customComponent = inject('customComponent');
+    this.vueObj = inject('vueObj');
+
+    onMounted(()=>{
+      this.vueObj.proxy.childrenReady();
+    })
   }
 
   //获取属性

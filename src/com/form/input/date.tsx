@@ -245,7 +245,7 @@ class inputDate extends inputBase{
       const doms = document.body.getElementsByClassName('el-picker__popper');
       let dom = null;
       for(let i =0,l=doms.length;i<l;i++){
-        if(!doms[i].style.display){
+        if(!(doms[i] as any).style.display){
           dom = doms[i];
         }
       }

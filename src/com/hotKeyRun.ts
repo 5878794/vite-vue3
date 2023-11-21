@@ -49,11 +49,11 @@ const hotKeyRun = {
     }
 
     for(let [key,fn] of Object.entries(this.keys)){
-      key = key.split(',');
+      let thisKey:any = key.split(',');
       const nowDown = nowDownKey.sort().join(',');
-      key = key.sort().join(',');
-      if(key == nowDown){
-        fn();
+      thisKey = thisKey.sort().join(',');
+      if(thisKey == nowDown){
+        (fn as any)();
       }
     }
   },

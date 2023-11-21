@@ -29,10 +29,14 @@ class inputImg extends inputFile{
   }
 
   async uploadRun(opts:any){
+    if(!this.api.uploadFile){
+      throw('未配置 api.uploadFile')
+    }
     const file = opts.file;
 
     this.loading.value = true;
-    const src =await this.uploadFn(file).catch((e:any)=>{
+
+    const src = await this.api.uploadFile(file).catch((e:any)=>{
       this.loading.value = false;
       // this.errMsg.value = '上传失败！';
       device.info('上传失败！','error');

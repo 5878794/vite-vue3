@@ -58,7 +58,7 @@ class inputFile extends inputBase{
       ext = filename.substring(filename.lastIndexOf('.')+1);
     }
 
-    const pass = this.accept.indexOf(ext) > -1;
+    const pass = (this.accept.length == 0)? true : this.accept.indexOf(ext) > -1;
     if(!pass){
       this.errMsg.value = `只能上传“${this.accept.join(',')}”类型的文件`;
     }else{
@@ -68,10 +68,14 @@ class inputFile extends inputBase{
   }
 
   async uploadRun(opts:any){
+    if(!this.api.uploadFile){
+      throw('未配置 api.uploadFile')
+    }
     const file = opts.file;
 
     this.loading.value = true;
-    const src =await this.uploadFn(file).catch((e:any)=>{
+
+    const src = await this.api.uploadFile(file).catch((e:any)=>{
       this.loading.value = false;
       // this.errMsg.value = '上传失败！';
       device.info('上传失败！','error');

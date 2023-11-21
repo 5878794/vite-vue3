@@ -25,6 +25,7 @@ class inputSelect extends inputBase{
       placeholder={this.props.placeholder}
       class={[cssStyle.item, boxStyle.boxflex1, 'item']}
       disabled={this.props.disabled}
+      clearable={true}
       onChange={ () => {
         this.checkFiled();
       }}

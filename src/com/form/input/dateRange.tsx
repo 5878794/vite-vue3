@@ -23,7 +23,7 @@ class inputDateRange extends inputDate{
     this.showVal.value = temp;
   }
 
-  showVal2InputVal(val:any){
+  showVal2InputVal(val:any):any{
     const back = [];
     val.map((rs:any)=>{
       back.push(rs.getTime());

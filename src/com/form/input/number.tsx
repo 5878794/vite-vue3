@@ -30,6 +30,7 @@ class inputNumber extends inputBase{
   renderInput(){
     return <el-Input-number
       ref='elRef'
+      controls={false}
       onClick={()=>{
         const el = this.elRef.value.$el;
         if(el){

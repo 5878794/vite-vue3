@@ -5,6 +5,7 @@ import ZhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import {ElDialog,ElIcon} from "element-plus";
 import css from './css.module.scss';
 import {Close} from '@element-plus/icons-vue';
+import device from '@/com/device.ts'
 
 class App {
   dom:any;
@@ -71,6 +72,7 @@ class WinComponent{
   submitBtnText:string = '确定';
   cancelBtnText:string = '取消';
   showCancelBtn:boolean = true;
+  showSubmitBtn:boolean = true;
 
   constructor(props:any,opts:any) {
     this.props = props;
@@ -147,7 +149,8 @@ export default function(component:any,props:any,resolve:any,reject:any,opt:any){
 
   //创建窗口组件
   class NewApp extends WinComponent{
-    myCom:any = ref(null)
+    myCom:any = ref(null);
+    submiting:any = ref(false);
 
     constructor(props:any,opts:any) {
       super(props,opts);
@@ -157,20 +160,32 @@ export default function(component:any,props:any,resolve:any,reject:any,opt:any){
     setOpt(opt:any){
       this.width = opt.width || '50%';
       this.height = opt.height || '80%';
-      this.title = opt.title || '系统提示';
+      this.title = opt.title;
       this.submitBtnText = opt.submitBtnText || '确定';
       this.cancelBtnText = opt.cancelBtnText || '取消';
       this.showCancelBtn = typeof opt.showCancelBtn == 'boolean'? opt.showCancelBtn : true;
+      this.showSubmitBtn = typeof opt.showSubmitBtn == 'boolean'? opt.showSubmitBtn : true;
     }
 
     async resolve(){
-      let data;
+      let data:any = {};
+      let pass = true;
       if(this.myCom.value.getData){
-        data = await this.myCom.value.getData();
+        this.submiting.value = true;
+        data = await this.myCom.value.getData().catch((e:any)=>{
+          pass=false
+          if(e){
+            device.info(e,'error')
+          }
+        });
+        this.submiting.value = false;
       }
 
-      resolve(data);
-      app.close();
+      if(pass){
+        device.info('操作成功！','success')
+        resolve(data);
+        app.close();
+      }
     }
 
     reject(){
@@ -180,26 +195,48 @@ export default function(component:any,props:any,resolve:any,reject:any,opt:any){
 
 
     headerRender(){
-      return <div class='box_hlc'>
-        <div class='boxflex1'>{this.title}</div>
-        <div class='closeBtn hover_animate' onClick={()=>this.reject()}><ElIcon style='width:100%;height:100%;font-size:18px;'><Close/></ElIcon></div>
-      </div>
+      if(this.title){
+        return <div class='box_hlc'>
+          <div class='boxflex1'>{this.title}</div>
+          <div class={[css.closeBtn,'hover_animate']} onClick={()=>this.reject()}><ElIcon style='width:100%;height:100%;font-size:18px;'><Close/></ElIcon></div>
+        </div>
+      }else{
+        return null;
+      }
     }
 
     renderCom(){
       const Tag = component;
       return <div>
-        <Tag ref='myCom' {...props} />
+        {
+          !this.title &&
+          <div style='position:absolute;right:20px;top:20px;' class={[css.closeBtn,'hover_animate']} onClick={()=>this.reject()}><ElIcon style='width:100%;height:100%;font-size:18px;'><Close/></ElIcon></div>
+        }
+        <Tag ref='myCom' {...props} resolve={()=>this.resolve()} reject={()=>this.reject()} />
       </div>
     }
 
     footerRender(){
-      return <div class='box_hcc'>
+      if(!this.showCancelBtn && !this.showSubmitBtn){
+        return null;
+      }
+      return <div class='box_hcc' style='height:60px;'>
         {
           this.showCancelBtn &&
-          <div class='cancelBtn hover_animate' onClick={()=>this.reject()}>{this.cancelBtnText}</div>
+	        <el-button
+		        class='cancelBtn hover_animate'
+		        onClick={()=>this.reject()}
+	        >{this.cancelBtnText}</el-button>
         }
-        <div class='submitBtn hover_animate' onClick={()=>this.resolve()}>{this.submitBtnText}</div>
+        {
+          this.showSubmitBtn &&
+	        <el-button
+              class='submitBtn hover_animate'
+              onClick={()=>this.resolve()}
+              loading={this.submiting.value}
+          >{this.submitBtnText}</el-button>
+
+        }
       </div>
     }
   }

@@ -27,7 +27,6 @@
 
 import defineClassComponent from "./defineClassComponent.ts";
 import {ElIcon} from "element-plus";
-import * as Icons from '@element-plus/icons-vue';
 import {ref} from 'vue';
 import device from './device.ts';
 
@@ -53,7 +52,7 @@ class Menu{
         // disabled:false,  //是否可点
         // children:[]
         // }]
-        //icon为@element-plus/icons-vue中的字符串
+        //icon为图片地址
         data:{type:Array,default:[]},
         //默认选中页面
         activeUrl:{type:String,default:''},
@@ -95,10 +94,9 @@ class Menu{
           disabled = {typeof rs.disabled == 'boolean'? rs.disabled :false}
           v-slots={{
             title:()=>{
-              if(rs.icon && Icons[rs.icon]){
-                const Tag = Icons[rs.icon];
+              if(rs.icon){
                 return <>
-                  <el-icon><Tag /></el-icon>
+                  <img style='margin-right:10px;' src={rs.icon}/>
                   <span>{rs.label}</span>
                 </>
               }else{
@@ -115,11 +113,8 @@ class Menu{
           disabled = {typeof rs.disabled == 'boolean'? rs.disabled :false}
           v-slots={{
             default:()=>{
-              if(rs.icon && Icons[rs.icon]){
-                const Tag = Icons[rs.icon];
-                return <>
-                  <el-icon><Tag /></el-icon>
-                </>
+              if(rs.icon){
+                return <img style='margin-right:10px;' src={rs.icon}/>
               }else{
                 return null;
               }

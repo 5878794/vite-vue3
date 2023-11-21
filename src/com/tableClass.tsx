@@ -332,9 +332,8 @@ class ZxtdTable{
 
   //数据处理
   handlerData(data:any){
-    data = this.createRowSpanNumber(data);
-
-    const newData = JSON.parse(JSON.stringify(data));
+    let newData = JSON.parse(JSON.stringify(data));
+    newData = this.createRowSpanNumber(newData);
     this.expandData.value = [];
 
     // let hasExpand = this.setting.find(item=>item.type==='expand');

@@ -9,6 +9,9 @@ type types = 'success' | 'warning' | 'info' | 'error' | '';
 const tokenKey = 'token';
 
 const device:any =  {
+  //部署后的路径 .env中配置
+  baseUrl:import.meta.env.VITE_BASE_URL,
+
   /**
    * @description 获取token
    * @return string
@@ -65,6 +68,19 @@ const device:any =  {
     return route.query;
   },
 
+  //获取链接url的参数
+  getUrlParam(){
+    let str:any = window.location.search;
+    str = str.substring(1);
+    str = str? str.split('&') : [];
+    const back = {};
+    str.map((rs:any)=>{
+      const temp = rs.split('=');
+      back[temp[0]] = temp[1]
+    })
+    return back;
+  },
+
   /**
    * @description alert
    * @param msg:string 通知内容
@@ -105,11 +121,13 @@ const device:any =  {
         confirmButtonText: submitBtnText,
         cancelButtonText:cancelBtnText,
         showCancelButton:true,
+        type: 'warning',
       }).then(()=>{
         resolve(true);
       }).catch(()=>{
         resolve(false);
       })
+
     })
   },
 
@@ -260,7 +278,7 @@ const device:any =  {
    * @param fmt:string 输出的日期格式 yyyy-MM-dd hh:mm:ss
    * @return string
    * */
-  formatDate(date:Date,fmt:string){
+  formatDate(date:Date|any,fmt:string){
     if(!date){return ''}
     if( typeof date == 'number' ){
       date = new Date(date);

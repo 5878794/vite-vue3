@@ -1,6 +1,6 @@
 
 import defineClassComponent from "../../defineClassComponent.ts";
-import {inject} from "vue";
+import {getCurrentInstance, inject, onMounted} from "vue";
 import device from "../../device.ts";
 
 class InputButton {
@@ -14,9 +14,24 @@ class InputButton {
   constructor(props:any,opts:any) {
     this.props = props;
     this.opts = opts;
-    this.fns = inject('fns');
-    this.vueObj = inject('vueObj');
-    this.api = inject('api');
+
+    if((getCurrentInstance() as any).provides.fns){
+      this.fns = inject('fns');
+    }
+    if((getCurrentInstance() as any).provides.vueObj){
+      this.vueObj = inject('vueObj');
+    }
+    if((getCurrentInstance() as any).provides.api){
+      this.api = inject('api');
+    }
+
+
+
+    onMounted(()=>{
+      if(this.vueObj && this.vueObj.proxy){
+        this.vueObj.proxy.childrenReady();
+      }
+    })
   }
 
   static setComponent(){
@@ -24,8 +39,10 @@ class InputButton {
       props:{
         type:{type:String,default:''},
         label:{type:String,default:''},
-        theme:{type:String,default:'primary'},
-        click:{type:String,default:''}
+        background:{type:String,default:'#165DFF'},
+        color:{type:String,default:'#ffffff'},
+        click:{type:String,default:''},
+        svg:{type:String,default:''}
       }
     }
   }
@@ -58,6 +75,11 @@ class InputButton {
             device.info(e,'error');
           }
         });
+      }
+
+      if(type.toLowerCase() == 'formreset'){
+        const form = this.vueObj.proxy;
+        form.reset();
       }
 
       if(type.toLowerCase() == 'fn'){
@@ -103,7 +125,27 @@ class InputButton {
 
   render(){
     return <>
-      <el-button onClick={()=>this.clickFn()} type={this.props.theme}>{this.props.label}</el-button>
+      <el-button
+        onClick={()=>this.clickFn()}
+        class='hover'
+        style={{
+          background:this.props.background,
+          color:this.props.color,
+          overflow:'hidden',
+        }}
+      >
+        {this.props.svg && <img
+            src={this.props.svg}
+            style={{
+              width:'14px',
+              height:'14px',
+              paddingRight:'6px',
+              filter:`drop-shadow(1000px 0 0 ${this.props.color})`,
+              transform:'translate(-1000px)'
+            }}
+        />}
+        {this.props.label}
+      </el-button>
     </>
   }
 }

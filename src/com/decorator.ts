@@ -1,5 +1,6 @@
 // 装饰器
 import {isRef, nextTick} from "vue";
+import device from "@/com/device.ts";
 
 const Decorator = {
   log() {
@@ -38,6 +39,7 @@ const Decorator = {
             err = true;
             //TODO 换成错误提示函数
             if(e){
+              device.info(e,'error')
               console.log(e)
             }
           })

@@ -54,8 +54,8 @@ class inputRange extends inputBase{
 
   checkRule1(min:any,max:any){
     const rule = this.inputRule.value;
-    const rs = ruleCheck(rule,min);
-    const rs1 = ruleCheck(rule,max);
+    const rs = ruleCheck(rule,min,this.props.errMsg,this.form);
+    const rs1 = ruleCheck(rule,max,this.props.errMsg,this.form);
 
     if(rs.pass && rs1.pass){
       this.errMsg.value = '';

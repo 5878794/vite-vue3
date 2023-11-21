@@ -5,7 +5,7 @@ import autoCreateRoute from './autoCreateRoute.tsx';
 const routes:any = [
   {
     path:'/',
-    redirect: 'index'
+    redirect: 'login/phone'
   },
   ...autoCreateRoute('../pages/'),
   {
@@ -14,8 +14,9 @@ const routes:any = [
   }
 ];
 
+
 const router = createRouter({
-  history:createWebHistory(),
+  history:createWebHistory(import.meta.env.VITE_BASE_URL),
   routes
 } as any);
 

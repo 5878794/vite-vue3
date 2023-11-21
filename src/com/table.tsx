@@ -1,8 +1,9 @@
 //@ts-nocheck
-import {ref, watch} from "vue";
+import {ref, watch,onMounted} from "vue";
 import defineClassComponent from './defineClassComponent';
 import device from './device';
 import {ElTable,ElTableColumn,ElIcon} from "element-plus";
+import {Loading} from "@element-plus/icons-vue";
 import createExcel from '@/com/lib/excel/wrireExcel.ts';
 // import cssStyle from './css.module.scss';
 // import api from "../data/api";
@@ -21,8 +22,11 @@ class ZxtdTable{
   highlightCurrentRow:boolean = false; //高亮选中行
   groupLabelName:string = ''; //需要合并列的label名字
   groupNumbers:any = [];  //列合并数据
+  selecteData:any = ref([]); //选中的数据
+  tableRef:any = ref(null);
 
   expandData:any = ref([]);
+  oldExpandData:any = [];
 
   constructor(props:any,opts:any) {
     this.props = props;
@@ -31,25 +35,47 @@ class ZxtdTable{
     this.setting = props.setting;
     this.highlightCurrentRow = props.highlightCurrentRow;
     this.init();
+    onMounted(()=>{
+      this.addEventScroll();
+    })
   }
 
   static setComponent(){
     return {
       props: {
         setting:{type:Array,default:()=>([])},
-        data: {type: Array, default: () => ([])},
+        data: {type: Array,default: () => ([])},
+        groupBy:{type:String,default:''},  //需要合并的列的key （数据会sort一次）
         highlightCurrentRow:{type:Boolean,default:false},
         readonly:{type:Boolean,default:false},
-        groupBy:{type:String, default:''}  //需要合并的列的key （数据会sort一次）
+        showLoading:{type:Boolean,default:false}, //table数据是否加载中
+        loadingIsSuccess:{type:Boolean,default:true}, //加载是否成功
+        loadingAllOver:{type:Boolean,default:false} //是否全部加载完成，判断是否触发分页加载 不需要分页加载设置true
       },
       components:{ElTable,ElTableColumn},
-      emits:['currentChange','change']
+      emits:['currentChange','change','rowClick','scrollAddPage','update:showLoading']
+    }
+  }
+
+  addEventScroll(){
+    let dom = this.tableRef.value.$el;
+    dom = dom.getElementsByClassName('el-scrollbar__wrap')[0];
+    dom.onscroll = (e:any) => {
+      const target = e.target;
+      const height = target.getBoundingClientRect().height;
+      const scrollHeight = target.scrollHeight;
+      const scrollTop = target.scrollTop;
+      const scrollBottom = scrollHeight-height-scrollTop;
+      if(scrollBottom<=100 && !this.props.showLoading && this.props.loadingIsSuccess && !this.props.loadingAllOver){
+        console.log('loading.......')
+        this.opts.emit('scrollAddPage')
+      }
     }
   }
 
   init(){
     this.tableData.value = this.handlerData(this.props.data);
-    watch(this.props,()=>{
+    watch(()=>this.props.data,()=>{
       this.tableData.value = this.handlerData(this.props.data);
     },{deep:true})
   }
@@ -60,11 +86,20 @@ class ZxtdTable{
       return null;
     }
 
-    const type = data.type;
+    const type = data.sortable? 'sort' : data.type;
     const fixed = data.fixed? data.fixed : false;
     const sortable = typeof data.sortable == 'boolean'? data.sortable : false
     let item:any;
     switch (type){
+      case 'selection':
+        item = <el-table-column
+          type='selection'
+          width={data.width}
+          fixed={fixed}
+          align='center'
+          header-align='center'
+        ></el-table-column>
+        break;
       case 'index':
         item = <el-table-column
           fixed={fixed}
@@ -80,7 +115,7 @@ class ZxtdTable{
       case 'sort':
         item = <el-table-column
           fixed={fixed}
-          show-overflow-tooltip={false}
+          show-overflow-tooltip={true}
           align='center'
           prop={data.key}
           sortable={sortable}
@@ -92,12 +127,13 @@ class ZxtdTable{
       case 'custom':
         item = <el-table-column
             fixed={fixed}
-            show-overflow-tooltip={false}
+            show-overflow-tooltip={true}
             align='center'
             sortable={sortable}
             header-align='center'
             label={data.label}
             min-width={data.width}
+            width={data.maxWidth}
             v-slots={
               {
               default:(scope:any)=>{
@@ -186,6 +222,7 @@ class ZxtdTable{
   changeFn(rowIndex:number){
     const data = this.getData();
     this.opts.emit('change',data[rowIndex])
+    this.oldExpandData = JSON.parse(JSON.stringify(this.expandData.value))
   }
 
   //默认显示转换
@@ -240,11 +277,27 @@ class ZxtdTable{
 
     switch(type){
       case 'text':
-        newVal = <el-input v-model={expandData[setting.key]} onBlur={()=>this.changeFn(rowIndex)} placeholder="请输入" />
+        newVal = <el-input
+          v-model={expandData[setting.key]}
+          onBlur={()=>{
+            const newData = expandData[setting.key];
+            const oldData = this.oldExpandData[rowIndex][setting.key];
+            if(newData != oldData){
+              this.changeFn(rowIndex)
+            }
+          }}
+          placeholder="请输入"
+          onClick={(e:any)=>e.stopPropagation()}
+        />
         break;
       case 'select':
         const option = setting.option || [];
-        newVal = <el-select v-model={expandData[setting.key]} placeholder="请选择" onChange={()=>this.changeFn(rowIndex)}>
+        newVal = <el-select
+          v-model={expandData[setting.key]}
+          placeholder="请选择"
+          onChange={()=>this.changeFn(rowIndex)}
+          onClick={(e:any)=>e.stopPropagation()}
+        >
           {
             option.map((rs:any)=>{
               return <el-option key={rs.value} label={rs.label} value={rs.value}/>
@@ -254,7 +307,12 @@ class ZxtdTable{
         break;
       case 'radio':
         const option1 = setting.option || [];
-        newVal = <el-radio-group v-model={expandData[setting.key]} class="ml-4" onChange={()=>this.changeFn(rowIndex)}>
+        newVal = <el-radio-group
+          v-model={expandData[setting.key]}
+          class="ml-4"
+          onChange={()=>this.changeFn(rowIndex)}
+          onClick={(e:any)=>e.stopPropagation()}
+        >
           {
             option1.map((rs:any)=>{
               return <el-radio label={rs.value}>{rs.label}</el-radio>
@@ -268,6 +326,7 @@ class ZxtdTable{
           v-model={expandData[setting.key]}
           type="datetime"
           placeholder="请选择"
+          onClick={(e:any)=>e.stopPropagation()}
           format="YYYY-MM-DD HH:mm"
           value-format='x'
           onChange={()=>this.changeFn(rowIndex)}
@@ -279,13 +338,21 @@ class ZxtdTable{
           max={999}
           precision={0}
           style='width:100%;'
+          onClick={(e:any)=>e.stopPropagation()}
           v-model={expandData[setting.key]}
           controls-position="right"
           onChange={()=>this.changeFn(rowIndex)}
         />
         break;
       case 'checkbox':
-        newVal = <el-checkbox key={guid()} onChange={()=>this.changeFn(rowIndex)} v-model={expandData[setting.key]} true-label={1} false-label={0}/>
+        newVal = <el-checkbox
+          key={guid()}
+          onChange={()=>this.changeFn(rowIndex)}
+          v-model={expandData[setting.key]}
+          true-label={1}
+          false-label={0}
+          onClick={(e:any)=>e.stopPropagation()}
+        />
         break;
       default:
         newVal = null;
@@ -332,9 +399,10 @@ class ZxtdTable{
 
   //数据处理
   handlerData(data:any){
-    data = this.createRowSpanNumber(data);
 
-    const newData = JSON.parse(JSON.stringify(data));
+    let newData = JSON.parse(JSON.stringify(data));
+    newData = this.createRowSpanNumber(newData);
+
     this.expandData.value = [];
 
     // let hasExpand = this.setting.find(item=>item.type==='expand');
@@ -359,6 +427,7 @@ class ZxtdTable{
       })
     })
 
+    this.oldExpandData = JSON.parse(JSON.stringify(this.expandData.value));
     return newData;
   }
 
@@ -529,18 +598,30 @@ class ZxtdTable{
     return back;
   }
 
+  handleSelectionChange(val:any){
+    this.selecteData.value = JSON.parse(JSON.stringify(val));
+  }
+
+  getSelectedValue(){
+    return this.selecteData.value;
+  }
+
   render(){
     // const notShowArrow = this.expandAll? cssStyle.hidden_arrow : '';
     const tableHeight = this.addRowBtn && !this.props.readonly? 'calc(100% - 40px)' :'100%';
 
     return <div
       // class={[cssStyle.table,notShowArrow]}
-      style='width:100%;height:100%;'
+      // style='width:100%;height:100%;'
+      class='boxflex1'
+      style='width:100%;min-height:0;'
     >
       <el-table
+        ref='tableRef'
         default-expand-all={this.expandAll}
         highlight-current-row={this.highlightCurrentRow}
         border
+        onSelectionChange={(val:any)=>this.handleSelectionChange(val)}
         onCurrentChange={(row:any)=>{
           if(this.highlightCurrentRow){
             this.currentChange(row);
@@ -550,10 +631,44 @@ class ZxtdTable{
         span-method={(data:any)=>{
           return this.spanMethod(data)
         }}
+        onRowClick={(row:any)=>{
+          this.opts.emit('rowClick',row)
+        }}
+        flexible={true}
         stripe={this.stripe}
         style={
-          {width:'100%',height:tableHeight}
+          {
+            width:'100%',
+            height:tableHeight
+          }
         }
+        v-slots={{
+          empty:()=>{
+            return <>
+              {!this.props.showLoading && this.props.loadingIsSuccess &&
+                  <div class='box_scc' style='padding-top:80px;'>
+                  <img src={import.meta.env.VITE_BASE_URL+'/icon/empty_data.svg'}/>
+                  <div>暂无数据</div>
+              </div>}
+            </>
+          },
+          append:()=>{
+            return <>
+              {this.props.loadingAllOver && this.tableData.value.length > 0 &&
+                  <div class='box_hcc w100' style='height:49px;color:#eee;'>数据已全部加载完成！</div>
+              }
+              {!this.props.loadingIsSuccess && !this.props.showLoading &&
+                  <div class='box_hcc w100' style='height:49px;'>获取数据失败！<span class='hover' style='color:red;' onClick={()=>{
+                    this.opts.emit('scrollAddPage')
+                  }}>点击重试</span></div>
+              }
+              {this.props.showLoading && <div class='box_hcc w100' style='height:49px;'>
+	              <span class="loader"></span>
+                <span style='padding-left:20px;font-size:16px;'>loading...</span>
+              </div>}
+            </>
+          }
+      }}
       >
         {
           this.setting.map((rs:any)=>{

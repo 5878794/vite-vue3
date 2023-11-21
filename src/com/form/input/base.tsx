@@ -3,7 +3,7 @@ import {
   ElDatePicker,ElInputNumber,ElRadio, ElRadioGroup,ElTimePicker,
   ElFormItem,ElCheckbox,ElCheckboxGroup,ElSwitch
 } from "element-plus";
-import {ref, watch, inject, getCurrentInstance} from 'vue';
+import {ref, watch, inject,onMounted, getCurrentInstance} from 'vue';
 import ruleCheck from "../fn/ruleCheck";
 import cssStyle from './css.module.scss';
 import boxStyle from "../../../style/box.module.scss";
@@ -17,7 +17,7 @@ class inputBase{
   showVal:any = ref(''); //显示值
 
   errMsg:any = ref(''); //验证错误提示
-  labelWidth:any = ref('100px'); //label宽度  TODO
+  labelWidth:any = ref('100px'); //label宽度
   isFocus:any = ref(false); //是否选中
 
   unitValue:any = ref(''); //当前单位值
@@ -29,26 +29,36 @@ class inputBase{
   selectOption:any = ref([]); //select的option
 
   changeFn:any = null; //传入的变换监听函数
-  uploadFn:any = null;
+
+  api:any = null;
+  form:any = null;
+  showRequire:boolean = false;
 
   constructor(props:any,opts:any) {
     this.props = props;
     this.opts = opts;
 
+
     if((getCurrentInstance() as any).provides.change){
       this.changeFn = inject('change')
     }
 
-    if((getCurrentInstance() as any).provides.api){
-      const api:any = inject('api');
-      if(api.uploadFile){
-        this.uploadFn = api.uploadFile;
-      }else{
-        this.uploadFn = () => {
-          console.warn('api中未配置 uploadFile 函数！');
-        }
-      }
+    if((getCurrentInstance() as any).provides.labelWidth){
+      this.labelWidth.value = inject('labelWidth');
     }
+
+    if((getCurrentInstance() as any).provides.api){
+      this.api = inject('api');
+    }
+
+    if((getCurrentInstance() as any).provides.vueObj){
+      this.form = inject('vueObj');
+    }
+
+    if((getCurrentInstance() as any).provides.showRequire){
+      this.showRequire = inject('showRequire');
+    }
+
 
     watch(()=>this.props.unit,()=>{
       this.handlerUnit();
@@ -65,6 +75,12 @@ class inputBase{
     this.handlerSelectOption(this.props.option);
     this.inputVal2ShowValAndSet(this.props.value,true);
     this.inputRule.value = this.props.rules;
+
+    onMounted(()=>{
+      if(this.form && this.form.proxy){
+        this.form.proxy.childrenReady();
+      }
+    })
   }
 
 
@@ -81,8 +97,9 @@ class inputBase{
         label:{type:String,default:''},
         rules:{type:String,default:''},
         unit:{type:String,default:''},
+        icon:{type:[String],default:''},
         option:{type:String,default:''},
-        labelWidth:{type:String,default:''},
+        errMsg:{type:String,default:''},
         value:{}
       },
       components:{
@@ -130,7 +147,7 @@ class inputBase{
   //验证函数
   checkRule(val:any){
     const rule = this.inputRule.value;
-    const rs = ruleCheck(rule,val);
+    const rs = ruleCheck(rule,val,this.props.errMsg,this.form);
 
     if(rs.pass){
       this.errMsg.value = '';
@@ -139,6 +156,13 @@ class inputBase{
     }
 
     return rs.pass;
+  }
+
+  checkAndGetData(){
+    return {
+      pass:this.checkFiled(true),
+      data:this.inputVal.value
+    }
   }
 
   //显示数据转输出值
@@ -182,6 +206,7 @@ class inputBase{
     const isFocus = (this.isFocus.value)? cssStyle.isFocus :'';
     const isError = (this.errMsg.value)? cssStyle.isError :'';
     const typeClass = cssStyle['input_'+this.props.type];
+    const showRequire = (this.showRequire)? cssStyle.require : '';
     return <el-form-item
       error={this.errMsg.value}
       label-width={this.labelWidth.value}
@@ -191,17 +216,22 @@ class inputBase{
         boxStyle.box_hlc,
         cssStyle.form_item,
         '_form_item_',
+        showRequire,
         typeClass,
         isFocus,
         isError
       ]}
       style='padding:1px;'
     >
+      {this.renderIcon()}
       {this.renderInput()}
       {this.renderUnit()}
     </el-form-item>
   }
 
+  renderIcon(){
+    return <img style='margin-left:5px;' src={this.props.icon}/>
+  }
 
   //处理单位
   handlerUnit(){

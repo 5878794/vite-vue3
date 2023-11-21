@@ -2,7 +2,7 @@
 import defineClassComponent from "./fn/defineClassComponent";
 import xmlTransform from "./xmlTransform";
 import {stringToXmlDocument} from './fn/xmlHandler';
-import {watch, ref, provide, reactive, shallowRef, getCurrentInstance} from "vue";
+import {watch, ref, provide, nextTick, onMounted, reactive, shallowRef, getCurrentInstance} from "vue";
 import decorator from "./fn/decorator";
 import _ from 'lodash';
 
@@ -28,6 +28,8 @@ import inputHotKey from './input/hotKey.tsx';
 import inputDateRange from './input/dateRange.tsx';
 import inputDateTimeRange from './input/dateTimeRange.tsx';
 import inputTimeRange from './input/timeRange.tsx';
+import inputVerification from './input/verification.tsx';
+import inputSms from './input/sms.tsx';
 
 const inputComponent:any = {
   text:inputText,
@@ -49,7 +51,9 @@ const inputComponent:any = {
   hotKey:inputHotKey,
   dateRange:inputDateRange,
   dateTimeRange:inputDateTimeRange,
-  timeRange:inputTimeRange
+  timeRange:inputTimeRange,
+  verification:inputVerification,
+  sms:inputSms
 }
 
 
@@ -65,6 +69,9 @@ class Xml{
 
   vueObj:any;
 
+  elementNumber:number = 0;
+  elementReadyNumber:number = 0;
+
   constructor(props:any,opts:any) {
     this.props = props;
     this.opts = opts;
@@ -73,17 +80,19 @@ class Xml{
     provide('change', (data:any)=>{this.changeFn(data)});
     provide('api',this.props.api);
     provide('fns',this.props.fns);
+    provide('labelWidth',this.props.labelWidth);
+    provide('showRequire',this.props.showRequire);
 
     this.vueObj = getCurrentInstance();
     provide('vueObj',this.vueObj);
 
     watch(props,()=>{
-      this.init();
+      this.init(this.props.serverData);
     });
     watch(()=>this.cacheVal.value,()=>{
       this.refreshComN.value++;
     },{deep:true})
-    this.init();
+    this.init(this.props.serverData);
 
     // setInterval(()=>{
     //   console.log(JSON.parse(JSON.stringify(this.cacheVal.value)))
@@ -97,23 +106,36 @@ class Xml{
         serverData:{type:Object,default:()=>({})}, //初始值
         customComponent:{type:Object,default:()=>({})}, //自定义组件传入
         backDefaultValue:{type:Boolean,default:false},  //是否返回数据的时候返回默认值（及未显示的控件的值）
+        labelWidth:{type:String,default:'100px'},
         api:{type:Object,default: ()=>({})},
-        fns:{type:Object,default:()=>({})}
+        fns:{type:Object,default:()=>({})},
+        showRequire:{type:Boolean,default:false}
       },
       components:{PropertyGroup},
-      emits:['change']
+      emits:['change','ready']
+    }
+  }
+
+  reset(){
+    this.init(JSON.parse(JSON.stringify(this.defaultVal.value)))
+  }
+
+  childrenReady(){
+    this.elementReadyNumber++;
+    if(this.elementNumber==this.elementReadyNumber){
+      this.opts.emit('ready')
     }
   }
 
   @decorator.debounce(200)
-  init(){
+  init(serverData:any){
     const xmlDocument = stringToXmlDocument(this.props.xml);
     this.xmlDocument.value = xmlTransform(xmlDocument);
 
-    this.cacheVal.value = this.handlerData(this.xmlDocument.value,this.props.serverData);
-    if(this.props.backDefaultValue){
+    this.cacheVal.value = this.handlerData(this.xmlDocument.value,serverData);
+    // if(this.props.backDefaultValue){
       this.defaultVal.value = this.getDefaultVal();
-    }
+    // }
   }
 
   changeFn(data:any){
@@ -204,20 +226,21 @@ class Xml{
       back[name] = {};
       newBack = back[name];
     }
+    let ii=2; //本身少计算一个 外层又添加咯一个 所有+2
 
     const loopFn = (xmlDom:any,data:any) => {
       for(let i=0,l=xmlDom.childNodes.length;i<l;i++){
         const thisXmlDom = xmlDom.childNodes[i] as HTMLElement;
         if(thisXmlDom.nodeType != 1){continue;}
-
+        ii++;
         const key = thisXmlDom.getAttribute('name');
         let val = thisXmlDom.getAttribute('value');
         const tagName = thisXmlDom.tagName.toLocaleLowerCase();
         const dataType = thisXmlDom.getAttribute('dataType');
 
         if(key){
-          data[key] = (tagName != 'propertygroup') ? val :
-            (dataType == 'list')? [] : {};
+          data[key] = (tagName != 'propertygroup') ? (val? val : '') :
+            ((dataType == 'list')? [] : {});
         }
 
         if(tagName == 'propertygroup' && dataType != 'list'){
@@ -227,6 +250,7 @@ class Xml{
     };
     loopFn(this.xmlDocument.value,newBack)
 
+    this.elementNumber = ii;
     return back;
   }
 
@@ -245,7 +269,7 @@ class Xml{
 
   //通过path查找vue对象
   find(path:string){
-    const root = this.vueObj.ctx;
+    const root = this.vueObj.proxy;
     let findObj:any = null;
 
     const loopFn = (obj:any) => {
@@ -274,7 +298,7 @@ class Xml{
     const path = keyPath.split('.');
     path.map((key:string,i)=>{
       if(path.length-1 == i){
-        data[key] = val;
+        data[key] = val || '';
       }else{
         if(!data[key]){
           data[key] = {};
@@ -286,7 +310,7 @@ class Xml{
 
   //表单检查及返回数据
   checkAndGetData(){
-    const root = this.vueObj.ctx.$refs.body;
+    const root = this.vueObj.proxy.$refs.body;
     let backData:any = {};
     let pass = true;
 

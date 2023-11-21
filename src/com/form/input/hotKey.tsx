@@ -255,7 +255,7 @@ class inputText extends inputBase{
 
     //验证通过赋值
     if(!notUpdate){
-      this.vueUpdateDate();
+      this.vueUpdateDate('');
     }
     return true;
   }

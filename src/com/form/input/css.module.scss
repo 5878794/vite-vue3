@@ -131,7 +131,7 @@
   }
 }
 
-.input_file,.input_hotKey{
+.input_file,.input_hotKey,.input_sms{
   :global{
     .el-input.is-disabled .el-input__wrapper{
       box-shadow: none;
@@ -223,5 +223,21 @@
   }
   100% {
     transform:rotate(360deg);
+  }
+}
+
+
+.require{
+  :global{
+    .el-form-item__label{
+      &:before{
+        content:'*';
+        color:red;
+        font-size:16px;
+        padding-right:5px;
+        position: relative;
+        top:3px;
+      }
+    }
   }
 }
