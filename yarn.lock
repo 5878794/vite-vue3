@@ -235,6 +235,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
+"@babel/plugin-syntax-jsx@^7.10.4":
+  version "7.23.3"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.23.3.tgz#8f2e4f8a9b5f9aa16067e142c1ac9cd9f810f473"
+  integrity sha512-EB2MELswq55OHUoRZLGg/zC7QWUKfNLpE57m/S2yr1uEneIgsTgrSzXP3NXEsMkVn76OlaVVnzN+ugObuYGwhg==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.22.5"
+
 "@babel/plugin-syntax-jsx@^7.22.5":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.22.5.tgz#a6b68e84fb76e759fc3b93e901876ffabbe1d918"
@@ -2381,6 +2388,13 @@ vue-eslint-parser@^9.3.1:
     esquery "^1.4.0"
     lodash "^4.17.21"
     semver "^7.3.6"
+
+vue-jsx-classname-to-class@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-jsx-classname-to-class/-/vue-jsx-classname-to-class-1.0.1.tgz#3ea5b136fed9e5638232e24e441f56fd3581cd5a"
+  integrity sha512-aE7Uea+Ynk05FOXzUUry3atRn2jgL8EMiS8lcw8pZpoIIZCHdvPOY5iM/8I/PREfbzM2TPIE6QST/2qk+wvgjg==
+  dependencies:
+    "@babel/plugin-syntax-jsx" "^7.10.4"
 
 vue-router@^4.2.5:
   version "4.2.5"

@@ -1,8 +1,11 @@
 
-import {reactive} from "vue";
+import {reactive,watch} from "vue";
 import defineClassComponent from "./defineClassComponent.ts";
 
+
 const states = Symbol();
+const watchPropFn = Symbol();
+const watchStateFn = Symbol();
 
 class ReactComponent{
   props:any = {};
@@ -10,11 +13,39 @@ class ReactComponent{
 
   constructor(props:any) {
       this.props = props;
-      console.log(this.props)
+      this[watchPropFn]();
+      this[watchStateFn]();
+  }
+
+  [watchPropFn](){
+    const watchProp = this.watchProp();
+
+    for(let [key,fn] of Object.entries(watchProp)){
+      watch(()=>this.props[key],(newVal:any,oldVal:any)=>{
+        (fn as any)(newVal);
+      },{deep:true})
+    }
+  }
+
+  [watchStateFn](){
+    const watchState = this.watchState();
+    for(let [key,fn] of Object.entries(watchState)){
+      watch(()=>this.state[key],(newVal:any)=>{
+        (fn as any)(newVal);
+      },{deep:true})
+    }
+  }
+
+  watchProp(){
+    return {};
+  }
+  watchState(){
+    return {};
   }
 
   set state(obj:any){
-    (this as any)[states] = reactive(obj)
+    (this as any)[states] = reactive(obj);
+    this[watchStateFn]();
   }
 
   get state(){

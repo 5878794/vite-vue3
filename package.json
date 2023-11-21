@@ -16,6 +16,7 @@
     "element-plus": "^2.3.14",
     "lodash": "^4.17.21",
     "vue": "^3.3.4",
+    "vue-jsx-classname-to-class": "^1.0.1",
     "vue-router": "^4.2.5",
     "xlsx": "^0.18.5"
   },
