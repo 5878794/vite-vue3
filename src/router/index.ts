@@ -5,7 +5,7 @@ import autoCreateRoute from './autoCreateRoute.tsx';
 const routes:any = [
   {
     path:'/',
-    redirect: 'login/phone'
+    redirect: 'index'
   },
   ...autoCreateRoute('../pages/'),
   {
