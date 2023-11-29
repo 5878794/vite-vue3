@@ -51,6 +51,10 @@ class App {
         this.moveInDomObj.setActive(state);
     }
 
+    min(state:boolean,pos?:any){
+        this.moveInDomObj.min(state,pos);
+    }
+
     close() {
         this.moveInDomObj.destroy();
         this.app.unmount();

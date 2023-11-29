@@ -35,7 +35,7 @@ class Main{
         //TODO 处理z-index 过大  重置
     }
 
-    //关闭时调用 激活z最大的窗口（且未隐藏的）
+    //关闭时调用 激活z最大的窗口（且未隐藏的）TODO
     activeWinByMaxZ(){
 
     }
@@ -44,14 +44,11 @@ class Main{
     openApp(rs:any){
         rs.mainRef = this.mainRef;
 
-
-        // console.log(rs);
-        const hasOpen = this.openedWin.value.find((item:any)=>item.id == rs.id);
-        if(hasOpen){
-            const id = hasOpen.id;
-            //调整元素的层级 TODO
-
-
+        const findCache = this.cache[rs.id];
+        if(findCache){
+            //调整元素的层级
+            findCache.min(false);
+            this.setTopApp(rs.id);
         }else{
             this.zIndex++;
             rs.z = this.zIndex;
@@ -79,6 +76,19 @@ class Main{
         this.openedWin.value.splice(n,1);
         //left组件移出id
         this.leftRef.value.closeApp(id);
+
+        delete this.cache[id];
+
+        //找到打开的窗口 且是显示的  激活窗口
+        this.activeWinByMaxZ();
+    }
+
+    minApp(id:string){
+        //获取动画最后的位置
+        const pos = this.leftRef.value.getAppPos(id);
+
+        this.cache[id].min(true,pos);
+        this.cache[id].isMin = true;
 
         //找到打开的窗口 且是显示的  激活窗口
         this.activeWinByMaxZ();

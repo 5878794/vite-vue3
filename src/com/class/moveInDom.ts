@@ -1,5 +1,6 @@
 //原生处理  物体在一个窗体内移动
 
+import cssAnimate from "@/com/cssAnimate.ts";
 
 class MoveInDom{
     //配置参数 单位都是px
@@ -24,6 +25,7 @@ class MoveInDom{
     tempFn:any = {};
     bodyObserver:any = {};  //监听body的resize
     zzClick:any;
+    beforeHidePos:any; //隐藏前的位置信息
 
     constructor(dom:any,body:any,props:any,topDomClass:string,zzClick:any) {
         this.x = props.x;
@@ -40,6 +42,38 @@ class MoveInDom{
         this.setDomStyle();
         this.addDom();
         this.addEvent();
+    }
+
+    //最小化窗口
+    min(state:boolean,pos:any){
+        if(state){
+            const style = this.dom.style;
+            this.beforeHidePos = {width:style.width,height:style.height,left:style.left,top:style.top}
+            cssAnimate(this.dom,{
+                transform:`perspective(.5em) rotateY(-3deg)`,
+                width:pos.width+'px',
+                height:pos.height+'px',
+                left:'-30px',
+                top:pos.y-26+'px',
+                opacity:.3
+            },400,()=>{
+                this.dom.style.display = 'none';
+            },true,'cubic-bezier(1,.3,.64,.94)')
+        }else{
+            const pos = this.beforeHidePos;
+            console.log(pos)
+            cssAnimate(this.dom,{
+                transform:'',
+                width:pos.width,
+                height:pos.height,
+                left:pos.left,
+                top:pos.top,
+                opacity:1
+            },400,()=>{
+
+            },true,'cubic-bezier(1,.3,.64,.94)')
+            this.dom.style.display = 'block';
+        }
     }
 
     //设置遮罩层是否显示

@@ -34,7 +34,7 @@ class Win{
     }
 
     minApp(){
-
+        this.props.mainRef.value.minApp(this.props.id);
     }
 
     maxApp(){
