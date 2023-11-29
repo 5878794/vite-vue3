@@ -16,7 +16,7 @@ class Top{
     }
 
     renderSoftMenu(){
-        return <div></div>
+        return <div class={['boxflex1','box_hlc']}></div>
     }
 
     renderSystem(){

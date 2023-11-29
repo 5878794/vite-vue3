@@ -7,6 +7,7 @@ import bg from './assets/bg.png';
 import Top from './top.tsx';
 import Left from './left.tsx';
 import Main from './main.tsx';
+import setting from "./setting.ts";
 
 class Desktop{
     props:any;
@@ -23,8 +24,10 @@ class Desktop{
     }
 
     static defaultProps = {
-        bg:bg
+        bg:bg,
+        apps:setting
     }
+
 
     render(){
         return <div
@@ -35,7 +38,7 @@ class Desktop{
         >
             <Top ref='topRef'/>
             <div class='boxflex1 box_hlt w100'>
-                <Left ref='leftRef'/>
+                <Left ref='leftRef' apps={this.props.apps}/>
                 <Main ref='mainRef'/>
             </div>
         </div>
