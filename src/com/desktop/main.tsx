@@ -48,6 +48,7 @@ class Main{
         if(findCache){
             //调整元素的层级
             findCache.min(false);
+            this.cache[rs.id].isMin = false;
             this.setTopApp(rs.id);
         }else{
             this.zIndex++;
@@ -94,6 +95,16 @@ class Main{
         this.activeWinByMaxZ();
     }
 
+    maxApp(id:string){
+        if(this.cache[id].isMax){
+            this.cache[id].max(false);
+            this.cache[id].isMax = false;
+        }else{
+            this.cache[id].max(true);
+            this.cache[id].isMax = true;
+        }
+
+    }
 
     render(){
         return <div ref='mainRef' class={[css.main,'boxflex1']}>

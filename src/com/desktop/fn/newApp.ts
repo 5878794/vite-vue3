@@ -55,6 +55,10 @@ class App {
         this.moveInDomObj.min(state,pos);
     }
 
+    max(state:boolean){
+        this.moveInDomObj.max(state);
+    }
+
     close() {
         this.moveInDomObj.destroy();
         this.app.unmount();

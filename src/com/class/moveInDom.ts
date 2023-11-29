@@ -25,7 +25,7 @@ class MoveInDom{
     tempFn:any = {};
     bodyObserver:any = {};  //监听body的resize
     zzClick:any;
-    beforeHidePos:any; //隐藏前的位置信息
+    beforeMinMaxPos:any; //最小化前的位置信息
 
     constructor(dom:any,body:any,props:any,topDomClass:string,zzClick:any) {
         this.x = props.x;
@@ -48,7 +48,7 @@ class MoveInDom{
     min(state:boolean,pos:any){
         if(state){
             const style = this.dom.style;
-            this.beforeHidePos = {width:style.width,height:style.height,left:style.left,top:style.top}
+            this.beforeMinMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
             cssAnimate(this.dom,{
                 transform:`perspective(.5em) rotateY(-3deg)`,
                 width:pos.width+'px',
@@ -60,7 +60,7 @@ class MoveInDom{
                 this.dom.style.display = 'none';
             },true,'cubic-bezier(1,.3,.64,.94)')
         }else{
-            const pos = this.beforeHidePos;
+            const pos = this.beforeMinMaxPos;
             cssAnimate(this.dom,{
                 transform:'',
                 width:pos.width,
@@ -72,6 +72,32 @@ class MoveInDom{
 
             },true,'cubic-bezier(1,.3,.64,.94)')
             this.dom.style.display = 'block';
+        }
+    }
+
+    max(state:boolean){
+        if(state){
+            const style = this.dom.style;
+            this.beforeMinMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
+            cssAnimate(this.dom,{
+                width:'100%',
+                height:'100%',
+                left:'0',
+                top:'0',
+            },200,()=>{
+            },true,'cubic-bezier(1,.3,.64,.94)')
+        }else{
+            const pos = this.beforeMinMaxPos;
+            cssAnimate(this.dom,{
+                transform:'',
+                width:pos.width,
+                height:pos.height,
+                left:pos.left,
+                top:pos.top,
+                opacity:1
+            },200,()=>{
+
+            },true,'cubic-bezier(1,.3,.64,.94)')
         }
     }
 

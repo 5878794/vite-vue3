@@ -38,7 +38,7 @@ class Win{
     }
 
     maxApp(){
-
+        this.props.mainRef.value.maxApp(this.props.id);
     }
 
     history(n:number){
