@@ -46,4 +46,60 @@
 .win{
     min-width:100px;
     min-height:100px;
+    width: 100%; height: 100%;
+    border-radius: 10px;
+    position: relative; overflow: hidden;
+    .top_bg{
+        background: #39393f;
+    }
+    .win_top{
+        position: absolute;
+        left:0; top:0; width: 100%; height: 40px;
+        padding:0 0 0 20px; box-sizing: border-box;
+        .win_top_btns{
+            width:120px; height:100%;
+            &:hover div{
+                color:#333 !important;
+            }
+            div{
+                width:12px; height: 12px; border-radius: 14px;
+                font-size:10px; margin-right: 8px; font-weight: bold;
+
+            }
+            div:nth-child(1){
+                background: #f75e56; color:#f75e56;
+            }
+            div:nth-child(2){
+                background: #f5b630; color:#f5b630;
+            }
+            div:nth-child(3){
+                background: #2dc140; color:#2dc140;
+            }
+        }
+        .win_top_other{
+            color: #e5e5e5; font-size:14px;
+            height: 100%; background: #39393f;
+            padding:0 20px 0 10px;
+            .win_top_history{
+                div{
+                    width:32px; height:28px;  color: #58575c; border-radius: 5px;
+                    font-size:20px; font-weight: bold;
+                    &:hover{
+                        background: #464549; color: #a7a7aa;
+                    }
+                }
+            }
+            .win_top_name{
+                padding:0 10px;
+            }
+        }
+    }
+    .win_menu{
+        width:140px; background: rgba(39, 36, 44,.9);
+        padding-top:40px;
+    }
+    .win_body{
+        background: #1F1A24;
+        padding-top:40px;
+    }
 }

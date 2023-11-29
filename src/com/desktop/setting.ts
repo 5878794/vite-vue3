@@ -7,22 +7,34 @@ import icon1 from '@/assets/vue.svg';
 export default [
     {
         id:device.guid(),
-        name:'app1',
+        name:'阿打发',
         icon:icon1,
         component:page1,
         x:0,
         y:0,
-        width:900,
-        height:500
+        width:800,
+        height:500,
+        menu:[
+            {
+                name:'test1',
+                icon:icon1,
+                url:''
+            },
+            {
+                name:'test2',
+                icon:icon1,
+                url:''
+            }
+        ]
     },
     {
         id:device.guid(),
-        name:'app2',
+        name:'阿斯蒂芬',
         icon:icon1,
         component:page1,
         x:0,
         y:0,
-        width:900,
+        width:800,
         height:500
     }
 ]

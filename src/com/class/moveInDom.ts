@@ -3,7 +3,7 @@
 
 class MoveInDom{
     //配置参数 单位都是px
-    topMoveHeight:number = 0;   //顶部移动窗口的高度
+    topDomClass:string = '';   //顶部移动窗口的dom的class
     inductionSize:number = 6;  //感应区大小
     minW:number = 400;  //窗口最小宽高
     minH:number = 400;
@@ -12,6 +12,7 @@ class MoveInDom{
     y:number = 0;
     w:number = 0;
     h:number = 0;
+    z:number = 0;
     body:HTMLElement;
     dom:HTMLElement;
     bodyW:number = 0;
@@ -22,20 +23,32 @@ class MoveInDom{
     operateType:string = '';    //操作的方式
     tempFn:any = {};
     bodyObserver:any = {};  //监听body的resize
+    zzClick:any;
 
-    constructor(dom:any,body:any,props:any,topMoveHeight:number) {
+    constructor(dom:any,body:any,props:any,topDomClass:string,zzClick:any) {
         this.x = props.x;
         this.y = props.y;
-        this.w = props.w > this.minW? props.w : this.minW;
-        this.h = props.h > this.minH? props.h : this.minH;
-        this.topMoveHeight = topMoveHeight;
+        this.w = props.width > this.minW? props.width : this.minW;
+        this.h = props.height > this.minH? props.height : this.minH;
+        this.z = props.z || 1;
+        this.topDomClass = topDomClass;
         this.body = body;
         this.dom = dom;
+        this.zzClick = zzClick || function(){};
         this.getBodyOpt();
         this.addResizeForBody();
         this.setDomStyle();
         this.addDom();
         this.addEvent();
+    }
+
+    //设置遮罩层是否显示
+    setActive(state:boolean){
+        if(state){
+            this.inductionDom.zz.style.display = 'none'
+        }else{
+            this.inductionDom.zz.style.display = 'block'
+        }
     }
 
     //获取窗体dom的宽高
@@ -50,11 +63,16 @@ class MoveInDom{
         const _this = this;
         this.bodyObserver = new ResizeObserver(function (rs) {
             rs.forEach(function (item) {
-                const target = item.target as HTMLElement;
+                // const target = item.target as HTMLElement;
                 _this.getBodyOpt();
             })
         });
         this.bodyObserver.observe(this.body);
+    }
+
+    setZIndex(z:number){
+        this.z = z;
+        this.dom.style.zIndex = z.toString();
     }
 
     //设置要移动的dom的样式
@@ -64,6 +82,7 @@ class MoveInDom{
             top:this.y,
             width:this.w,
             height:this.h,
+            zIndex:this.z,
             position:'absolute'
         })
     }
@@ -77,7 +96,7 @@ class MoveInDom{
 
     //添加感应dom，移动、改变大小用
     addDom(){
-        const topMove = document.createElement('div');
+        const zz = document.createElement('div');
         const top = document.createElement('div');
         const left = document.createElement('div');
         const right = document.createElement('div');
@@ -87,10 +106,10 @@ class MoveInDom{
         const bottomLeft = document.createElement('div');
         const bottomRight =document.createElement('div');
 
-        this.setStyle(topMove,{
+        this.setStyle(zz,{
             position:'absolute',
-            left:0,top:0,width:'100%',height:this.topMoveHeight,
-            cursor:'move',
+            left:0,top:0,width:'100%',height:'100%',
+            display:'none',background:'rgba(0,0,0,.5)'
         })
         this.setStyle(top,{
             position:'absolute', left:0,top:0,
@@ -134,7 +153,7 @@ class MoveInDom{
         })
 
 
-        this.dom.appendChild(topMove);
+
         this.dom.appendChild(top);
         this.dom.appendChild(left);
         this.dom.appendChild(right);
@@ -143,9 +162,19 @@ class MoveInDom{
         this.dom.appendChild(topRight);
         this.dom.appendChild(bottomLeft);
         this.dom.appendChild(bottomRight);
+        this.dom.appendChild(zz);
+
+        zz.onmousedown = (e:MouseEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+            let id = this.dom.getAttribute('id');
+            id = id.substring(4);
+            this.zzClick(id);
+        }
 
         this.inductionDom = {
-            topMove,top,left,right,bottom,topLeft,topRight,bottomLeft,bottomRight
+            topMove:this.dom.getElementsByClassName(this.topDomClass)[0],
+            top,left,right,bottom,topLeft,topRight,bottomLeft,bottomRight,zz
         }
     }
 
@@ -202,7 +231,9 @@ class MoveInDom{
         document.body.removeEventListener('mouseup',this.tempFn.mouseUp,false);
 
         for(let [key,val] of Object.entries(this.inductionDom)){
-            this.dom.removeChild(val as HTMLElement)
+            if(key != 'topMove'){  //这个dom是传进来的
+                this.dom.removeChild(val as HTMLElement)
+            }
         }
 
         this.bodyObserver.disconnect();

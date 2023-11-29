@@ -27,6 +27,11 @@ class Left{
         this.mainRef.value.openApp(rs);
     }
 
+    closeApp(id:string){
+        const n = this.openedIds.value.indexOf(id);
+        this.openedIds.value.splice(n,1);
+    }
+
     renderItem(){
         return this.props.apps.map((rs:any)=>{
             return <div class={[css.appItem,'box_hlc','hover']}>

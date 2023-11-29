@@ -38,11 +38,18 @@ class App {
         this.app.mount('#' + this.id);
     }
 
-    addMoveEventListener(topHeight:number){
+    addMoveEventListener(topDomClass:string,zzClick:any){
         //props: x,y,w,h
-        this.moveInDomObj = new MoveInDom(this.dom,this.body,this.props,topHeight);
+        this.moveInDomObj = new MoveInDom(this.dom,this.body,this.props,topDomClass,zzClick);
     }
 
+    setZIndex(z:number){
+        this.moveInDomObj.setZIndex(z);
+    }
+
+    setActive(state:boolean){
+        this.moveInDomObj.setActive(state);
+    }
 
     close() {
         this.moveInDomObj.destroy();
@@ -51,11 +58,12 @@ class App {
     }
 }
 
-export default function(id:string,className:string,body:HTMLElement,topHeight:number,component:any,props:any){
+export default function(id:string,className:string,body:HTMLElement,topDomClass:string,component:any,props:any){
     //创建app
     const app = new App(id,className,body,props);
 
     //渲染
     app.render(component,props);
-    app.addMoveEventListener(topHeight);
+    app.addMoveEventListener(topDomClass,props.zzClick);
+    return app;
 }
