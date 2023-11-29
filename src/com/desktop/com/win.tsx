@@ -65,9 +65,10 @@ class Win{
 
     createTop(){
         const topBg = (this.props.menu.length == 0) ? css.top_bg : '';
+        const style = (this.props.menu.length == 0) ? 'width:auto;' : '';
         return <div class={[css.win_top,'box_hlc',topBg]}>
             {/*关闭最小最大*/}
-            <div class={[css.win_top_btns,'box_hlc']}>
+            <div class={[css.win_top_btns,'box_hlc']} style={style}>
                 <div class='box_hcc' onClick={()=>this.closeApp()}><ElIcon><Close/></ElIcon></div>
                 <div class='box_hcc' onClick={()=>this.minApp()}><ElIcon><Minus/></ElIcon></div>
                 <div class='box_hcc' onClick={()=>this.maxApp()}><ElIcon><FullScreen/></ElIcon></div>
