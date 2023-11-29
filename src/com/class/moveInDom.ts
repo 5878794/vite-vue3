@@ -21,6 +21,7 @@ class MoveInDom{
     isOperate:boolean = false; //是否在操作dom
     operateType:string = '';    //操作的方式
     tempFn:any = {};
+    bodyObserver:any = {};  //监听body的resize
 
     constructor(dom:any,body:any,props:any,topMoveHeight:number) {
         this.x = props.x;
@@ -31,6 +32,7 @@ class MoveInDom{
         this.body = body;
         this.dom = dom;
         this.getBodyOpt();
+        this.addResizeForBody();
         this.setDomStyle();
         this.addDom();
         this.addEvent();
@@ -43,6 +45,18 @@ class MoveInDom{
         this.bodyH = style.height;
     }
 
+    //监听body 的resize
+    addResizeForBody(){
+        const _this = this;
+        this.bodyObserver = new ResizeObserver(function (rs) {
+            rs.forEach(function (item) {
+                const target = item.target as HTMLElement;
+                _this.getBodyOpt();
+            })
+        });
+        this.bodyObserver.observe(this.body);
+    }
+
     //设置要移动的dom的样式
     setDomStyle(){
         this.setStyle(this.dom,{
@@ -50,8 +64,7 @@ class MoveInDom{
             top:this.y,
             width:this.w,
             height:this.h,
-            position:'absolute',
-            background:'blue'
+            position:'absolute'
         })
     }
 
@@ -78,55 +91,46 @@ class MoveInDom{
             position:'absolute',
             left:0,top:0,width:'100%',height:this.topMoveHeight,
             cursor:'move',
-            background:'red'
         })
         this.setStyle(top,{
             position:'absolute', left:0,top:0,
             width:'100%', height:this.inductionSize,
             cursor:'n-resize',
-            background:'#ccc'
         })
         this.setStyle(left,{
             position:'absolute', left:0,top:0,
             height:'100%', width:this.inductionSize,
             cursor:'w-resize',
-            background:'#ccc'
         })
         this.setStyle(right,{
             position:'absolute', right:0,top:0,
             height:'100%', width:this.inductionSize,
             cursor:'e-resize',
-            background:'#ccc'
         })
         this.setStyle(bottom,{
             position:'absolute', left:0,bottom:0,
             width:'100%', height:this.inductionSize,
             cursor:'s-resize',
-            background:'#ccc'
         })
         this.setStyle(topLeft,{
             position:'absolute', left:0,top:0,
             width:this.inductionSize, height:this.inductionSize,
             cursor:'nw-resize',
-            background:'yellow'
         })
         this.setStyle(topRight,{
             position:'absolute', right:0,top:0,
             width:this.inductionSize, height:this.inductionSize,
             cursor:'ne-resize',
-            background:'yellow'
         })
         this.setStyle(bottomLeft,{
             position:'absolute', left:0,bottom:0,
             width:this.inductionSize, height:this.inductionSize,
             cursor:'sw-resize',
-            background:'yellow'
         })
         this.setStyle(bottomRight,{
             position:'absolute', right:0,bottom:0,
             width:this.inductionSize, height:this.inductionSize,
             cursor:'se-resize',
-            background:'yellow'
         })
 
 
@@ -200,6 +204,8 @@ class MoveInDom{
         for(let [key,val] of Object.entries(this.inductionDom)){
             this.dom.removeChild(val as HTMLElement)
         }
+
+        this.bodyObserver.disconnect();
     }
 
     //处理鼠标移动

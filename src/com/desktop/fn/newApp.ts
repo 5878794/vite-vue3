@@ -12,6 +12,7 @@ class App {
     body:HTMLElement;
     props:any;
     domClass:string;
+    moveInDomObj:any;
 
     constructor(id:string,className:string,body:HTMLElement,props:any) {
         this.dom = '';
@@ -39,11 +40,12 @@ class App {
 
     addMoveEventListener(topHeight:number){
         //props: x,y,w,h
-        new MoveInDom(this.dom,this.body,this.props,topHeight);
+        this.moveInDomObj = new MoveInDom(this.dom,this.body,this.props,topHeight);
     }
 
 
     close() {
+        this.moveInDomObj.destroy();
         this.app.unmount();
         this.body.removeChild(this.dom);
     }

@@ -28,7 +28,7 @@ class Win{
 
     render(){
         return <div id={this.props.id}>
-
+            123
         </div>;
     }
 }
