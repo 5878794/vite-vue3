@@ -47,8 +47,10 @@ class Main{
         const findCache = this.cache[rs.id];
         if(findCache){
             //调整元素的层级
-            findCache.min(false);
-            this.cache[rs.id].isMin = false;
+            if(findCache.isMin){
+                findCache.min(false);
+                this.cache[rs.id].isMin = false;
+            }
             this.setTopApp(rs.id);
         }else{
             this.zIndex++;
