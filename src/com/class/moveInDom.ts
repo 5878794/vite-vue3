@@ -61,7 +61,6 @@ class MoveInDom{
             },true,'cubic-bezier(1,.3,.64,.94)')
         }else{
             const pos = this.beforeHidePos;
-            console.log(pos)
             cssAnimate(this.dom,{
                 transform:'',
                 width:pos.width,
