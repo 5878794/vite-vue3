@@ -2,13 +2,18 @@ import device from "@/com/device.ts";
 
 import icon1 from '@/assets/vue.svg';
 
-import App1_index from '@/desktopApps/app1/index.tsx';
-import App1_page1 from '@/desktopApps/app1/app1page1.tsx';
+import Form from '@/pages/index/form.tsx';
+import EchartPie from "@/pages/index/echart_pie.tsx";
+import Menu from '@/pages/index/menu.tsx';
+import Opendialog from "@/pages/index/opendialog.tsx";
+import Pagination from "@/pages/index/pagination.tsx";
+import Table from "@/pages/index/table.tsx";
+import Test from '@/pages/index/test.tsx';
 
 export default [
     {
         id:device.guid(),
-        name:'阿打发',
+        name:'组件库测试',
         icon:icon1,
         x:0,
         y:0,
@@ -16,14 +21,39 @@ export default [
         height:500,
         menu:[
             {
-                name:'test1',
+                name:'form',
                 icon:icon1,
-                component:App1_index
+                component:Form
             },
             {
-                name:'父答复阿打的',
+                name:'echat-pie',
                 icon:icon1,
-                component:App1_page1
+                component:EchartPie
+            },
+            {
+                name:'menu',
+                icon:icon1,
+                component:Menu
+            },
+            {
+                name:'Opendialog',
+                icon:icon1,
+                component:Opendialog
+            },
+            {
+                name:'Pagination',
+                icon:icon1,
+                component:Pagination
+            },
+            {
+                name:'Table',
+                icon:icon1,
+                component:Table
+            },
+            {
+                name:'Test',
+                icon:icon1,
+                component:Test
             }
         ]
     },
@@ -39,7 +69,7 @@ export default [
             {
                 name:'test1',
                 icon:icon1,
-                component:App1_page1
+                component:EchartPie
             }
         ]
     }
