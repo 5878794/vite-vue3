@@ -87,8 +87,11 @@
                 div{
                     width:32px; height:28px;  color: #58575c; border-radius: 5px;
                     font-size:20px; font-weight: bold;
+                }
+                .canBefore,.canAfter,.refresh{
+                    color: #a7a7aa;
                     &:hover{
-                        background: #464549; color: #a7a7aa;
+                        background: #464549;
                     }
                 }
             }

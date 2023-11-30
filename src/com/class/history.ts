@@ -9,6 +9,7 @@ class History{
     cache:any = [];
     index:number = -1;
 
+    //添加路由 首次进入或跳转完成后执行
     add(obj:any){
         if(this.cache.length-1 != this.index){
             //清除当前index后面的记录
@@ -17,9 +18,10 @@ class History{
 
         this.cache.push(obj);
         this.index++;
-        console.log(this.index,this.cache)
     }
 
+    //前进或后退
+    //n:number   1:前进 -1：后退
     go(n:number){
         let index = this.index + n;
         index = index >= this.cache.length-1? this.cache.length-1 : index;
@@ -28,8 +30,15 @@ class History{
         this.index = index;
 
 
-        console.log(this.index,this.cache)
         return this.cache[index];
+    }
+
+    //获取当前是否可以前进或后退
+    getState(){
+        const before = this.index != 0;
+        const after = this.index != this.cache.length-1;
+
+        return {before,after}
     }
 }
 

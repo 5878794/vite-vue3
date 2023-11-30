@@ -15,6 +15,8 @@ class Win{
     mainComponent:any = shallowRef('');
     mainComponentOpt:any = ref({});
     historyObj:any;
+    canBefore:any = ref(false);
+    canAfter:any = ref(false);
 
     constructor(props:any) {
         this.props = props;
@@ -54,6 +56,10 @@ class Win{
         this.mainComponent.value = obj.com;
         this.mainComponentOpt.value = obj.opt;
         this.menuSelectIndex.value = obj.index;
+
+        const {before,after} = this.historyObj.getState();
+        this.canBefore.value = before;
+        this.canAfter.value = after;
     }
 
     refresh(){
@@ -98,6 +104,9 @@ class Win{
         this.historyObj.add({
             com,opt,index
         })
+        const {before,after} = this.historyObj.getState();
+        this.canBefore.value = before;
+        this.canAfter.value = after;
     }
 
     createMain(){
@@ -112,6 +121,8 @@ class Win{
     createTop(){
         const topBg = (this.props.menu.length == 1) ? css.top_bg : '';
         const style = (this.props.menu.length == 1) ? 'width:auto;' : '';
+        const canBefore = this.canBefore.value? css.canBefore : '';
+        const canAfter = this.canAfter.value? css.canAfter : '';
         return <div class={[css.win_top,'box_hlc',topBg]}>
             {/*关闭最小最大*/}
             <div class={[css.win_top_btns,'box_hlc']} style={style}>
@@ -122,9 +133,9 @@ class Win{
             <div class={['boxflex1','box_hlc',css.win_top_other]}>
                 {/*历史记录*/}
                 <div class={['box_hlc',css.win_top_history]}>
-                    <div class='box_hcc' onClick={()=>this.history(-1)}><ElIcon><ArrowLeft/></ElIcon></div>
-                    <div class='box_hcc' onClick={()=>this.history(1)}><ElIcon><ArrowRight/></ElIcon></div>
-                    <div class='box_hcc' onClick={()=>this.refresh()}><ElIcon><RefreshRight/></ElIcon></div>
+                    <div class={['box_hcc',canBefore]} onClick={()=>this.history(-1)}><ElIcon><ArrowLeft/></ElIcon></div>
+                    <div class={['box_hcc',canAfter]} onClick={()=>this.history(1)}><ElIcon><ArrowRight/></ElIcon></div>
+                    <div class={['box_hcc',css.refresh]} onClick={()=>this.refresh()}><ElIcon><RefreshRight/></ElIcon></div>
                 </div>
                 {/*标题*/}
                 <div class={['boxflex1',css.win_top_name]}>{this.props.name}</div>
