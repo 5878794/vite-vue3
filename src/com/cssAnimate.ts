@@ -17,7 +17,7 @@ export default function (
     callback?:any,
     is_3d?:boolean,
     type?:string,
-    willChange?:willChangeType
+    willChange?:string
 ){
     type = type || "linear";
     time = time || 1000;
