@@ -5,6 +5,7 @@ import ElementPlus from 'element-plus';
 import ZhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import MoveInDom from "@/com/class/moveInDom.ts";
 
+
 class App {
     dom:any;
     app:any;
@@ -37,6 +38,7 @@ class App {
 
         this.app.mount('#' + this.id);
     }
+
 
     addMoveEventListener(topDomClass:string,zzClick:any){
         //props: x,y,w,h

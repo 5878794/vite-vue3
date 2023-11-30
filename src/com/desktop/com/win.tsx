@@ -10,6 +10,8 @@ import {ArrowLeft,ArrowRight,RefreshRight,Close,Minus,FullScreen} from '@element
 
 class Win{
     props:any;
+    refreshMain = ref('aa1');
+    menuSelectIndex = ref(0);
 
     constructor(props:any) {
         this.props = props;
@@ -46,26 +48,39 @@ class Win{
     }
 
     refresh(){
-
+        this.refreshMain.value = 'aa'+ new Date().getTime();
     }
 
     createMenu(){
-        if(this.props.menu.length == 0){
+        if(this.props.menu.length == 1){
             return null;
         }else{
-            return <div class={[css.win_menu,'h100']}></div>
+            return <div class={[css.win_menu,'h100']}>
+                <div class={[css.win_menu_body,'small_scroll']}>
+                    {this.props.menu.map((rs:any,i:number)=>{
+                        const select = i == this.menuSelectIndex.value ? css.select : '';
+                        return <div class={['box_hlc',css.win_menu_item,select]} onClick={()=>this.menuSelectIndex.value = i}>
+                            <img src={rs.icon}/>
+                            <div class='diandian boxflex1'>{rs.name}</div>
+                        </div>
+                    })}
+                </div>
+            </div>
         }
     }
 
     createMain(){
-        return <div class={['boxflex1',css.win_body,'h100']}>
-            2222
+        const Tag = this.props.menu[this.menuSelectIndex.value].component;
+        return <div key={this.refreshMain.value} class={['boxflex1',css.win_body,'h100']}>
+            <div class='small_scroll'>
+                <Tag/>
+            </div>
         </div>
     }
 
     createTop(){
-        const topBg = (this.props.menu.length == 0) ? css.top_bg : '';
-        const style = (this.props.menu.length == 0) ? 'width:auto;' : '';
+        const topBg = (this.props.menu.length == 1) ? css.top_bg : '';
+        const style = (this.props.menu.length == 1) ? 'width:auto;' : '';
         return <div class={[css.win_top,'box_hlc',topBg]}>
             {/*关闭最小最大*/}
             <div class={[css.win_top_btns,'box_hlc']} style={style}>

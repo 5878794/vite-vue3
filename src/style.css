@@ -566,7 +566,7 @@ a:active{
     width: 4px;
     height: 7px;
     border-radius: 4px;
-    background-color: #f0f0f0;
+    background-color: transparent;
 }
 
 /*滚动条两端的箭头*/
@@ -586,7 +586,7 @@ a:active{
 
 /*滚动条中可以拖动的那部分*/
 .small_scroll::-webkit-scrollbar-thumb{
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(255,255,255,.3);
     border-radius: 4px;
 }
 /*变角部分*/

@@ -53,9 +53,9 @@
     .win_top{
         position: absolute;
         left:0; top:0; width: 100%; height: 40px;
-        padding:0 0 0 20px; box-sizing: border-box;
+        padding:0 0 0 15px; box-sizing: border-box;
         .win_top_btns{
-            width:120px; height:100%;
+            width:125px; height:100%;
             &:hover div{
                 color:#333 !important;
             }
@@ -95,9 +95,33 @@
     .win_menu{
         width:140px; background: rgba(39, 36, 44,.9);
         padding-top:40px;
+        .win_menu_body{
+            width: 100%; overflow-x:hidden; overflow-y: auto;
+            height: 100%; padding:10px 0; box-sizing: border-box;
+        }
+        .win_menu_item{
+            height: 28px; margin: 0 10px; color:#e5e5e5;
+            box-sizing: border-box; padding:0 5px;
+            img{
+                display: block; width: 14px; height: 14px; margin-right: 5px;
+            }
+            :global{
+                .diandian{
+                    font-size: 12px !important;
+                }
+            }
+        }
+        .select{
+            background: rgba(255,255,255,.1); border-radius: 5px;
+        }
     }
     .win_body{
         background: #1F1A24;
-        padding-top:40px;
+        color:#fff;
+        padding:50px 10px 10px 10px;
+        overflow: auto;
+        >div{
+            width:100%; height: 100%; overflow: auto;
+        }
     }
 }
