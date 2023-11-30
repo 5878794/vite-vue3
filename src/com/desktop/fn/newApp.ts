@@ -14,6 +14,7 @@ class App {
     props:any;
     domClass:string;
     moveInDomObj:any;
+    component:any;
 
     constructor(id:string,className:string,body:HTMLElement,props:any) {
         this.dom = '';
@@ -25,6 +26,7 @@ class App {
     }
 
     render(component:any, props?:any) {
+
         this.dom = document.createElement('div');
         this.dom.id = this.id;
         this.dom.classList.add(this.domClass);
@@ -36,7 +38,7 @@ class App {
           this.close();
         })
 
-        this.app.mount('#' + this.id);
+        this.component = this.app.mount('#' + this.id);
     }
 
 
@@ -51,6 +53,7 @@ class App {
 
     setActive(state:boolean){
         this.moveInDomObj.setActive(state);
+        this.component.setActive(state);
     }
 
     min(state:boolean,pos?:any){

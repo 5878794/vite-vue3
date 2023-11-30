@@ -17,6 +17,7 @@ class Win{
     historyObj:any;
     canBefore:any = ref(false);
     canAfter:any = ref(false);
+    isActive:any = ref(true);
 
     constructor(props:any) {
         this.props = props;
@@ -77,6 +78,7 @@ class Win{
     }
 
     createMenu(){
+        const isNotActive = this.isActive.value? '' : css.notActive;
         if(this.props.menu.length == 1){
             return null;
         }else{
@@ -84,7 +86,7 @@ class Win{
                 <div class={[css.win_menu_body,'small_scroll']}>
                     {this.props.menu.map((rs:any,i:number)=>{
                         const select = i == this.menuSelectIndex.value ? css.select : '';
-                        return <div class={['box_hlc',css.win_menu_item,select]} onClick={()=>this.menuItemClick(i)}>
+                        return <div class={['box_hlc',css.win_menu_item,select,isNotActive]} onClick={()=>this.menuItemClick(i)}>
                             <img src={rs.icon}/>
                             <div class='diandian boxflex1'>{rs.name}</div>
                         </div>
@@ -123,12 +125,13 @@ class Win{
         const style = (this.props.menu.length == 1) ? 'width:auto;' : '';
         const canBefore = this.canBefore.value? css.canBefore : '';
         const canAfter = this.canAfter.value? css.canAfter : '';
+        const isNotActive = this.isActive.value? '' : css.notActive;
         return <div class={[css.win_top,'box_hlc',topBg]}>
             {/*关闭最小最大*/}
             <div class={[css.win_top_btns,'box_hlc']} style={style}>
-                <div class='box_hcc' onClick={()=>this.closeApp()}><ElIcon><Close/></ElIcon></div>
-                <div class='box_hcc' onClick={()=>this.minApp()}><ElIcon><Minus/></ElIcon></div>
-                <div class='box_hcc' onClick={()=>this.maxApp()}><ElIcon><FullScreen/></ElIcon></div>
+                <div class={['box_hcc',isNotActive]} onClick={()=>this.closeApp()}><ElIcon><Close/></ElIcon></div>
+                <div class={['box_hcc',isNotActive]} onClick={()=>this.minApp()}><ElIcon><Minus/></ElIcon></div>
+                <div class={['box_hcc',isNotActive]} onClick={()=>this.maxApp()}><ElIcon><FullScreen/></ElIcon></div>
             </div>
             <div class={['boxflex1','box_hlc',css.win_top_other]}>
                 {/*历史记录*/}
@@ -138,11 +141,15 @@ class Win{
                     <div class={['box_hcc',css.refresh]} onClick={()=>this.refresh()}><ElIcon><RefreshRight/></ElIcon></div>
                 </div>
                 {/*标题*/}
-                <div class={['boxflex1',css.win_top_name]}>{this.props.name}</div>
+                <div class={['boxflex1',css.win_top_name,isNotActive]}>{this.props.name}</div>
                 {/*搜索 TODO*/}
                 {/*<div>search</div>*/}
             </div>
         </div>
+    }
+
+    setActive(state:boolean){
+        this.isActive.value = state;
     }
 
     render(){

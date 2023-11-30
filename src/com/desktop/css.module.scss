@@ -78,6 +78,9 @@
             div:nth-child(3){
                 background: #2dc140; color:#2dc140;
             }
+            .notActive{
+                background: #70747e !important; color:#70747e !important;
+            }
         }
         .win_top_other{
             color: #e5e5e5; font-size:14px;
@@ -98,8 +101,12 @@
             .win_top_name{
                 padding:0 10px;
             }
+            .win_top_name.notActive{
+                color:#70747e !important;
+            }
         }
     }
+
     .win_menu{
         width:140px; background: rgba(39, 36, 44,.9);
         padding-top:40px;
@@ -121,6 +128,9 @@
         }
         .select{
             background: rgba(255,255,255,.1); border-radius: 5px;
+        }
+        .notActive{
+            background: transparent; color: #70747e !important;
         }
     }
     .win_body{
