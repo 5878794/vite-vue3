@@ -1,6 +1,7 @@
 import defineClassComponent from "@/com/defineClassComponent.ts";
 import {inject,ref} from 'vue';
 import css from './css.module.scss';
+import {ElTooltip} from "element-plus";
 
 class Left{
     props:any;
@@ -40,7 +41,9 @@ class Left{
                 <div class='box_hcc'>
                     {this.openedIds.value.indexOf(rs.id)>-1 && <span></span>}
                 </div>
-                <img src={rs.icon} title={rs.name} onClick={()=>this.openApp(rs)}/>
+                <ElTooltip effect="dark" content={rs.name} placement="right">
+                    <img src={rs.icon} onClick={()=>this.openApp(rs)}/>
+                </ElTooltip>
             </div>
         })
     }
