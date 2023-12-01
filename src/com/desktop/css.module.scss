@@ -86,7 +86,7 @@ body{
         left:0; top:0; width: 100%; height: 40px;
         padding:0 0 0 15px; box-sizing: border-box;
         .win_top_btns{
-            width:125px; height:100%;
+            width:125px;
             &:hover div{
                 color:#333 !important;
             }
@@ -97,12 +97,21 @@ body{
             }
             div:nth-child(1){
                 background: #f75e56; color:#f75e56;
+                &:hover{
+                    opacity:.8;
+                }
             }
             div:nth-child(2){
                 background: #f5b630; color:#f5b630;
+                &:hover{
+                    opacity:.8;
+                }
             }
             div:nth-child(3){
                 background: #2dc140; color:#2dc140;
+                &:hover{
+                    opacity:.8;
+                }
             }
             .notActive{
                 background: #70747e !important; color:#70747e !important;
