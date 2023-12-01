@@ -126,9 +126,9 @@ class Main{
         this.activeWinByMaxZ();
     }
 
-    minApp(id:string){
+    async minApp(id:string){
         //获取动画最后的位置
-        const pos = this.leftRef.value.getAppPos(id);
+        let pos = this.leftRef.value.getAppPos(id);
 
         this.cache[id].min(true,pos);
         this.cache[id].isMin = true;

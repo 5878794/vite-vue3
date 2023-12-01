@@ -36,7 +36,8 @@ class Top{
 
     logoItemClick(i:number){
         const rs = setting.logoMenu[i];
-        this.mainRef.value.openApp(rs)
+        this.mainRef.value.openApp(rs);
+        this.leftRef.value.addNewIcon(rs);
     }
 
     renderSystem(){

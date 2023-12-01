@@ -1,5 +1,5 @@
 import defineClassComponent from "@/com/defineClassComponent.ts";
-import {inject,ref} from 'vue';
+import {inject,ref,nextTick} from 'vue';
 import css from './css.module.scss';
 import {ElTooltip} from "element-plus";
 
@@ -9,6 +9,7 @@ class Left{
     mainRef:any;
     leftRef:any;
     openedIds:any = ref([]);   //打开的应用id 主要显示图标前的小圆点
+    newOpenApps:any = ref([]); //打开的app不在默认的app列表中的
 
     static defaultProps = {
         apps:[]
@@ -33,10 +34,29 @@ class Left{
     closeApp(id:string){
         const n = this.openedIds.value.indexOf(id);
         this.openedIds.value.splice(n,1);
+
+        const newN = this.newOpenApps.value.find((item:any)=>item.id == id);
+        if(newN){
+            const m = this.newOpenApps.value.indexOf(newN);
+            this.newOpenApps.value.splice(m,1);
+        }
     }
 
     renderItem(){
         return this.props.apps.map((rs:any)=>{
+            return <div data-id={rs.id} class={[css.appItem,'box_hlc','hover']}>
+                <div class='box_hcc'>
+                    {this.openedIds.value.indexOf(rs.id)>-1 && <span></span>}
+                </div>
+                <ElTooltip effect="dark" content={rs.name} placement="right">
+                    <img src={rs.icon} onClick={()=>this.openApp(rs)}/>
+                </ElTooltip>
+            </div>
+        })
+    }
+
+    renderNewItem(){
+        return this.newOpenApps.value.map((rs:any)=>{
             return <div data-id={rs.id} class={[css.appItem,'box_hlc','hover']}>
                 <div class='box_hcc'>
                     {this.openedIds.value.indexOf(rs.id)>-1 && <span></span>}
@@ -59,13 +79,21 @@ class Left{
             }
         }
 
-        return dom.getBoundingClientRect();
+        return dom? dom.getBoundingClientRect() : null;
+    }
+
+
+    addNewIcon(props:any){
+        this.newOpenApps.value.push(props);
+        this.openedIds.value.push(props.id);
     }
 
     render(){
         return <div class={[css.left,'box_scc']}>
             <div class={[css.appContent,'box_sct']}>
                 {this.renderItem()}
+                {this.newOpenApps.value.length > 0 && <div style='color:#eee;'>--</div>}
+                {this.renderNewItem()}
             </div>
         </div>
     }
