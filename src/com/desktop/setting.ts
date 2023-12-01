@@ -21,6 +21,11 @@ export default [
         height:500,
         menu:[
             {
+                name:'Test',
+                icon:icon1,
+                component:Test
+            },
+            {
                 name:'form',
                 icon:icon1,
                 component:Form
@@ -50,11 +55,6 @@ export default [
                 icon:icon1,
                 component:Table
             },
-            {
-                name:'Test',
-                icon:icon1,
-                component:Test
-            }
         ]
     },
     {

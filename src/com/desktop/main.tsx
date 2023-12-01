@@ -32,12 +32,52 @@ class Main{
             }
         }
 
-        //TODO 处理z-index 过大  重置
+        if(this.zIndex > 10000){
+            this.reSetZIndex();
+        }
     }
 
-    //关闭时调用 激活z最大的窗口（且未隐藏的）TODO
-    activeWinByMaxZ(){
+    //重置所有app的z-index
+    reSetZIndex(){
+        let apps = [];
+        //转数组
+        for(let [key,val] of Object.entries(this.cache)){
+            apps.push({
+                z:(val as any).moveInDomObj.z,
+                com:val
+            })
+        }
 
+        //排序
+        apps = apps.sort((a:any,b:any)=>a.z>b.z? 1 : -1);
+
+        //重新设置层级
+        apps.map((rs:any,i:number)=>{
+            rs.com.moveInDomObj.setZIndex(i+1);
+            if(i==apps.length-1){
+                this.zIndex = i+1;
+            }
+        })
+    }
+
+    //关闭 最小化 时调用 激活z最大的窗口（且未隐藏的）
+    activeWinByMaxZ(){
+        let find:any = null;
+        let tempZ:number = 0;
+        for(let [key,val] of Object.entries(this.cache)){
+            if(!(val as any).isMin){
+                const z = (val as any).moveInDomObj.z;
+                if(z>tempZ){
+                    tempZ = z;
+                    find = val;
+                }
+            }
+        }
+
+        if(find){
+            find.moveInDomObj.setActive(true);
+            find.component.setActive(true);
+        }
     }
 
     //打开app

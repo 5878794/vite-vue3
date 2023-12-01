@@ -114,7 +114,7 @@ class Win{
     createMain(){
         const Tag = this.mainComponent.value;
         return <div key={this.refreshMain.value} class={['boxflex1',css.win_body,'h100']}>
-            <div class='small_scroll'>
+            <div class='small_scroll' style='padding-right:10px;'>
                 <Tag {...this.mainComponentOpt.value} linkTo={(com:any,opt:any)=>this.linkTo(com,opt)}/>
             </div>
         </div>
