@@ -25,7 +25,8 @@ class MoveInDom{
     tempFn:any = {};
     bodyObserver:any = {};  //监听body的resize
     zzClick:any;
-    beforeMinMaxPos:any; //最小化前的位置信息
+    beforeMinPos:any; //最小化前的位置信息
+    beforeMaxPos:any;
 
     constructor(dom:any,body:any,props:any,topDomClass:string,zzClick:any) {
         this.x = props.x;
@@ -48,7 +49,7 @@ class MoveInDom{
     min(state:boolean,pos:any){
         if(state){
             const style = this.dom.style;
-            this.beforeMinMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
+            this.beforeMinPos = {width:style.width,height:style.height,left:style.left,top:style.top}
             cssAnimate(this.dom,{
                 transform:`perspective(20px) rotateY(-3deg)`,
                 width:pos.width+'px',
@@ -60,7 +61,7 @@ class MoveInDom{
                 this.dom.style.display = 'none';
             },true,'cubic-bezier(1,.3,.64,.94)')
         }else{
-            const pos = this.beforeMinMaxPos;
+            const pos = this.beforeMinPos;
             cssAnimate(this.dom,{
                 transform:'',
                 width:pos.width,
@@ -78,16 +79,20 @@ class MoveInDom{
     max(state:boolean){
         if(state){
             const style = this.dom.style;
-            this.beforeMinMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
+            this.beforeMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
             cssAnimate(this.dom,{
                 width:'100%',
                 height:'100%',
                 left:'0',
                 top:'0',
             },200,()=>{
+                this.x = 0;
+                this.y = 0;
+                this.w = this.bodyW;
+                this.h = this.bodyH;
             },true,'cubic-bezier(1,.3,.64,.94)')
         }else{
-            const pos = this.beforeMinMaxPos;
+            const pos = this.beforeMaxPos;
             cssAnimate(this.dom,{
                 transform:'',
                 width:pos.width,
@@ -96,7 +101,10 @@ class MoveInDom{
                 top:pos.top,
                 opacity:1
             },200,()=>{
-
+                this.x = pos.left;
+                this.y = pos.top;
+                this.w = pos.width;
+                this.h = pos.height;
             },true,'cubic-bezier(1,.3,.64,.94)')
         }
     }

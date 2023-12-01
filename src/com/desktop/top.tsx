@@ -34,8 +34,9 @@ class Top{
         }
     }
 
-    logoItemClick(com:any){
-        console.log(com)
+    logoItemClick(i:number){
+        const rs = setting.logoMenu[i];
+        this.mainRef.value.openApp(rs)
     }
 
     renderSystem(){
@@ -49,14 +50,14 @@ class Top{
     }
 
     renderLogo(){
-        return <ElDropdown trigger="click" v-slots={{
+        return <ElDropdown trigger="click" onCommand={(i:number)=>this.logoItemClick(i)} v-slots={{
             default:()=>{
                 return <div class={css.logo}>bens</div>
             },
             dropdown:()=>{
                 return <div style='padding:5px;width:200px;'>
-                    {setting.logoMenu.map((rs:any)=>{
-                        return <ElDropdownItem><div onClick={()=>this.logoItemClick(rs.component)}>{rs.name}</div></ElDropdownItem>
+                    {setting.logoMenu.map((rs:any,i:number)=>{
+                        return <ElDropdownItem command={i}>{rs.name}</ElDropdownItem>
                     })}
                 </div>
             }

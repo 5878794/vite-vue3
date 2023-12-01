@@ -78,12 +78,31 @@ const Apps = [
 
 const logoMenu = [
     {
+        id:device.guid(),
         name:'关于',
-        component:Test
+        icon:icon1,
+        component:Test,
+        x:0,y:0,width:600,height:500,
+        menu:[
+            {
+                name:'关于',
+                icon:icon1,
+                component:Test
+            }
+        ]
     },
     {
+        id:device.guid(),
         name:'系统设置',
-        component:Table
+        icon:icon1,
+        x:0,y:0,width:600,height:500,
+        menu:[
+            {
+                name:'系统设置',
+                icon:icon1,
+                component:Table
+            }
+        ]
     }
 ]
 
