@@ -81,8 +81,8 @@ class MoveInDom{
             const style = this.dom.style;
             this.beforeMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
             cssAnimate(this.dom,{
-                width:'100%',
-                height:'100%',
+                width:this.bodyW+'px',
+                height:this.bodyH+'px',
                 left:'0',
                 top:'0',
             },200,()=>{
@@ -101,10 +101,10 @@ class MoveInDom{
                 top:pos.top,
                 opacity:1
             },200,()=>{
-                this.x = pos.left;
-                this.y = pos.top;
-                this.w = pos.width;
-                this.h = pos.height;
+                this.x = parseInt(pos.left);
+                this.y = parseInt(pos.top);
+                this.w = parseInt(pos.width);
+                this.h = parseInt(pos.height);
             },true,'cubic-bezier(1,.3,.64,.94)')
         }
     }
