@@ -50,7 +50,7 @@ class MoveInDom{
             const style = this.dom.style;
             this.beforeMinMaxPos = {width:style.width,height:style.height,left:style.left,top:style.top}
             cssAnimate(this.dom,{
-                transform:`perspective(.5em) rotateY(-3deg)`,
+                transform:`perspective(20px) rotateY(-3deg)`,
                 width:pos.width+'px',
                 height:pos.height+'px',
                 left:'-30px',
