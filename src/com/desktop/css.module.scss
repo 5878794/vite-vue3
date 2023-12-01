@@ -1,4 +1,26 @@
+body{
+    :global{
+        .el-dropdown__popper{
+            background: #39393f !important;
+            border-color:#5c5e62 !important;
 
+            .el-popper__arrow{
+                &:before{
+                    border-color:#5c5e62 !important;
+                    background: #39393f !important;
+                }
+            }
+            .el-dropdown-menu__item{
+                color:#fff !important;
+                background: transparent !important;
+                &:hover{
+                    background: #1d5bc0 !important;
+                }
+            }
+        }
+
+    }
+}
 
 .desktop{
     width:100vw; height: 100vh;
@@ -17,6 +39,9 @@
         .system_item{
             margin-left: 10px; cursor: default;
         }
+    }
+    .logo{
+        color:#fff; outline: none;
     }
 }
 

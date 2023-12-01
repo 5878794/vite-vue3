@@ -25,7 +25,7 @@ class Desktop{
 
     static defaultProps = {
         bg:bg,
-        apps:setting
+        apps:setting.Apps
     }
 
 

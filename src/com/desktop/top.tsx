@@ -3,8 +3,9 @@ import defineClassComponent from "@/com/defineClassComponent.ts";
 import css from './css.module.scss';
 import {inject} from "vue";
 import DateTime from "./com/dateTime.tsx";
-import {ElIcon} from 'element-plus';
+import {ElIcon,ElDropdown,ElDropdownItem} from 'element-plus';
 import {FullScreen} from '@element-plus/icons-vue';
+import setting from './setting.ts';
 
 
 class Top{
@@ -33,6 +34,10 @@ class Top{
         }
     }
 
+    logoItemClick(com:any){
+        console.log(com)
+    }
+
     renderSystem(){
         return <div class={['box_hrc',css.system]}>
             <DateTime/>
@@ -43,9 +48,24 @@ class Top{
         </div>
     }
 
+    renderLogo(){
+        return <ElDropdown trigger="click" v-slots={{
+            default:()=>{
+                return <div class={css.logo}>bens</div>
+            },
+            dropdown:()=>{
+                return <div style='padding:5px;width:200px;'>
+                    {setting.logoMenu.map((rs:any)=>{
+                        return <ElDropdownItem><div onClick={()=>this.logoItemClick(rs.component)}>{rs.name}</div></ElDropdownItem>
+                    })}
+                </div>
+            }
+        }}/>
+    }
+
     render(){
         return <div class={[css.top,'box_hlc']}>
-            <div class={css.logo}>bens</div>
+            {this.renderLogo()}
             {this.renderSoftMenu()}
             {this.renderSystem()}
         </div>

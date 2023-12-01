@@ -10,7 +10,7 @@ import Pagination from "@/pages/index/pagination.tsx";
 import Table from "@/pages/index/table.tsx";
 import Test from '@/pages/index/test.tsx';
 
-export default [
+const Apps = [
     {
         id:device.guid(),
         name:'组件库测试',
@@ -73,4 +73,22 @@ export default [
             }
         ]
     }
+];
+
+
+const logoMenu = [
+    {
+        name:'关于',
+        component:Test
+    },
+    {
+        name:'系统设置',
+        component:Table
+    }
 ]
+
+
+export default {
+    Apps,
+    logoMenu
+}
