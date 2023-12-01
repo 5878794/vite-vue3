@@ -100,6 +100,7 @@ class Main{
             }
             this.openedWin.value.push(rs);
             //创建一个新的app
+            rs = this.checkPosIsExist(rs);
             this.cache[rs.id] = newApp(
                 'win_'+rs.id,       //id
                 css.win,            //class
@@ -110,6 +111,14 @@ class Main{
             );
             this.setTopApp(rs.id);
         }
+    }
+
+    //检查当前位置「xy」是否有窗口存在 TODO
+    checkPosIsExist(rs:any){
+        const {x,y} = rs;
+        console.log(x,y)
+
+        return rs;
     }
 
     closeApp(id:string){

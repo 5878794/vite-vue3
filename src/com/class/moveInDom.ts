@@ -157,7 +157,7 @@ class MoveInDom{
     //给dom设置样式
     setStyle(dom:HTMLElement,style:any){
         for(let [key,val] of Object.entries(style)){
-            dom.style[key] = (typeof val == 'number')? val+'px' : val;
+            dom.style[key] = (typeof val == 'number')? (key != 'zIndex') ? val+'px' : val : val;
         }
     }
 
@@ -174,7 +174,7 @@ class MoveInDom{
         const bottomRight =document.createElement('div');
 
         this.setStyle(zz,{
-            position:'absolute',
+            position:'absolute',zIndex:10,
             left:0,top:0,width:'100%',height:'100%',
             display:'none',background:'rgba(0,0,0,.5)'
         })

@@ -84,8 +84,14 @@ class Left{
 
 
     addNewIcon(props:any){
-        this.newOpenApps.value.push(props);
-        this.openedIds.value.push(props.id);
+        const find = this.newOpenApps.value.find((item:any)=>item.id == props.id);
+        if(!find){
+            this.newOpenApps.value.push(props);
+        }
+
+        if(this.openedIds.value.indexOf(props.id) == -1){
+            this.openedIds.value.push(props.id);
+        }
     }
 
     render(){
