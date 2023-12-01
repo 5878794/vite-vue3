@@ -101,6 +101,7 @@ class Main{
             this.openedWin.value.push(rs);
             //创建一个新的app
             rs = this.checkPosIsExist(rs);
+            rs = this.checkWH(rs);
             this.cache[rs.id] = newApp(
                 'win_'+rs.id,       //id
                 css.win,            //class
@@ -113,10 +114,50 @@ class Main{
         }
     }
 
-    //检查当前位置「xy」是否有窗口存在 TODO
+    //检查当前位置「xy」是否有窗口存在
     checkPosIsExist(rs:any){
         const {x,y} = rs;
-        console.log(x,y)
+
+        //找到当前最高层的app
+        let find:any;
+        let tempZ:number=0;
+        for(let [key,val] of Object.entries(this.cache)){
+            const z = (val as any).moveInDomObj.z;
+            if(z>tempZ){
+                tempZ = z;
+                find = val;
+            }
+        }
+
+        if(find){
+            const obj = find.moveInDomObj;
+            const _x = obj.x;
+            const _y = obj.y;
+            const d = 40;
+            //判断要打开的窗口是否距离最高层app的xy的距离是否在20px以内
+            if(x>_x-d && x<_x+d && y>_y-d && y<-y+d){
+                rs.x = _x+d;
+                rs.y = _y+d;
+                return rs;
+            }else{
+                return rs;
+            }
+        }else{
+            return rs;
+        }
+    }
+
+    //检查宽高 是否超出容器
+    checkWH(rs:any){
+        const body = this.mainRef.value.$el;
+        const {width,height} = body.getBoundingClientRect();
+
+        if(rs.x + rs.width > width){
+            rs.width = width - rs.x;
+        }
+        if(rs.y + rs.height > height){
+            rs.height = height - rs.y;
+        }
 
         return rs;
     }

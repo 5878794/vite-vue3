@@ -132,9 +132,38 @@ class MoveInDom{
             rs.forEach(function (item) {
                 // const target = item.target as HTMLElement;
                 _this.getBodyOpt();
+                _this.resetWinOpt();
             })
         });
         this.bodyObserver.observe(this.body);
+    }
+
+    //窗口变化的时候检查窗口是否超出可视区域
+    resetWinOpt(){
+        if(this.x + this.w > this.bodyW){
+            if(this.w<this.bodyW){
+                this.x = this.bodyW - this.w;
+            }else{
+                this.w = this.bodyW;
+                this.x = 0;
+            }
+        }
+        if(this.y + this.h > this.bodyH){
+            if(this.h < this.bodyH){
+                this.y = this.bodyH - this.y;
+            }else{
+                this.h = this.bodyH;
+                this.y = 0;
+            }
+        }
+
+
+        this.setStyle(this.dom,{
+            left:this.x,
+            top:this.y,
+            width:this.w,
+            height:this.h
+        })
     }
 
     setZIndex(z:number){
