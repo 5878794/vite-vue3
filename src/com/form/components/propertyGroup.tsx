@@ -40,6 +40,7 @@ class PropertyGroup extends Base{
         const attr = this.getXmlDocumentAttr(thisXmlDom);
         const show = this.getShowState(attr);
 
+
         if(!show){
           continue;
         }

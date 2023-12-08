@@ -8,6 +8,7 @@ import ruleCheck from "../fn/ruleCheck";
 import cssStyle from './css.module.scss';
 import boxStyle from "../../../style/box.module.scss";
 import _ from 'lodash';
+import device from "@/com/device.ts";
 
 class inputBase{
   props:any;
@@ -33,6 +34,8 @@ class inputBase{
   api:any = null;
   form:any = null;
   showRequire:boolean = false;
+
+  selectOptionLoading:any = ref(false);
 
   constructor(props:any,opts:any) {
     this.props = props;
@@ -100,6 +103,9 @@ class inputBase{
         icon:{type:[String],default:''},
         option:{type:String,default:''},
         errMsg:{type:String,default:''},
+        text:{type:String,default:''},
+        labelWidth:{type:String,default:''},
+        textStyle:{type:String,default:''},
         value:{}
       },
       components:{
@@ -206,27 +212,30 @@ class inputBase{
     const isFocus = (this.isFocus.value)? cssStyle.isFocus :'';
     const isError = (this.errMsg.value)? cssStyle.isError :'';
     const typeClass = cssStyle['input_'+this.props.type];
-    const showRequire = (this.showRequire)? cssStyle.require : '';
-    return <el-form-item
-      error={this.errMsg.value}
-      label-width={this.labelWidth.value}
-      label={this.props.label}
-      // prop={this.props.name}
-      class={[
-        boxStyle.box_hlc,
-        cssStyle.form_item,
-        '_form_item_',
-        showRequire,
-        typeClass,
-        isFocus,
-        isError
-      ]}
-      style='padding:1px;'
-    >
-      {this.renderIcon()}
-      {this.renderInput()}
-      {this.renderUnit()}
-    </el-form-item>
+    const showRequire = (this.showRequire && this.props.rules.indexOf('require')>-1)? cssStyle.require : '';
+    return <div class='box_hlc _form_item_'>
+        <el-form-item
+          error={this.errMsg.value}
+          label-width={this.props.labelWidth || this.labelWidth.value}
+          label={this.props.label}
+          // prop={this.props.name}
+          class={[
+            boxStyle.box_hlc,
+            cssStyle.form_item,
+            'boxflex1',
+            showRequire,
+            typeClass,
+            isFocus,
+            isError
+          ]}
+          style='padding:1px;'
+        >
+          {this.renderIcon()}
+          {this.renderInput()}
+          {this.renderUnit()}
+        </el-form-item>
+        {this.renderText()}
+    </div>
   }
 
   renderIcon(){
@@ -282,8 +291,60 @@ class inputBase{
     }
   }
 
+  renderText(){
+    const style = 'height:32px;margin-bottom:18px;'+this.props.textStyle;
+
+
+    if(this.props.text){
+      return <div class='box_hlc' style={style}>{this.props.text}</div>
+    }else{
+      return null;
+    }
+  }
+
+  // option 传入的是接口  注意key要打引号
+  // option="api.user.login,{'label':'name','value':'id'}"
+  // 后面的对象可以不传 默认label,value
+  getOptionIsApi(opt:string){
+    opt = opt.replace(',','||');
+    const temp:any = opt.split('||') || [];
+    const apiText = temp[0];
+    let param = temp[1] || '{"label":"label","value":"value"}';
+    param = param.replace(/'/g,'"');
+    param = JSON.parse(param);
+
+    const tempFns = apiText.split('.');
+    let fn:any = this;
+    tempFns.map((key:string)=>{
+      fn = fn[key];
+    })
+
+    this.selectOptionLoading.value = true;
+    fn().then((rs:any)=>{
+      const back:any = [];
+      rs.map((item:any)=>{
+        back.push({
+          label:item[param.label],
+          value:item[param.value]
+        })
+      })
+      this.selectOption.value = back;
+      this.selectOptionLoading.value = false;
+    }).catch((e:any)=>{
+      device.info('数据获取失败！','error');
+      this.selectOptionLoading.value = false;
+    })
+  }
+
   //处理select的option
   handlerSelectOption(opt:string){
+    if(opt.indexOf('-') == -1 && opt.substring(0,3) == 'api'){
+      //是api 获取api函数  opt=api.***
+      this.getOptionIsApi(opt);
+      return;
+    }
+
+
     // option: "01-单阵,02-多阵"
     const opt1 = opt? opt.split(',') : [];
     const back:any = [];

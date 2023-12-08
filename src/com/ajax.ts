@@ -111,20 +111,20 @@ let ajax = {
 
 };
 
-let api = {
-  //==================固定（给form用的）=======================
-  //form表单文件上传
-  uploadFile:{url:'a',type:'post'},
-  //form表单发送短信
-  sendSms:{url:'b',type:'post'},
-
-  //==================其他的配置=======================
-  //获取默认数据
-  getDefaultDate:{url:'builtInModel/getBuiltInModelData?id={id}',type:'post'},
-  user:{
-    login:{url:'loging123',type:'post'}
-  }
-};
+// let api = {
+//   //==================固定（给form用的）=======================
+//   //form表单文件上传
+//   uploadFile:{url:'a',type:'post'},
+//   //form表单发送短信
+//   sendSms:{url:'b',type:'post'},
+//
+//   //==================其他的配置=======================
+//   //获取默认数据
+//   getDefaultDate:{url:'builtInModel/getBuiltInModelData?id={id}',type:'post'},
+//   user:{
+//     login:{url:'loging123',type:'post'}
+//   }
+// };
 
 
 

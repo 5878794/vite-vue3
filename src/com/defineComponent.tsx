@@ -55,11 +55,11 @@ class BaseComponent{
   static defaultProps = {}
 
 
-  // setState(obj:any){
-  //   for(let [key,val] of Object.entries(obj)){
-  //     this.state[key] = val;
-  //   }
-  // }
+  setState(obj:any){
+    for(let [key,val] of Object.entries(obj)){
+      this.state[key] = val;
+    }
+  }
 
 }
 

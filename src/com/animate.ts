@@ -282,7 +282,7 @@ class Animate {
       } else {
         this.type = "Cubic";
         this.class = "easeIn";
-        console.log("参数不正确已使用Cubic easeIn");
+        console.warn("参数不正确已使用Cubic easeIn");
       }
     }
   }

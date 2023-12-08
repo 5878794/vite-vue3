@@ -133,6 +133,11 @@ const getProps = (obj:any) => {
     props.props = Object.assign(props.props || {},defaultProp);
   }
 
+  const emits = props.emits || [];
+  if(obj.defaultEmits){
+    props.emits = emits.concat(obj.defaultEmits);
+  }
+
   return props;
 }
 

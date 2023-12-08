@@ -51,7 +51,6 @@ class Notice{
   }
 
   clickFn(val:any){
-    console.log(val)
     if(!val.url){return}
     device.href(val.url)
   }

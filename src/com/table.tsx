@@ -67,7 +67,6 @@ class ZxtdTable{
       const scrollTop = target.scrollTop;
       const scrollBottom = scrollHeight-height-scrollTop;
       if(scrollBottom<=100 && !this.props.showLoading && this.props.loadingIsSuccess && !this.props.loadingAllOver){
-        console.log('loading.......')
         this.opts.emit('scrollAddPage')
       }
     }
@@ -94,7 +93,8 @@ class ZxtdTable{
       case 'selection':
         item = <el-table-column
           type='selection'
-          width={data.width}
+          min-width={data.width}
+          width={data.maxWidth}
           fixed={fixed}
           align='center'
           header-align='center'
@@ -108,7 +108,8 @@ class ZxtdTable{
           align='center'
           header-align='center'
           type="index"
-          width={data.width}
+          min-width={data.width}
+          width={data.maxWidth}
           label={data.label}
         />
         break;
@@ -122,6 +123,7 @@ class ZxtdTable{
           header-align='center'
           label={data.label}
           min-width={data.width}
+          width={data.maxWidth}
         />
         break;
       case 'custom':
@@ -173,7 +175,9 @@ class ZxtdTable{
         item = <el-table-column fixed={fixed}
   show-overflow-tooltip={true}
   sortable={sortable}
-  align='center' header-align='center' prop={data.key} label={data.label} min-width={data.width}
+  align='center' header-align='center' prop={data.key} label={data.label}
+                                min-width={data.width}
+                                width={data.maxWidth}
   v-slots={
     {
     default: (scope: any) => {
@@ -654,14 +658,14 @@ class ZxtdTable{
           },
           append:()=>{
             return <>
-              {this.props.loadingAllOver && this.tableData.value.length > 0 &&
-                  <div class='box_hcc w100' style='height:49px;color:#eee;'>数据已全部加载完成！</div>
-              }
-              {!this.props.loadingIsSuccess && !this.props.showLoading &&
-                  <div class='box_hcc w100' style='height:49px;'>获取数据失败！<span class='hover' style='color:red;' onClick={()=>{
-                    this.opts.emit('scrollAddPage')
-                  }}>点击重试</span></div>
-              }
+              {/*{this.props.loadingAllOver && this.tableData.value.length > 0 &&*/}
+              {/*    <div class='box_hcc w100' style='height:49px;color:#eee;'>数据已全部加载完成！</div>*/}
+              {/*}*/}
+              {/*{!this.props.loadingIsSuccess && !this.props.showLoading &&*/}
+              {/*    <div class='box_hcc w100' style='height:49px;'>获取数据失败！<span class='hover' style='color:red;' onClick={()=>{*/}
+              {/*      this.opts.emit('scrollAddPage')*/}
+              {/*    }}>点击重试</span></div>*/}
+              {/*}*/}
               {this.props.showLoading && <div class='box_hcc w100' style='height:49px;'>
 	              <span class="loader"></span>
                 <span style='padding-left:20px;font-size:16px;'>loading...</span>

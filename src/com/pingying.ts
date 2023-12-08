@@ -6,8 +6,8 @@
  var a=pingying.getQP(str);
  */
 
-const pingying = (function(){
-	const Pinyin = {};
+const pingying:any = (function(){
+	const Pinyin:any = {};
 	Pinyin.codeTable = {
 		"0" : "0",
 		"1" : "1",

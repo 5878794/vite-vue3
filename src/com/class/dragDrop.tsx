@@ -41,7 +41,6 @@ class Drag extends DragDrop(BaseComponent){
     }
 
     render(){
-        //body不要设置padding，要不计算有问题
         const Body = this.setDropDom(<div class='box_hlt boxflex1 w100'></div>);
 
         return <div class='boxflex1 box_slt'>
@@ -65,7 +64,7 @@ class Drag extends DragDrop(BaseComponent){
             <Body>                                  //上面设置的拖动接收区域
                 {this.state.data.map((rs:any)=>{
                     return this.setDragDom(
-                        <div                        //设置拖动区域内的可拖动元素，不要设置margin，要不计算有问题
+                        <div                        //设置拖动区域内的可拖动元素
                             key={'b'+rs}            //key必须设置
                             data-drag-type='move'   //拖动类型  move、merge
                             style='width:200px;height:200px;background:red;'
@@ -136,6 +135,7 @@ export default function (obj:any){
         //注意：传入的tsx必须加key
         setDragDom(tsx:any){
             if(!tsx.props){tsx.props = {}}
+            if(!tsx.props['data-drag-type']){return tsx;}
             tsx.props.draggable = true;
             tsx.props.ondragstart = (e:any) => this[dragStart](e);
             tsx.props.ondrag = (e:any) => this[drag](e);
@@ -254,7 +254,6 @@ export default function (obj:any){
                 case 'merge':
                     this[moveStartPos].body = target.parentElement;
                     this[moveStartPos].n = this[getParentDomIndex](target,target.parentElement)
-
                     break;
                 case 'move':
                     target.style.opacity = .5;
@@ -349,20 +348,35 @@ export default function (obj:any){
             //如果在自身
             if(target == this[dragDom]){
                 if(this[dragType] == 'merge'){
+                    e.dataTransfer.dropEffect = 'none';
                     this[cancelMove]();
                 }
                 return;
             }
-            //如果在同一个物体上
-            if(target == this[moveTargetDom]){return}
-            this[moveTargetDom] = target;
 
             const targetIsBody = target.getAttribute('_id') == this[bodyId];
+
+            //如果在同一个物体上
+            if(target == this[moveTargetDom]){
+                if(this[dragType] == 'merge'){
+                    if(targetIsBody){
+                        e.dataTransfer.dropEffect = 'none';
+                    }
+                }return
+            }
+            this[moveTargetDom] = target;
+
+
+            if(this[dragType] == 'merge'){
+                if(targetIsBody){
+                    e.dataTransfer.dropEffect = 'none';
+                }
+            }
+
             const bodyDom = document.getElementById(this[bodyId]);
 
             switch (this[dragType]){
                 case 'copyMove':
-                case 'move':
                     if(targetIsBody){
                         this.dragHandler(
                             'move',
@@ -379,6 +393,23 @@ export default function (obj:any){
                         )
                     }
                     break;
+                case 'move':
+                    if(targetIsBody){
+                        // this.dragHandler(
+                        //     'move',
+                        //     false,
+                        //     bodyDom.children[bodyDom.children.length-1],
+                        //     this[dragDom]
+                        // )
+                    }else{
+                        this.dragHandler(
+                            'move',
+                            this[getDragDomInsertType](target),
+                            target,
+                            this[dragDom]
+                        )
+                    }
+                    break;
                 case 'merge':
                     this.dragHandler(
                         'merge',
@@ -386,6 +417,7 @@ export default function (obj:any){
                         target,
                         this[dragDom]
                     )
+
                     break;
                 default:
                     console.warn('拖动类型错误')
@@ -474,7 +506,7 @@ export default function (obj:any){
             const minX = bodyRect.x;
             const minY = bodyRect.y;
 
-            if(x >= minX && x <= maxX && y >= minY && y <= maxY){
+            if(x > minX && x < maxX && y > minY && y < maxY){
                 return;
             }
 

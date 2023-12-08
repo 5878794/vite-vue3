@@ -124,6 +124,7 @@
   :global{
     .el-form-item__content{
       outline:none; padding-left:20px !important;
+      background:none;
       &:hover{
         outline:none;
       }
@@ -241,3 +242,5 @@
     }
   }
 }
+
+

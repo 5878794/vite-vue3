@@ -1,4 +1,4 @@
-import {inject,onMounted} from "vue";
+import {inject,onMounted,getCurrentInstance,ref} from "vue";
 
 class Base{
   props:any;
@@ -7,6 +7,7 @@ class Base{
   inputComponent:any;
   customComponent:any;
   vueObj:any;
+  labelWidth:any = ref(100);
 
 
   constructor(props:any,opts:any) {
@@ -15,6 +16,9 @@ class Base{
     this.inputComponent = inject('inputComponent');
     this.customComponent = inject('customComponent');
     this.vueObj = inject('vueObj');
+    if((getCurrentInstance() as any).provides.labelWidth){
+      this.labelWidth.value = inject('labelWidth');
+    }
 
     onMounted(()=>{
       this.vueObj.proxy.childrenReady();
@@ -35,11 +39,11 @@ class Base{
 
   //渲染组
   renderPropertyGroup(Tag:any,attr:any,xml:any){
-    return <>
-      {attr.name && <div>{attr.name}</div>}
+    return <div style={attr.bodyStyle} class={attr.bodyClass}>
+      {attr.label && <div class='el-form-item__label' style={{width:this.labelWidth.value,textAlign:'right'}}>{attr.label}</div>}
       {attr.name && <Tag ref={attr.key} style={attr.style} class={attr.class} xmlDocument={xml} v-model:serverData={this.props.serverData[attr.name]}/>}
       {!attr.name && <Tag ref={attr.key} style={attr.style} class={attr.class} xmlDocument={xml} v-model:serverData={this.props.serverData}/>}
-    </>
+    </div>
   }
 
   //渲染重复组件 TODO
